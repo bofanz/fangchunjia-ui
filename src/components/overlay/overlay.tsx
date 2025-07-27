@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 export default function Overlay({
   children,
   open,

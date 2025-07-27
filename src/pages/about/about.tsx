@@ -7,10 +7,18 @@ export function About() {
       </p>
       <ul className="text-2xl text-cherry-lamp-pink">
         <li>
-          <a href="https://www.instagram.com/elephanntt">@elephanntt</a>
+          <a
+            href="https://www.instagram.com/elephanntt"
+            className="cursor-pointer"
+          >
+            @elephanntt
+          </a>
         </li>
         <li>
-          <a href="mailto:fangchunjiaxinxin@gmail.com">
+          <a
+            href="mailto:fangchunjiaxinxin@gmail.com"
+            className="cursor-pointer"
+          >
             fangchunjiaxinxin@gmail.com
           </a>
         </li>
