@@ -6,15 +6,15 @@ export interface ProjectInfo {
   id: string;
   name: string;
   brief: string;
-  cover: FileMetadataInterface;
+  cover: FileMetadata;
 }
 
 export interface ProjectDetails extends ProjectInfo {
   description: string;
-  files: FileMetadataInterface[];
+  files: FileMetadata[];
 }
 
-export interface FileMetadataInterface {
+export interface FileMetadata {
   id: string;
   name: string;
   path: string;
@@ -26,7 +26,7 @@ export default function Project() {
   const [project, setProject] = useState<ProjectDetails>();
 
   useEffect(() => {
-    async function fetchProjects() {
+    async function fetchProject() {
       try {
         const response = await fetch(`${apiHost}/projects/${projectId}`, {
           method: "GET",
@@ -41,7 +41,8 @@ export default function Project() {
         console.error("Failed to fetch projects:", error);
       }
     }
-    fetchProjects();
+    fetchProject();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!project) {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as THREE from "three";
 import { useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
@@ -17,20 +16,7 @@ function CameraMovement() {
   });
 }
 
-function getCursorStyleFromcursorState(cursorState: cursorState) {
-  switch (cursorState) {
-    case "hover":
-      return "pointer";
-    case "focus":
-      return "grab";
-    case "active":
-      return "grab";
-    default:
-      return "auto";
-  }
-}
-
-export type cursorState = "hover" | "focus" | "active" | null;
+export type cursorState = "hover" | null;
 
 export default function CherryLampContainer({
   cherries,
@@ -41,10 +27,7 @@ export default function CherryLampContainer({
 
   return (
     <div
-      className={`w-full h-screen relative`}
-      style={{
-        cursor: getCursorStyleFromcursorState(cursorState),
-      }}
+      className={`w-full h-screen relative ${cursorState == "hover" ? "cursor-pointer" : ""}`}
     >
       <Canvas className="w-full">
         <PerspectiveCamera
@@ -53,12 +36,6 @@ export default function CherryLampContainer({
           fov={50}
           rotation={[-0.5, 0, 0]}
         />
-        {/* <OrthographicCamera
-          makeDefault
-          position={[0, 20, 20]}
-          // fov={50}
-          rotation={[0, 0, 0]}
-        /> */}
         <CherryLampModel cherries={cherries} setCursorState={setCursorState} />
         <ambientLight intensity={Math.PI / 2} />
         <spotLight

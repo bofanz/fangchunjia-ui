@@ -3728,12 +3728,6 @@ export function CherryLampModel({
             setCursorState("hover");
             setProjectOnDisplay?.(cherries[event.object.userData.cherryId]);
           }}
-          onPointerDown={() => {
-            setCursorState("active");
-          }}
-          onPointerUp={() => {
-            setCursorState("hover");
-          }}
           onPointerOut={() => {
             setCursorState(null);
             setProjectOnDisplay?.(null);
@@ -3785,19 +3779,12 @@ export function CherryLampModel({
                 ? `/projects/${cherries[event.object.userData.cherryId].id}`
                 : ""
             );
-            // console.log("click ball 1", event);
           }}
           onPointerOver={(event) => {
             setCursorState("hover");
             setProjectOnDisplay?.(
               cherries[event.object.userData.cherryId] || null
             );
-          }}
-          onPointerDown={() => {
-            setCursorState("active");
-          }}
-          onPointerUp={() => {
-            setCursorState("hover");
           }}
           onPointerOut={() => {
             setCursorState(null);

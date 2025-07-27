@@ -7,7 +7,9 @@ export default function Projects({ projects }: { projects?: ProjectInfo[] }) {
       <ul className="text-2xl text-cherry-lamp-pink">
         {projects?.map((project) => (
           <li key={project.id}>
-            <Link to={`/projects/${project.id}`}>{project.name}</Link>
+            <Link to={`/projects/${project.id}`} className="cursor-pointer">
+              {project.name}
+            </Link>
           </li>
         ))}
       </ul>

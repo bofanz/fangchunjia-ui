@@ -58,12 +58,13 @@
   --font-bodebeck: "Bodebeck LT Std", sans-serif;
   --tracking-nav: 0.25em;
   --color-cherry-lamp-pink: #ff43bc;
+  --cursor-default: url("/cursors-02.png"), default;
+  --cursor-pointer: url("/cursors-01.png"), pointer;
 }
 
 html,
 body {
-  /* @apply bg-white dark:bg-gray-950; */
-
+  cursor: var(--cursor-default);
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
