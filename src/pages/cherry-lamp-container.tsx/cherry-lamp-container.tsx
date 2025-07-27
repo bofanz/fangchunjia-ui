@@ -1,20 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as THREE from "three";
 import { useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { SampleLamp } from "./sample-lamp";
-import type { ProjectInterface } from "../project/project";
 import { CherryLampModel } from "./cherry-lamp-model";
-import { OrthographicCamera, PerspectiveCamera } from "@react-three/drei";
+import { PerspectiveCamera } from "@react-three/drei";
+import type { ProjectInfo } from "../project/project";
 
 function CameraMovement() {
   const { camera, pointer } = useThree();
   const vec = new THREE.Vector3();
-  camera.lookAt(0, 0, 0);
+  camera.lookAt(0, 12, 0);
+  console.log(pointer);
   return useFrame(() => {
-    // camera.position.lerp(
-    //   vec.set(pointer.x * 0.5, pointer.y * 0.25, camera.position.z),
-    //   0.02
-    // );
+    camera.position.lerp(
+      vec.set(pointer.x * 0.5, 25 + pointer.y * 0.25, 20),
+      0.05
+    );
   });
 }
 
@@ -36,7 +37,7 @@ export type CherryState = "hover" | "focus" | "active" | null;
 export default function CherryLampContainer({
   cherries,
 }: {
-  cherries: ProjectInterface[];
+  cherries: ProjectInfo[];
 }) {
   const [cherryState, setCherryState] = useState<CherryState>(null);
 
@@ -48,20 +49,19 @@ export default function CherryLampContainer({
       }}
     >
       <Canvas className="w-full">
-        {/* <PerspectiveCamera
+        <PerspectiveCamera
           makeDefault
           position={[0, 25, 20]}
           fov={50}
           rotation={[0, 0, 0]}
-        /> */}
-        <OrthographicCamera
+        />
+        {/* <OrthographicCamera
           makeDefault
           position={[0, 20, 20]}
           // fov={50}
           rotation={[0, 0, 0]}
-        />
+        /> */}
         <CherryLampModel cherries={cherries} setCherryState={setCherryState} />
-        {/* <SampleLamp cherries={cherries} setCherryState={setCherryState} /> */}
         <ambientLight intensity={Math.PI / 2} />
         <spotLight
           position={[10, 10, 10]}

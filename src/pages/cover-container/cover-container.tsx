@@ -1,12 +1,8 @@
 import { useContext } from "react";
 import { ApiContext } from "../../contexts/api-context";
-import type { ProjectInterface } from "../project/project";
+import type { ProjectInfo } from "../project/project";
 
-export function CoverContainer({
-  project,
-}: {
-  project: ProjectInterface | null;
-}) {
+export function CoverContainer({ project }: { project: ProjectInfo | null }) {
   const { fileHost } = useContext(ApiContext);
 
   if (!project) {
@@ -14,7 +10,12 @@ export function CoverContainer({
   }
   return (
     <div className="w-full h-full absolute overflow-clip">
-      <div className="absolute">{project.name}</div>
+      <div
+        className="absolute w-full text-center font-bodebeck"
+        style={{ color: "#fdf150" }}
+      >
+        {project.name}
+      </div>
       <img
         src={`${fileHost}/${project.cover.path}`}
         alt={`Project Cover`}

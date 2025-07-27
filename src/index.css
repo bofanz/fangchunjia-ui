@@ -45,7 +45,7 @@
 @font-face {
   font-family: "Bodebeck LT Std";
   src: url("fonts/BODEBECKLTSTD-EXTRABOLD_0.OTF") format("opentype");
-  font-weight: extrabold;
+  font-weight: 800;
   font-style: normal;
 }
 

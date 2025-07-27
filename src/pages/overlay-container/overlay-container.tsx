@@ -3,14 +3,14 @@ import { useState } from "react";
 import OverlayMenu from "../../components/overlay-menu/overlay-menu";
 import Overlay from "../../components/overlay/overlay";
 import Projects from "../projects/projects";
-import type { ProjectInterface } from "../project/project";
+import type { ProjectInfo } from "../project/project";
 
 export type OverlayContainerItem = null | "about" | "projects";
 
 export default function OverlayContainer({
   projects,
 }: {
-  projects?: ProjectInterface[];
+  projects?: ProjectInfo[];
 }) {
   const [activeOverlay, setActiveOverlay] =
     useState<OverlayContainerItem>(null);

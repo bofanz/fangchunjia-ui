@@ -3,13 +3,14 @@ import { ApiContext } from "../../contexts/api-context";
 import CherryLampContainer from "../cherry-lamp-container.tsx/cherry-lamp-container";
 import { CoverContainer } from "../cover-container/cover-container";
 import OverlayContainer from "../overlay-container/overlay-container";
-import type { ProjectInterface } from "../project/project";
 import { HomeContext } from "../../contexts/home-context";
+import type { ProjectInfo } from "../project/project";
 
 export default function Home() {
-  const [projects, setProjects] = useState<ProjectInterface[]>([]);
-  const [projectOnDisplay, setProjectOnDisplay] =
-    useState<ProjectInterface | null>(null);
+  const [projects, setProjects] = useState<ProjectInfo[]>([]);
+  const [projectOnDisplay, setProjectOnDisplay] = useState<ProjectInfo | null>(
+    null
+  );
   const { apiHost } = useContext(ApiContext);
 
   useEffect(() => {
