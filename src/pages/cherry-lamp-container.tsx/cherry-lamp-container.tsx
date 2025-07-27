@@ -9,8 +9,6 @@ import type { ProjectInfo } from "../project/project";
 function CameraMovement() {
   const { camera, pointer } = useThree();
   const vec = new THREE.Vector3();
-  camera.lookAt(0, 12, 0);
-  console.log(pointer);
   return useFrame(() => {
     camera.position.lerp(
       vec.set(pointer.x * 0.5, 25 + pointer.y * 0.25, 20),
@@ -19,8 +17,8 @@ function CameraMovement() {
   });
 }
 
-function getCursorStyleFromCherryState(cherryState: CherryState) {
-  switch (cherryState) {
+function getCursorStyleFromcursorState(cursorState: cursorState) {
+  switch (cursorState) {
     case "hover":
       return "pointer";
     case "focus":
@@ -32,20 +30,20 @@ function getCursorStyleFromCherryState(cherryState: CherryState) {
   }
 }
 
-export type CherryState = "hover" | "focus" | "active" | null;
+export type cursorState = "hover" | "focus" | "active" | null;
 
 export default function CherryLampContainer({
   cherries,
 }: {
   cherries: ProjectInfo[];
 }) {
-  const [cherryState, setCherryState] = useState<CherryState>(null);
+  const [cursorState, setCursorState] = useState<cursorState>(null);
 
   return (
     <div
       className={`w-full h-screen relative`}
       style={{
-        cursor: getCursorStyleFromCherryState(cherryState),
+        cursor: getCursorStyleFromcursorState(cursorState),
       }}
     >
       <Canvas className="w-full">
@@ -53,7 +51,7 @@ export default function CherryLampContainer({
           makeDefault
           position={[0, 25, 20]}
           fov={50}
-          rotation={[0, 0, 0]}
+          rotation={[-0.5, 0, 0]}
         />
         {/* <OrthographicCamera
           makeDefault
@@ -61,7 +59,7 @@ export default function CherryLampContainer({
           // fov={50}
           rotation={[0, 0, 0]}
         /> */}
-        <CherryLampModel cherries={cherries} setCherryState={setCherryState} />
+        <CherryLampModel cherries={cherries} setCursorState={setCursorState} />
         <ambientLight intensity={Math.PI / 2} />
         <spotLight
           position={[10, 10, 10]}

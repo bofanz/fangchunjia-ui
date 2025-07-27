@@ -4,7 +4,6 @@ import type { ProjectInfo } from "../project/project";
 
 export function CoverContainer({ project }: { project: ProjectInfo | null }) {
   const { fileHost } = useContext(ApiContext);
-
   if (!project) {
     return <></>;
   }

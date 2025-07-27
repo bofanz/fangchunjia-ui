@@ -8,7 +8,7 @@ import { useGLTF } from "@react-three/drei";
 import type { GLTF } from "three-stdlib";
 import { useContext } from "react";
 import { HomeContext } from "../../contexts/home-context";
-import type { CherryState } from "./cherry-lamp-container";
+import type { cursorState } from "./cherry-lamp-container";
 import type { ProjectInfo } from "../project/project";
 import { useNavigate } from "react-router";
 
@@ -420,11 +420,11 @@ type GLTFResult = GLTF & {
 
 export function CherryLampModel({
   cherries,
-  setCherryState,
+  setCursorState,
   ...props
 }: {
   cherries: ProjectInfo[];
-  setCherryState: (cherryState: CherryState) => void;
+  setCursorState: (cursorState: cursorState) => void;
 }) {
   const { setProjectOnDisplay } = useContext(HomeContext);
   // @ts-ignore
@@ -3718,20 +3718,24 @@ export function CherryLampModel({
           userData={{ name: "SAN-ZW-2-OBJ.257", cherryId: 1 }}
           onClick={(event) => {
             event.stopPropagation();
-            console.log("click ball 1", event);
+            navigate(
+              cherries[event.object.userData.cherryId]
+                ? `/projects/${cherries[event.object.userData.cherryId].id}`
+                : ""
+            );
           }}
           onPointerOver={(event) => {
-            setCherryState("hover");
+            setCursorState("hover");
             setProjectOnDisplay?.(cherries[event.object.userData.cherryId]);
           }}
           onPointerDown={() => {
-            setCherryState("active");
+            setCursorState("active");
           }}
           onPointerUp={() => {
-            setCherryState("hover");
+            setCursorState("hover");
           }}
           onPointerOut={() => {
-            setCherryState(null);
+            setCursorState(null);
             setProjectOnDisplay?.(null);
           }}
         />
@@ -3781,22 +3785,22 @@ export function CherryLampModel({
                 ? `/projects/${cherries[event.object.userData.cherryId].id}`
                 : ""
             );
-            console.log("click ball 1", event);
+            // console.log("click ball 1", event);
           }}
           onPointerOver={(event) => {
-            setCherryState("hover");
+            setCursorState("hover");
             setProjectOnDisplay?.(
               cherries[event.object.userData.cherryId] || null
             );
           }}
           onPointerDown={() => {
-            setCherryState("active");
+            setCursorState("active");
           }}
           onPointerUp={() => {
-            setCherryState("hover");
+            setCursorState("hover");
           }}
           onPointerOut={() => {
-            setCherryState(null);
+            setCursorState(null);
             setProjectOnDisplay?.(null);
           }}
         />
