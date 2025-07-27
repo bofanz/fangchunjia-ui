@@ -1,3 +1,6 @@
+import type { ReactNode } from "react";
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export default function Overlay({
   children,
   open,
@@ -5,12 +8,13 @@ export default function Overlay({
   onClose,
   backdrop = true,
 }: {
-  children: any;
+  children: ReactNode;
   open: boolean;
   position: "left" | "right";
-  onClose: any;
+  onClose: () => void;
   backdrop?: boolean;
 }) {
+  console.log(backdrop);
   if (open) {
     switch (position) {
       case "left":

@@ -1,25 +1,24 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as THREE from "three";
 import { useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { SampleLamp } from "./sample-lamp";
-import type { ProjectInterface } from "../project/project";
 import { CherryLampModel } from "./cherry-lamp-model";
-import { OrthographicCamera, PerspectiveCamera } from "@react-three/drei";
+import { PerspectiveCamera } from "@react-three/drei";
+import type { ProjectInfo } from "../project/project";
 
 function CameraMovement() {
   const { camera, pointer } = useThree();
   const vec = new THREE.Vector3();
-  camera.lookAt(0, 0, 0);
   return useFrame(() => {
-    // camera.position.lerp(
-    //   vec.set(pointer.x * 0.5, pointer.y * 0.25, camera.position.z),
-    //   0.02
-    // );
+    camera.position.lerp(
+      vec.set(pointer.x * 0.5, 25 + pointer.y * 0.25, 20),
+      0.05
+    );
   });
 }
 
-function getCursorStyleFromCherryState(cherryState: CherryState) {
-  switch (cherryState) {
+function getCursorStyleFromcursorState(cursorState: cursorState) {
+  switch (cursorState) {
     case "hover":
       return "pointer";
     case "focus":
@@ -31,37 +30,36 @@ function getCursorStyleFromCherryState(cherryState: CherryState) {
   }
 }
 
-export type CherryState = "hover" | "focus" | "active" | null;
+export type cursorState = "hover" | "focus" | "active" | null;
 
 export default function CherryLampContainer({
   cherries,
 }: {
-  cherries: ProjectInterface[];
+  cherries: ProjectInfo[];
 }) {
-  const [cherryState, setCherryState] = useState<CherryState>(null);
+  const [cursorState, setCursorState] = useState<cursorState>(null);
 
   return (
     <div
       className={`w-full h-screen relative`}
       style={{
-        cursor: getCursorStyleFromCherryState(cherryState),
+        cursor: getCursorStyleFromcursorState(cursorState),
       }}
     >
       <Canvas className="w-full">
-        {/* <PerspectiveCamera
+        <PerspectiveCamera
           makeDefault
           position={[0, 25, 20]}
           fov={50}
-          rotation={[0, 0, 0]}
-        /> */}
-        <OrthographicCamera
+          rotation={[-0.5, 0, 0]}
+        />
+        {/* <OrthographicCamera
           makeDefault
           position={[0, 20, 20]}
           // fov={50}
           rotation={[0, 0, 0]}
-        />
-        <CherryLampModel cherries={cherries} setCherryState={setCherryState} />
-        {/* <SampleLamp cherries={cherries} setCherryState={setCherryState} /> */}
+        /> */}
+        <CherryLampModel cherries={cherries} setCursorState={setCursorState} />
         <ambientLight intensity={Math.PI / 2} />
         <spotLight
           position={[10, 10, 10]}

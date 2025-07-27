@@ -1,11 +1,7 @@
 import { Link } from "react-router";
-import type { ProjectInterface } from "../project/project";
+import type { ProjectInfo } from "../project/project";
 
-export default function Projects({
-  projects,
-}: {
-  projects?: ProjectInterface[];
-}) {
+export default function Projects({ projects }: { projects?: ProjectInfo[] }) {
   return (
     <>
       <ul className="text-2xl text-cherry-lamp-pink">

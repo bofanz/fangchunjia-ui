@@ -2,13 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ApiContext } from "../../contexts/api-context";
 
-export interface ProjectInterface {
+export interface ProjectInfo {
   id: string;
   name: string;
-  brief?: string;
-  description?: string;
-  cover?: FileMetadataInterface;
-  files?: FileMetadataInterface[];
+  brief: string;
+  cover: FileMetadataInterface;
+}
+
+export interface ProjectDetails extends ProjectInfo {
+  description: string;
+  files: FileMetadataInterface[];
 }
 
 export interface FileMetadataInterface {
@@ -20,7 +23,7 @@ export interface FileMetadataInterface {
 export default function Project() {
   const { projectId } = useParams();
   const { apiHost, fileHost } = useContext(ApiContext);
-  const [project, setProject] = useState<ProjectInterface>();
+  const [project, setProject] = useState<ProjectDetails>();
 
   useEffect(() => {
     async function fetchProjects() {
