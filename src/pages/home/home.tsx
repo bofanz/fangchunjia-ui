@@ -42,7 +42,7 @@ export default function Home() {
       >
         <CoverContainer project={projectOnDisplay} />
         <OverlayContainer projects={projects} />
-        <CherryLampContainer cherries={projects} />
+        <CherryLampContainer cherries={projects} project={projectOnDisplay} />
       </HomeContext>
     </>
   );

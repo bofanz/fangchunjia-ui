@@ -6,14 +6,14 @@ export function About() {
         Chunjia Fang is a moving-image based artist / designer based in Brussels
       </p>
       <ul className="text-2xl text-cherry-lamp-pink">
-        {/* <li>
+        <li>
           <a
             href="https://www.instagram.com/elephanntt"
             className="cursor-pointer"
           >
             @elephanntt
           </a>
-        </li> */}
+        </li>
         <li>
           <a
             href="mailto:fangchunjiaxinxin@gmail.com"

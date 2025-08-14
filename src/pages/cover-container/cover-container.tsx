@@ -15,11 +15,11 @@ export function CoverContainer({ project }: { project: ProjectInfo | null }) {
       >
         {project.name}
       </div>
-      <img
+      {/* <img
         src={`${fileHost}/${project.cover.path}`}
         alt={`Project Cover`}
         className="w-full"
-      />
+      /> */}
     </div>
   );
 }

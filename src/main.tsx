@@ -12,7 +12,7 @@ ReactDOM.createRoot(root).render(
   <ApiContext
     value={{
       apiHost: "https://api.fangchunjia.com",
-      fileHost: "https://files.fangchunjia.com",
+      fileHost: "https://fs.fangchunjia.com",
     }}
   >
     <BrowserRouter>
