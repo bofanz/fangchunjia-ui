@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'ABC Otto';
+  src: url('/fonts/ABCOtto-Regular-Trial.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ABC Otto';
+  src: url('/fonts/ABCOtto-RegularItalic-Trial.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ABC Otto';
+  src: url('/fonts/ABCOtto-Bold-Trial.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@theme {
+  --font-abc-otto: 'ABC Otto', serif;
+  --color-fangchunjia-pink: #ff43bc;
+  --cursor-default: url('/cursors-02.png'), default;
+  --cursor-pointer: url('/cursors-01.png'), pointer;
+}
+
+html,
+body {
+  @apply m-0 w-full h-full font-abc-otto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  @apply h-full;
+}
+
+.markdown-body {
+  h1 {
+    @apply text-2xl leading-none font-bold mb-4;
+  }
+
+  h2 {
+    @apply text-xl leading-none font-bold;
+  }
+
+  h3 {
+    @apply text-lg leading-none uppercase;
+  }
+  a {
+    @apply text-fangchunjia-pink;
+  }
+}
