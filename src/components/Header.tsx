@@ -1,10 +1,10 @@
-import { Link } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router';
 
-export type HeaderItem = 'toStart' | 'about' | 'projects'
+export type HeaderItem = 'toStart' | 'about' | 'projects';
 
 export interface HeaderLink {
-  label: string
-  to: string
+  label: string;
+  to: string;
 }
 
 export default function Header() {
@@ -17,7 +17,7 @@ export default function Header() {
       label: 'Projects',
       to: '/projects',
     },
-  ]
+  ];
   return (
     <>
       <header>
@@ -32,5 +32,5 @@ export default function Header() {
         </nav>
       </header>
     </>
-  )
+  );
 }

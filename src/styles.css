@@ -24,6 +24,7 @@
 @theme {
   --font-abc-otto: 'ABC Otto', serif;
   --color-fangchunjia-pink: #ff43bc;
+  --color-overlay-bg: #ffffffcc;
   --cursor-default: url('/cursors-02.png'), default;
   --cursor-pointer: url('/cursors-01.png'), pointer;
 }

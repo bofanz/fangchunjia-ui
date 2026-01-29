@@ -1,14 +1,14 @@
-import { type ReactNode } from 'react'
-import LayerHeader from './LayerHeader'
+import { type ReactNode } from 'react';
+import LayerHeader from './LayerHeader';
 
 export default function LayerGradient({
   title,
   backgroundUrl,
   children,
 }: {
-  title: string
-  backgroundUrl?: string
-  children: ReactNode
+  title: string;
+  backgroundUrl?: string;
+  children: ReactNode;
 }) {
   return (
     <>
@@ -23,17 +23,17 @@ export default function LayerGradient({
         )}
 
         <div
-          className="w-[400px] z-20 bg-white"
-
-          // className={
-          //   'w-[400px] z-20 ' + !backgroundUrl &&
-          //   'bg-gradient-to-r from-white from-90% to-transparent to-100%'
-          // }
+          className={
+            'w-[400px] z-20 ' +
+            (backgroundUrl
+              ? ''
+              : 'bg-gradient-to-r from-white from-90% to-transparent to-100%')
+          }
         >
           <LayerHeader title={title} />
           <div className="px-8 pt-8 pb-4">{children}</div>
         </div>
       </div>
     </>
-  )
+  );
 }
