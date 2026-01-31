@@ -1,17 +1,23 @@
+import MediaGrid from '@/components/MediaGrid';
+import Overlay from '@/components/Overlay';
+import type { Project } from '@/interfaces/project.interface';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import axios from 'redaxios';
-import type { Project } from './projects';
 
-export const fetchProject = async (projectId: string) => {
+export const fetchProject = async (
+  context: { portfolioApi: string },
+  projectId: string,
+) => {
   const project = await axios
-    .get<Project>(`https://api.fangchunjia.com/projects/${projectId}`)
+    .get<Project>(`${context.portfolioApi}/projects/${projectId}`)
     .then((r) => r.data);
   return project;
 };
 
 export const Route = createFileRoute('/projects/$projectId')({
   component: RouteComponent,
-  loader: ({ params }) => fetchProject(params.projectId),
+  // @ts-ignore
+  loader: ({ params, context }) => fetchProject(context, params.projectId),
 });
 
 function RouteComponent() {
@@ -19,15 +25,38 @@ function RouteComponent() {
   const project = routeApi.useLoaderData();
 
   return (
-    <div className="absolute top-0 bottom-0 left-0 right-0 bg-overlay-bg">
-      <div className="pl-[400px]">
-        <div className="basis-1/3 px-16 pt-16 pb-8">
-          <h1 className="text-xl">{project.name}</h1>
-          <h2 className="text-lg">{project.year}</h2>
-          <div>{project.link}</div>
-          <div>{project.description}</div>
+    <Overlay navigateTo='/projects'>
+      <div className='pl-[36%]'>
+
+        <div className="">
+          <div className="basis-2/5 pl-4 pr-24 pt-16 pb-4">
+            <h1 className="text-xl">{project.name}</h1>
+            <h2 className="text-lg">{project.year}</h2>
+            <div>{project.link}</div>
+            <div>{project.description}</div>
+          </div>
+        </div>
+
+        <div className='pl-4 pr-64 pt-4 pb-8'>
+          <MediaGrid items={project.files} />
         </div>
       </div>
-    </div>
+      
+      {/* {project.files.map(f => <div>{f.key}</div>)} */}
+      {/* <div className='flex flex-col gap-16'>
+              {project.files.map((f) => (<div key={f.key}>
+        <div className='pl-[400px]'>
+<img
+              src={`https://files.fangchunjia.com/${f.key}`}
+              className="w-full h-full object-cover"
+            />
+        </div>
+        
+      </div>
+    ))}
+      </div> */}
+
+        </Overlay>
+    
   );
 }

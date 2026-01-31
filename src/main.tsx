@@ -8,11 +8,18 @@ import { routeTree } from './routeTree.gen'
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 import { AuthProvider } from 'react-oidc-context'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+export const queryClient = new QueryClient()
 
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  context: {},
+  context: {
+    portfolioApi: 'https://api.fangchunjia.com',
+    filesApi: 'https://files.fangchunjia.com',
+    queryClient,
+  },
   defaultPreload: 'intent',
   scrollRestoration: true,
   defaultStructuralSharing: true,
@@ -40,9 +47,11 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <AuthProvider {...cognitoAuthConfig}>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider {...cognitoAuthConfig}>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </QueryClientProvider>
     </StrictMode>,
   )
 }

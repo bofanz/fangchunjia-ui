@@ -8,7 +8,7 @@ export const Route = createFileRoute('/home')({
 function RouteComponent() {
   return (
     <>
-      <div className="bg-[url(/background.jpg)] bg-cover h-full">
+      <div className="h-full">
         <div className="">
           <Header />
         </div>

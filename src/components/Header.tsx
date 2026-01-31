@@ -23,7 +23,7 @@ export default function Header() {
       <header>
         <nav className="flex justify-between font-bold text-2xl">
           {headerLinks.map((hL) => (
-            <div className="grow-1 px-8 pt-16 pb-4" key={hL.label}>
+            <div className="grow-1 px-24 pt-40 pb-4" key={hL.label}>
               <Link to={hL.to} className="text-black hover:text-white">
                 {hL.label}
               </Link>

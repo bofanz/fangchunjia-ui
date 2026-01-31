@@ -21,23 +21,193 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'FZKai';
+  src: url('/fonts/FZKTJW.TTF') format('truetype');
+  font-weight: normal;
+  unicode-range: U+4E00, U+9FFF;
+}
+
 @theme {
-  --font-abc-otto: 'ABC Otto', serif;
+  --font-abc-otto-kai: 'ABC Otto', 'FZKai', serif;
   --color-fangchunjia-pink: #ff43bc;
+  --color-fangchunjia-pink-shade: #ff43bc40;
   --color-overlay-bg: #ffffffcc;
   --cursor-default: url('/cursors-02.png'), default;
   --cursor-pointer: url('/cursors-01.png'), pointer;
+  --media-s-w-max: 160px;
+  --media-s-h-max: 160px;
+  --media-m-w-max: 160px;
+  --media-m-h-max: 160px;
+  --media-l-w-max: 160px;
+  --media-l-h-max: 160px;
+  --media-spacing: 40px;
 }
 
 html,
 body {
-  @apply m-0 w-full h-full font-abc-otto;
+  @apply m-0 w-full h-dvh font-abc-otto-kai overscroll-none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  @apply bg-[url(/background.jpg)] bg-cover;
+}
+
 #app {
   @apply h-full;
+}
+
+.home-button {
+  @apply block rotate-300 bg-fangchunjia-pink hover:bg-white w-[80px] h-[80px];
+
+  clip-path: ellipse(40px 8px);
+}
+
+.media-grid {
+  @apply grid grid-flow-row gap-y-8;
+
+  /* @apply grid-rows-[repeat(auto-fill,var(--polka-dot-diameter))] gap-[var(--polka-dot-spacing)] grid-flow-row; */
+
+  @apply grid-cols-5;
+
+  .media-wrapper {
+    /* @apply flex justify-end; */
+    @apply col-span-3;
+
+    /* example */
+    /* &-s {
+      @apply col-span-3;
+    }
+    &-m {
+      @apply col-span-4;
+    }
+    &-l {
+      @apply col-span-5;
+    } */
+
+    .media {
+      @apply relative block;
+    }
+  }
+
+  .media-wrapper-s {
+    @apply col-span-3;
+  }
+
+  .media-wrapper-m {
+    @apply col-span-4;
+  }
+
+  .media-wrapper-l {
+    @apply col-span-5;
+  }
+
+  & > * {
+    /* @apply h-[var(--polka-dot-diameter)]; */
+  }
+}
+
+/* TODO: media boundaries need to be recalculated */
+/*  */
+
+.file-input-label {
+  @apply block mb-1 text-xl w-full border-black border-[2px] px-2 py-1;
+
+  &:hover {
+    @apply bg-fangchunjia-pink-shade;
+  }
+  cursor: pointer;
+}
+
+.file-input-status {
+  @apply text-xs;
+}
+
+.native-file-input {
+  visibility: hidden;
+  display: none;
+}
+
+.form-fields {
+  @apply flex flex-col gap-4;
+
+  & > div {
+    @apply w-full;
+    > label {
+      @apply block mb-1 text-xs w-full;
+    }
+    > input,
+    textarea {
+      @apply block border-b-[2px] border-black py-1 text-xl w-full;
+    }
+
+    textarea {
+      @apply block border-[2px] border-black px-2 py-1 w-full;
+    }
+
+    > input:focus,
+    textarea:focus,
+    input[type='number'] {
+      @apply bg-[#80808022];
+      outline: none;
+    }
+
+    select,
+    ::picker(select) {
+      appearance: base-select;
+    }
+
+    select {
+      @apply w-full py-1 border-b-[2px] border-black text-xl;
+    }
+
+    select::picker-icon {
+      @apply text-black;
+    }
+    select:open::picker-icon {
+      rotate: 180deg;
+    }
+    ::picker(select) {
+      border: none;
+    }
+    option {
+      @apply bg-white border-[2px] border-black;
+      display: flex;
+      justify-content: flex-start;
+      gap: 20px;
+      padding: 10px;
+    }
+
+    option:hover,
+    option:focus,
+    option:checked {
+      @apply font-bold bg-fangchunjia-pink-shade;
+    }
+    option:not(:last-child) {
+      @apply mb-[-2px];
+    }
+    option::checkmark {
+      order: 1;
+      margin-left: auto;
+    }
+    ::picker(select) {
+      opacity: 0;
+      transition: all 0.4s allow-discrete;
+    }
+    ::picker(select):popover-open {
+      opacity: 1;
+    }
+    @starting-style {
+      ::picker(select):popover-open {
+        opacity: 0;
+      }
+    }
+    ::picker(select) {
+      top: calc(anchor(bottom) + 1px);
+    }
+  }
 }
 
 .markdown-body {
