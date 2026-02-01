@@ -22,14 +22,14 @@
 }
 
 @font-face {
-  font-family: 'FZKai';
-  src: url('/fonts/FZKTJW.TTF') format('truetype');
+  font-family: 'FZShengSKSJW';
+  src: url('/fonts/FZShengSKSJW_Zhun.TTF') format('truetype');
   font-weight: normal;
-  unicode-range: U+4E00, U+9FFF;
+  unicode-range: U+4E00- U+9FFF;
 }
 
 @theme {
-  --font-abc-otto-kai: 'ABC Otto', 'FZKai', serif;
+  --font-abc-otto-kai: 'ABC Otto', 'FZShengSKSJW', serif;
   --color-fangchunjia-pink: #ff43bc;
   --color-fangchunjia-pink-shade: #ff43bc40;
   --color-overlay-bg: #ffffffcc;
@@ -51,18 +51,31 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  @apply bg-[url(/background.jpg)] bg-cover;
-}
-
 #app {
   @apply h-full;
+  @apply bg-[url(/background.jpg)] bg-cover bg-center;
 }
 
 .home-button {
-  @apply block rotate-300 bg-fangchunjia-pink hover:bg-white w-[80px] h-[80px];
+  @apply block rotate-300 bg-fangchunjia-pink hover:bg-white w-[64px] h-[64px];
 
-  clip-path: ellipse(40px 8px);
+  clip-path: ellipse(32px 6px);
+}
+
+.gradient-overlay {
+  & .overlay {
+  }
+
+  & .content-wrapper {
+  }
+}
+
+.overlay-content-wrapper {
+  @apply w-[31%] h-full z-20 relative;
+}
+.overlay-overlay {
+  @apply absolute w-full h-full;
+  @apply bg-gradient-to-r from-white from-30% via-[#ffffffbf] via-40% to-transparent to-50%;
 }
 
 .media-grid {
@@ -77,21 +90,21 @@ body {
     @apply col-span-3;
 
     /* example */
-    /* &-s {
+    &.s {
       @apply col-span-3;
     }
-    &-m {
+    &.m {
       @apply col-span-4;
     }
-    &-l {
+    &.l {
       @apply col-span-5;
-    } */
+    }
 
     .media {
       @apply relative block;
     }
   }
-
+  /* 
   .media-wrapper-s {
     @apply col-span-3;
   }
@@ -102,7 +115,7 @@ body {
 
   .media-wrapper-l {
     @apply col-span-5;
-  }
+  } */
 
   & > * {
     /* @apply h-[var(--polka-dot-diameter)]; */

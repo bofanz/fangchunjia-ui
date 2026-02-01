@@ -8,9 +8,15 @@ import { routeTree } from './routeTree.gen'
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 import { AuthProvider } from 'react-oidc-context'
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import gsap from "gsap";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export const queryClient = new QueryClient()
+
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 // Create a new router instance
 const router = createRouter({

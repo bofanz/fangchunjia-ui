@@ -5,7 +5,7 @@ export default function MediaGrid({ items }: { items: Media[] }) {
     <div className="media-grid fit-content">
       {items.map((item) => (
         <div
-          className={'media-wrapper' + (item.size && `-${item.size}`)}
+          className={'media-wrapper ' + (item.size && item.size)}
           key={item.key}
         >
           <img

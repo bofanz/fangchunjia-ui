@@ -1,17 +1,16 @@
-import { useGSAP } from '@gsap/react'
-import { createFileRoute } from '@tanstack/react-router'
-import { useRef, useState } from 'react'
-import gsap from 'gsap'
-import Header from '@/components/Header'
-import HeaderStart from '@/components/HeaderStart'
+import { useGSAP } from '@gsap/react';
+import { createFileRoute } from '@tanstack/react-router';
+import { useRef, useState } from 'react';
+import gsap from 'gsap';
+import StartButton from '@/components/StartButton';
 
 export const Route = createFileRoute('/welcome')({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  const [bgLoaded, setBgLoaded] = useState<boolean>(false)
-  const headerRef = useRef<HTMLDivElement | null>(null)
+  const [bgLoaded, setBgLoaded] = useState<boolean>(false);
+  const headerRef = useRef<HTMLDivElement | null>(null);
 
   useGSAP(() => {
     if (bgLoaded) {
@@ -19,17 +18,17 @@ function RouteComponent() {
         opacity: 1,
         display: 'block',
         delay: 1,
-      })
+      });
     }
-  }, [bgLoaded])
+  }, [bgLoaded]);
 
   return (
     <>
       <div ref={headerRef} className="opacity-0 hidden">
-        <HeaderStart />
+        <StartButton />
       </div>
 
-      <div className="absolute top-0 left-0 bottom-0 right-0 -z-10 overflow-hidden">
+      <div className="absolute top-0 left-0 bottom-0 right-0 overflow-hidden">
         <video
           className="w-full h-full object-cover"
           muted
@@ -40,5 +39,5 @@ function RouteComponent() {
         ></video>
       </div>
     </>
-  )
+  );
 }
