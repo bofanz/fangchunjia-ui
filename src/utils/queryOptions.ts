@@ -12,6 +12,7 @@ export const useCreateProjectMutation = () => {
       queryClient.invalidateQueries();
       navigate({
         to: `/admin/$projectId`,
+        // @ts-ignore
         params: { projectId: data.data.id },
       });
     },

@@ -58,7 +58,7 @@ export default function MediaUploader({ projectId }: {projectId: string}) {
                 accept="image/*, audio/*, video/*"
                 className="native-file-input"
                 disabled={!fileTitle}
-                onChange={(event) => {
+                onChange={() => {
                   console.log('??????')
                   // if (event.target.files?.[0]) {
                   //   formRef.current?.submit();

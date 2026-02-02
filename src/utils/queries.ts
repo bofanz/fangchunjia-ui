@@ -1,4 +1,4 @@
-import type { Project } from '@/routes/projects';
+import type { Project } from '@/interfaces/project.interface';
 import axios from 'redaxios';
 
 export async function createProject(project: Partial<Project>) {

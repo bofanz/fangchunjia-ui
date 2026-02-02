@@ -1,8 +1,7 @@
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import axios from 'redaxios';
-import type { Project } from '../projects';
-import Uploader from '@/components/Uploader';
 import MediaUploader from '@/components/MediaUploader';
+import type { Project } from '@/interfaces/project.interface';
 
 export const fetchProject = async (
   context: { portfolioApi: string },
