@@ -25,8 +25,8 @@ export default function Header() {
         <nav className="flex justify-between font-bold text-2xl">
           {headerLinks.map((hL) => (
             <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               className="grow-1 px-24 pt-40 pb-4"
               key={hL.label}
             >

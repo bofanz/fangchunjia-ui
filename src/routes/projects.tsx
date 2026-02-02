@@ -53,7 +53,7 @@ function RouteComponent() {
           }
         />
       </div>
-      <GradientOverlay title="Projects">
+      <GradientOverlay title="Projects" showOverlay={!hoveredProject?.coverKey}>
         <div className="z-20 relative">
           <ul className="text-xl text-cherry-lamp-pink">
             {categoriesAndProjects.map((c) => (

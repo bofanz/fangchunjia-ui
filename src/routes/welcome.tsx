@@ -1,8 +1,7 @@
-import { useGSAP } from '@gsap/react';
 import { createFileRoute } from '@tanstack/react-router';
-import { useRef, useState } from 'react';
-import gsap from 'gsap';
+import { useEffect, useState } from 'react';
 import StartButton from '@/components/StartButton';
+import { useAnimate } from 'motion/react';
 
 export const Route = createFileRoute('/welcome')({
   component: RouteComponent,
@@ -10,25 +9,21 @@ export const Route = createFileRoute('/welcome')({
 
 function RouteComponent() {
   const [bgLoaded, setBgLoaded] = useState<boolean>(false);
-  const headerRef = useRef<HTMLDivElement | null>(null);
+  const [scope, animate] = useAnimate();
 
-  useGSAP(() => {
+  useEffect(() => {
     if (bgLoaded) {
-      gsap.to(headerRef.current, {
-        opacity: 1,
-        display: 'block',
-        delay: 1,
-      });
+      animate(
+        scope.current,
+        { opacity: 1, display: 'block' },
+        { duration: 1, delay: 1 },
+      );
     }
   }, [bgLoaded]);
 
   return (
     <>
-      <div ref={headerRef} className="opacity-0 hidden">
-        <StartButton />
-      </div>
-
-      <div className="absolute top-0 left-0 bottom-0 right-0 overflow-hidden">
+      <div className="w-full h-full overflow-hidden">
         <video
           className="w-full h-full object-cover"
           muted
@@ -37,6 +32,9 @@ function RouteComponent() {
           src="https://files.fangchunjia.com/media/cover.mp4"
           onLoadedData={() => setBgLoaded(true)}
         ></video>
+      </div>
+      <div ref={scope} className="opacity-0 hidden">
+        <StartButton />
       </div>
     </>
   );

@@ -1,14 +1,25 @@
+import { AnimatePresence, motion } from 'motion/react';
+
 export default function GradientOverlay({
   title,
   children,
+  showOverlay = true,
 }: {
   title?: string;
   children: React.ReactNode;
+  showOverlay?: boolean;
 }) {
   return (
     <>
       <div className="absolute top-0 bottom-0 left-0 right-0 overflow-y-auto">
-        <div className="overlay-overlay"></div>
+        <AnimatePresence>
+          {showOverlay && (
+            <motion.div
+              exit={{ opacity: 0 }}
+              className="overlay-overlay"
+            ></motion.div>
+          )}
+        </AnimatePresence>
         <div className="overlay-content-wrapper">
           <header>
             {title && (
