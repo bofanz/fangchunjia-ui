@@ -16,8 +16,8 @@ export const fetchProject = async (
 
 export const Route = createFileRoute('/projects/$projectId')({
   component: RouteComponent,
-  // @ts-ignore
-  loader: ({ params, context }) => fetchProject(context, params.projectId),
+  loader: ({ params, context }) =>
+    fetchProject(context as { portfolioApi: string }, params.projectId),
 });
 
 function RouteComponent() {
@@ -25,9 +25,8 @@ function RouteComponent() {
   const project = routeApi.useLoaderData();
 
   return (
-    <Overlay navigateTo='/projects'>
-      <div className='pl-[36%]'>
-
+    <Overlay>
+      <div className="">
         <div className="">
           <div className="basis-2/5 pl-4 pr-24 pt-16 pb-4">
             <h1 className="text-xl">{project.name}</h1>
@@ -37,26 +36,10 @@ function RouteComponent() {
           </div>
         </div>
 
-        <div className='pl-4 pr-64 pt-4 pb-8'>
+        <div className="pl-4 pr-64 pt-4 pb-8">
           <MediaGrid items={project.files} />
         </div>
       </div>
-      
-      {/* {project.files.map(f => <div>{f.key}</div>)} */}
-      {/* <div className='flex flex-col gap-16'>
-              {project.files.map((f) => (<div key={f.key}>
-        <div className='pl-[400px]'>
-<img
-              src={`https://files.fangchunjia.com/${f.key}`}
-              className="w-full h-full object-cover"
-            />
-        </div>
-        
-      </div>
-    ))}
-      </div> */}
-
-        </Overlay>
-    
+    </Overlay>
   );
 }
