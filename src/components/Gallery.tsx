@@ -6,7 +6,7 @@ export default function Gallery({
   activeMedia: string;
 }) {
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full pointer-events-none">
       {medias.map((m) => (
         <div
           key={m.url}

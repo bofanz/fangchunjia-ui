@@ -1,7 +1,5 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useRouterState } from '@tanstack/react-router';
 import { motion } from 'motion/react';
-
-export type HeaderItem = 'toStart' | 'about' | 'projects';
 
 export interface HeaderLink {
   label: string;
@@ -9,40 +7,59 @@ export interface HeaderLink {
 }
 
 export default function Header() {
-  const headerLinks = [
-    {
-      label: 'About',
-      to: '/about',
-    },
-    {
-      label: 'Projects',
-      to: '/projects',
-    },
-  ];
+  const state = useRouterState();
+  const pathname = state.location.pathname;
+  const headerLinks = pathname.startsWith('/about')
+    ? [
+        {
+          label: 'About',
+          to: '/about',
+        },
+      ]
+    : pathname.startsWith('/projects')
+      ? [
+          {
+            label: 'Projects',
+            to: '/projects',
+          },
+        ]
+      : [
+          {
+            label: 'About',
+            to: '/about',
+          },
+          {
+            label: 'Projects',
+            to: '/projects',
+          },
+        ];
+
   return (
     <>
-      <header>
-        <nav className="flex justify-between font-bold text-2xl">
+      <header className="fixed w-full [view-transition-name:header]">
+        <nav className="flex justify-between font-bold">
           {headerLinks.map((hL) => (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="grow-1 px-24 pt-40 pb-4"
+              className="grow-1 px-8 pt-16"
               key={hL.label}
             >
-              <motion.div>
-                <Link to={hL.to} className="text-fangchunjia-pink">
-                  <motion.span
-                    whileHover={{
-                      color: '#FFFFFF',
-                      transition: { duration: 0.1 },
-                    }}
-                    className="w-fit h-fit"
-                  >
-                    {hL.label}
-                  </motion.span>
-                </Link>
-              </motion.div>
+              <Link
+                to={hL.to}
+                className="block w-fit"
+                viewTransition={{ types: ['fade'] }}
+              >
+                <motion.div
+                  whileHover={{
+                    color: '#FFFFFF',
+                    transition: { duration: 0.1 },
+                  }}
+                  className="w-fit h-fit p-20 pb-12 text-black text-3xl"
+                >
+                  {hL.label}
+                </motion.div>
+              </Link>
             </motion.div>
           ))}
         </nav>
