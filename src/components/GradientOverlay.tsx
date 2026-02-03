@@ -1,36 +1,18 @@
-import { AnimatePresence, motion } from 'motion/react';
+import { useCanGoBack, useNavigate, useRouter } from '@tanstack/react-router';
 
-export default function GradientOverlay({
-  title,
-  children,
-  showOverlay = true,
-}: {
-  title?: string;
-  children: React.ReactNode;
-  showOverlay?: boolean;
-}) {
+export default function GradientOverlay({}: {}) {
+  const router = useRouter();
+  const canGoBack = useCanGoBack();
+  const navigate = useNavigate();
+
   return (
     <>
-      <div className="absolute top-0 bottom-0 left-0 right-0 overflow-y-auto">
-        <AnimatePresence>
-          {showOverlay && (
-            <motion.div
-              exit={{ opacity: 0 }}
-              className="overlay-overlay"
-            ></motion.div>
-          )}
-        </AnimatePresence>
-        <div className="overlay-content-wrapper">
-          <header>
-            {title && (
-              <div className="grow-1 pl-8 pr-12 pt-16 pb-4">
-                <span className="font-bold text-4xl">{title}</span>
-              </div>
-            )}
-          </header>
-          <div className="pl-8 pr-12 pt-8 pb-4">{children}</div>
-        </div>
-      </div>
+      <div
+        className="gradient-overlay absolute top-0 bottom-0 left-0 right-0"
+        onClick={() =>
+          canGoBack ? router.history.back() : navigate({ to: '..' })
+        }
+      ></div>
     </>
   );
 }
