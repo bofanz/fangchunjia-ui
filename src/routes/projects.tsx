@@ -1,4 +1,3 @@
-import HomeButton from '@/components/HomeButton';
 import GradientOverlay from '@/components/GradientOverlay';
 import type { Category, ProjectInfo } from '@/interfaces/project.interface';
 import {
@@ -11,6 +10,7 @@ import { useState } from 'react';
 import axios from 'redaxios';
 import { motion } from 'motion/react';
 import Gallery from '@/components/Gallery';
+import Header from '@/components/Header';
 
 export const fetchProjects = async (context: { portfolioApi: string }) => {
   const categories = await axios
@@ -42,8 +42,8 @@ function RouteComponent() {
   }));
   return (
     <>
-      <HomeButton />
       <div className="fixed top-0 bottom-0 left-0 right-0">
+        <GradientOverlay />
         <Gallery
           medias={projects
             .filter((p) => p.coverKey)
@@ -55,42 +55,115 @@ function RouteComponent() {
           }
         />
       </div>
-      <GradientOverlay title="Projects" showOverlay={!hoveredProject?.coverKey}>
-        <div className="z-20 relative">
-          <ul className="text-xl text-cherry-lamp-pink">
-            {categoriesAndProjects.map((c) => (
-              <li key={c.id} className="mb-4">
-                <div className="font-bold">{c.name}</div>
-                <ul>
-                  {c.projects.map((p) => (
-                    <li key={p.id}>
-                      <Link
-                        to={'/projects/$projectId'}
-                        className="cursor-pointer h-full w-fit block"
-                        params={{
-                          projectId: p.id,
-                        }}
-                      >
-                        <motion.div
-                          whileHover={{
-                            color: 'var(--color-fangchunjia-pink)',
-                            transition: { duration: 0.1 },
-                          }}
-                          className="w-fit h-fit"
-                          onMouseEnter={() => setHoveredProject(p)}
-                          onMouseLeave={() => setHoveredProject(null)}
-                        >
-                          {p.year} {p.name}
-                        </motion.div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
+
+      <Header />
+      <div className="h-full w-fit overflow-y-auto pt-60 [scrollbar-width:none]">
+        <div className="w-64 sm:w-64 md:w-96 lg:w-128 pl-20 relative">
+          <div className="pl-8 pr-12 pt-8 pb-4">
+            <div className="relative">
+              <ul className="text-xl text-cherry-lamp-pink">
+                {categoriesAndProjects.map((c) => (
+                  <li key={c.id} className="mb-4">
+                    <div className="font-bold">{c.name}</div>
+                    <ul>
+                      {c.projects.map((p) => (
+                        <li key={p.id}>
+                          <Link
+                            to={'/projects/$projectId'}
+                            className="cursor-pointer h-full w-fit block"
+                            params={{
+                              projectId: p.id,
+                            }}
+                          >
+                            <motion.div
+                              whileHover={{
+                                color: 'var(--color-fangchunjia-pink)',
+                                transition: { duration: 0.1 },
+                              }}
+                              className="w-fit h-fit"
+                              onMouseEnter={() => setHoveredProject(p)}
+                              onMouseLeave={() => setHoveredProject(null)}
+                            >
+                              {p.year} {p.name}
+                            </motion.div>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+
+              <ul className="text-xl text-cherry-lamp-pink">
+                {categoriesAndProjects.map((c) => (
+                  <li key={c.id} className="mb-4">
+                    <div className="font-bold">{c.name}</div>
+                    <ul>
+                      {c.projects.map((p) => (
+                        <li key={p.id}>
+                          <Link
+                            to={'/projects/$projectId'}
+                            className="cursor-pointer h-full w-fit block"
+                            params={{
+                              projectId: p.id,
+                            }}
+                          >
+                            <motion.div
+                              whileHover={{
+                                color: 'var(--color-fangchunjia-pink)',
+                                transition: { duration: 0.1 },
+                              }}
+                              className="w-fit h-fit"
+                              onMouseEnter={() => setHoveredProject(p)}
+                              onMouseLeave={() => setHoveredProject(null)}
+                            >
+                              {p.year} {p.name}
+                            </motion.div>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+
+              <ul className="text-xl text-cherry-lamp-pink">
+                {categoriesAndProjects.map((c) => (
+                  <li key={c.id} className="mb-4">
+                    <div className="font-bold">{c.name}</div>
+                    <ul>
+                      {c.projects.map((p) => (
+                        <li key={p.id}>
+                          <Link
+                            to={'/projects/$projectId'}
+                            className="cursor-pointer h-full w-fit block"
+                            params={{
+                              projectId: p.id,
+                            }}
+                          >
+                            <motion.div
+                              whileHover={{
+                                color: 'var(--color-fangchunjia-pink)',
+                                transition: { duration: 0.1 },
+                              }}
+                              className="w-fit h-fit"
+                              onMouseEnter={() => setHoveredProject(p)}
+                              onMouseLeave={() => setHoveredProject(null)}
+                            >
+                              {p.year} {p.name}
+                            </motion.div>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
-      </GradientOverlay>
+      </div>
+
       <Outlet />
     </>
   );

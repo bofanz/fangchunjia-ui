@@ -33,8 +33,6 @@
   --color-fangchunjia-pink: #ff43bc;
   --color-fangchunjia-pink-shade: #ff43bc40;
   --color-overlay-bg: #ffffffcc;
-  --cursor-default: url('/cursors-02.png'), default;
-  --cursor-pointer: url('/cursors-01.png'), pointer;
   --media-s-w-max: 160px;
   --media-s-h-max: 160px;
   --media-m-w-max: 160px;
@@ -53,29 +51,42 @@ body {
 
 #app {
   @apply h-full;
+  /* @apply bg-zinc-200; */
   @apply bg-[url(/background.jpg)] bg-cover bg-center;
 }
 
-.home-button {
-  @apply block rotate-300 bg-fangchunjia-pink hover:bg-white w-[64px] h-[64px];
+/* ViewTransitions */
 
-  clip-path: ellipse(32px 6px);
+html:active-view-transition-type(fade) {
+  &::view-transition-old(header) {
+    animation: 300ms ease-in-out both fade-out;
+  }
+  &::view-transition-new(header) {
+    animation: 300ms ease-in-out both fade-in;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 100;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
 }
 
 .gradient-overlay {
-  & .overlay {
-  }
-
-  & .content-wrapper {
-  }
-}
-
-.overlay-content-wrapper {
-  @apply w-[31%] h-full z-20 relative;
-}
-.overlay-overlay {
   @apply absolute w-full h-full;
-  @apply bg-gradient-to-r from-white from-30% via-[#ffffffbf] via-40% to-transparent to-50%;
+  @apply bg-gradient-to-r from-white from-40% via-[#ffffffbf] via-50% to-transparent to-60%;
 }
 
 .media-grid {
@@ -223,7 +234,7 @@ body {
   }
 }
 
-.markdown-body {
+.markdown {
   h1 {
     @apply text-2xl leading-none font-bold mb-4;
   }
@@ -235,7 +246,12 @@ body {
   h3 {
     @apply text-lg leading-none uppercase;
   }
+
   a {
     @apply text-fangchunjia-pink;
+  }
+
+  p {
+    @apply text-xl;
   }
 }

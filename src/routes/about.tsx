@@ -1,7 +1,7 @@
-import HomeButton from '@/components/HomeButton';
 import { createFileRoute } from '@tanstack/react-router';
 import Markdown from 'react-markdown';
 import GradientOverlay from '@/components/GradientOverlay';
+import Header from '@/components/Header';
 
 export const Route = createFileRoute('/about')({
   component: RouteComponent,
@@ -13,12 +13,18 @@ function RouteComponent() {
 
   return (
     <>
-      <HomeButton />
-      <GradientOverlay title="About">
-        <section className="markdown-body">
-          <Markdown>{aboutMarkdown}</Markdown>
-        </section>
-      </GradientOverlay>
+      <GradientOverlay />
+      <Header />
+
+      <div className="w-fit h-full overflow-y-auto pt-60">
+        <div className="w-64 sm:w-64 md:w-96 lg:w-128 pl-20 relative">
+          <div className="pl-8 pr-12 pt-8 pb-4">
+            <section className="markdown">
+              <Markdown>{aboutMarkdown}</Markdown>
+            </section>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
