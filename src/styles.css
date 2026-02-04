@@ -51,18 +51,18 @@ body {
 
 #app {
   @apply h-full;
-  /* @apply bg-zinc-200; */
-  @apply bg-[url(/background.jpg)] bg-cover bg-center;
+  @apply bg-zinc-200;
+  /* @apply bg-[url(/background.jpg)] bg-cover bg-center; */
 }
 
 /* ViewTransitions */
 
 html:active-view-transition-type(fade) {
   &::view-transition-old(header) {
-    animation: 300ms ease-in-out both fade-out;
+    animation: 1200ms ease-in-out both slide-out-left;
   }
   &::view-transition-new(header) {
-    animation: 300ms ease-in-out both fade-in;
+    animation: 1200ms ease-in-out both slide-in-left;
   }
 }
 
@@ -81,6 +81,24 @@ html:active-view-transition-type(fade) {
   }
   to {
     opacity: 100;
+  }
+}
+
+@keyframes slide-out-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(50%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 
