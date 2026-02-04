@@ -10,32 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WelcomeRouteImport } from './routes/welcome'
-import { Route as ProjectsRouteImport } from './routes/projects'
-import { Route as HomeRouteImport } from './routes/home'
-import { Route as AboutRouteImport } from './routes/about'
+import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
-import { Route as ProjectsProjectIdRouteImport } from './routes/projects.$projectId'
 import { Route as AdminProjectIdRouteImport } from './routes/admin/$projectId'
+import { Route as LayoutProjectsRouteImport } from './routes/_layout.projects'
+import { Route as LayoutHomeRouteImport } from './routes/_layout.home'
+import { Route as LayoutAboutRouteImport } from './routes/_layout.about'
+import { Route as LayoutProjectsProjectIdRouteImport } from './routes/_layout.projects.$projectId'
 
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
   path: '/welcome',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsRoute = ProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeRoute = HomeRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const LayoutRoute = LayoutRouteImport.update({
+  id: '/_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -48,86 +38,101 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsProjectIdRoute = ProjectsProjectIdRouteImport.update({
-  id: '/$projectId',
-  path: '/$projectId',
-  getParentRoute: () => ProjectsRoute,
-} as any)
 const AdminProjectIdRoute = AdminProjectIdRouteImport.update({
   id: '/admin/$projectId',
   path: '/admin/$projectId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LayoutProjectsRoute = LayoutProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutHomeRoute = LayoutHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutAboutRoute = LayoutAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutProjectsProjectIdRoute = LayoutProjectsProjectIdRouteImport.update({
+  id: '/$projectId',
+  path: '/$projectId',
+  getParentRoute: () => LayoutProjectsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/home': typeof HomeRoute
-  '/projects': typeof ProjectsRouteWithChildren
   '/welcome': typeof WelcomeRoute
+  '/about': typeof LayoutAboutRoute
+  '/home': typeof LayoutHomeRoute
+  '/projects': typeof LayoutProjectsRouteWithChildren
   '/admin/$projectId': typeof AdminProjectIdRoute
-  '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/projects/$projectId': typeof LayoutProjectsProjectIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/home': typeof HomeRoute
-  '/projects': typeof ProjectsRouteWithChildren
   '/welcome': typeof WelcomeRoute
+  '/about': typeof LayoutAboutRoute
+  '/home': typeof LayoutHomeRoute
+  '/projects': typeof LayoutProjectsRouteWithChildren
   '/admin/$projectId': typeof AdminProjectIdRoute
-  '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/admin': typeof AdminIndexRoute
+  '/projects/$projectId': typeof LayoutProjectsProjectIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/home': typeof HomeRoute
-  '/projects': typeof ProjectsRouteWithChildren
+  '/_layout': typeof LayoutRouteWithChildren
   '/welcome': typeof WelcomeRoute
+  '/_layout/about': typeof LayoutAboutRoute
+  '/_layout/home': typeof LayoutHomeRoute
+  '/_layout/projects': typeof LayoutProjectsRouteWithChildren
   '/admin/$projectId': typeof AdminProjectIdRoute
-  '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/_layout/projects/$projectId': typeof LayoutProjectsProjectIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/welcome'
     | '/about'
     | '/home'
     | '/projects'
-    | '/welcome'
     | '/admin/$projectId'
-    | '/projects/$projectId'
     | '/admin/'
+    | '/projects/$projectId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/welcome'
     | '/about'
     | '/home'
     | '/projects'
-    | '/welcome'
     | '/admin/$projectId'
-    | '/projects/$projectId'
     | '/admin'
+    | '/projects/$projectId'
   id:
     | '__root__'
     | '/'
-    | '/about'
-    | '/home'
-    | '/projects'
+    | '/_layout'
     | '/welcome'
+    | '/_layout/about'
+    | '/_layout/home'
+    | '/_layout/projects'
     | '/admin/$projectId'
-    | '/projects/$projectId'
     | '/admin/'
+    | '/_layout/projects/$projectId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  HomeRoute: typeof HomeRoute
-  ProjectsRoute: typeof ProjectsRouteWithChildren
+  LayoutRoute: typeof LayoutRouteWithChildren
   WelcomeRoute: typeof WelcomeRoute
   AdminProjectIdRoute: typeof AdminProjectIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -142,25 +147,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WelcomeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home': {
-      id: '/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof HomeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -177,13 +168,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects/$projectId': {
-      id: '/projects/$projectId'
-      path: '/$projectId'
-      fullPath: '/projects/$projectId'
-      preLoaderRoute: typeof ProjectsProjectIdRouteImport
-      parentRoute: typeof ProjectsRoute
-    }
     '/admin/$projectId': {
       id: '/admin/$projectId'
       path: '/admin/$projectId'
@@ -191,26 +175,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProjectIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_layout/projects': {
+      id: '/_layout/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof LayoutProjectsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/home': {
+      id: '/_layout/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof LayoutHomeRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/about': {
+      id: '/_layout/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof LayoutAboutRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/projects/$projectId': {
+      id: '/_layout/projects/$projectId'
+      path: '/$projectId'
+      fullPath: '/projects/$projectId'
+      preLoaderRoute: typeof LayoutProjectsProjectIdRouteImport
+      parentRoute: typeof LayoutProjectsRoute
+    }
   }
 }
 
-interface ProjectsRouteChildren {
-  ProjectsProjectIdRoute: typeof ProjectsProjectIdRoute
+interface LayoutProjectsRouteChildren {
+  LayoutProjectsProjectIdRoute: typeof LayoutProjectsProjectIdRoute
 }
 
-const ProjectsRouteChildren: ProjectsRouteChildren = {
-  ProjectsProjectIdRoute: ProjectsProjectIdRoute,
+const LayoutProjectsRouteChildren: LayoutProjectsRouteChildren = {
+  LayoutProjectsProjectIdRoute: LayoutProjectsProjectIdRoute,
 }
 
-const ProjectsRouteWithChildren = ProjectsRoute._addFileChildren(
-  ProjectsRouteChildren,
+const LayoutProjectsRouteWithChildren = LayoutProjectsRoute._addFileChildren(
+  LayoutProjectsRouteChildren,
 )
+
+interface LayoutRouteChildren {
+  LayoutAboutRoute: typeof LayoutAboutRoute
+  LayoutHomeRoute: typeof LayoutHomeRoute
+  LayoutProjectsRoute: typeof LayoutProjectsRouteWithChildren
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutAboutRoute: LayoutAboutRoute,
+  LayoutHomeRoute: LayoutHomeRoute,
+  LayoutProjectsRoute: LayoutProjectsRouteWithChildren,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  HomeRoute: HomeRoute,
-  ProjectsRoute: ProjectsRouteWithChildren,
+  LayoutRoute: LayoutRouteWithChildren,
   WelcomeRoute: WelcomeRoute,
   AdminProjectIdRoute: AdminProjectIdRoute,
   AdminIndexRoute: AdminIndexRoute,

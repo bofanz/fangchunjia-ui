@@ -14,14 +14,14 @@ export const fetchProject = async (
   return project;
 };
 
-export const Route = createFileRoute('/projects/$projectId')({
+export const Route = createFileRoute('/_layout/projects/$projectId')({
   component: RouteComponent,
   loader: ({ params, context }) =>
     fetchProject(context as { portfolioApi: string }, params.projectId),
 });
 
 function RouteComponent() {
-  const routeApi = getRouteApi('/projects/$projectId');
+  const routeApi = getRouteApi('/_layout/projects/$projectId');
   const project = routeApi.useLoaderData();
 
   return (
