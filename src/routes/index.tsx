@@ -1,13 +1,3 @@
-// import { createFileRoute, redirect } from '@tanstack/react-router';
-
-// export const Route = createFileRoute('/')({
-//   loader: () =>
-//     redirect({
-//       to: '/welcome',
-//     }),
-// });
-
-
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import StartButton from '@/components/StartButton';
