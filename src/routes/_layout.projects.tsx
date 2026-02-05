@@ -36,7 +36,9 @@ function RouteComponent() {
   );
   const categoriesAndProjects = categories.map((c) => ({
     ...c,
-    projects: projects.filter((p) => 'CAT#' + p.categoryId === c.id),
+    projects: projects
+      .filter((p) => 'CAT#' + p.categoryId === c.id)
+      .sort((a, b) => b.year - a.year),
   }));
   return (
     <>
@@ -55,7 +57,7 @@ function RouteComponent() {
 
       <div className="fixed h-full w-fit overflow-y-auto pt-60 [scrollbar-width:none]">
         <div className="w-64 sm:w-64 md:w-96 lg:w-128 pl-20 relative">
-          <div className="pl-8 pr-12 pt-8 pb-4">
+          <div className="pl-8 pr-12 pt-8 pb-36">
             <div className="relative">
               <ul className="text-xl text-cherry-lamp-pink">
                 {categoriesAndProjects.map((c) => (
