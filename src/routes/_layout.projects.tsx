@@ -41,7 +41,6 @@ function RouteComponent() {
   return (
     <>
       <div className="fixed top-0 bottom-0 left-0 right-0">
-        {/* <GradientOverlay /> */}
         <Gallery
           medias={projects
             .filter((p) => p.coverKey)
@@ -54,7 +53,7 @@ function RouteComponent() {
         />
       </div>
 
-      <div className="h-full w-fit overflow-y-auto pt-60 [scrollbar-width:none]">
+      <div className="fixed h-full w-fit overflow-y-auto pt-60 [scrollbar-width:none]">
         <div className="w-64 sm:w-64 md:w-96 lg:w-128 pl-20 relative">
           <div className="pl-8 pr-12 pt-8 pb-4">
             <div className="relative">

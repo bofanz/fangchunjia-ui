@@ -51,7 +51,7 @@ export default function Carousel({
   baseWidth = 400,
 }: CarouselProps) {
   const location = useLocation();
-    const initialPosition = items.findIndex(e => e.to === location.pathname)
+    const initialPosition = items.findIndex(e => location.pathname.startsWith(e.to))
 
   // Calculate item width based on how many items we have
   const itemCount = items.length || 1;
