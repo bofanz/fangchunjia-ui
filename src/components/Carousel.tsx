@@ -58,23 +58,15 @@ export default function Carousel({
   const itemWidth = (baseWidth * itemCount) / itemCount;
   const trackItemOffset = itemWidth;
   
-  // We show itemCount items at once
-  // Maximum click moves us by (itemCount - 1) positions forward
-  // So we need: original items + (itemCount - 1) extra items to fill gaps
-  // Structure for 3 items showing 3: [1, 2, 3, 1, 2, 3, 1, 2]
+  // E.g., for 3 items show [a, b, c, a, b, c, a]
+  // This makes sure that when its jumping from the 1st c to the 2nd b, 
+  // there are still (just) enough items to show when the 2nd b goes to position 0
   const itemsForRender = useMemo(() => {
     if (items.length === 0) return [];
+
+    return items.concat(items).concat(items.slice(0, -2));
     
-    // We need original items plus enough to cover (itemCount - 1) more positions
-    const totalNeeded = items.length + (itemCount - 1);
-    const result = [];
-    
-    for (let i = 0; i < totalNeeded; i++) {
-      result.push(items[i % items.length]);
-    }
-    
-    return result;
-  }, [items, itemCount]);
+  }, [items]);
 
   const [position, setPosition] = useState<number>(initialPosition >= 0 ? initialPosition : 0);
   const x = useMotionValue(0);
