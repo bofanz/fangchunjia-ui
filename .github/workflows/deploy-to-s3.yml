@@ -35,4 +35,4 @@ jobs:
           npm run build --if-present
       - name: Deploy to AWS S3
         if: success()
-        run: aws s3 sync ./dist s3://www.fangchunjia.com
+        run: aws s3 sync ./dist s3://fangchunjia.com
