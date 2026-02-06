@@ -45,14 +45,14 @@
 html,
 body {
   @apply m-0 w-full h-dvh font-abc-otto-kai overscroll-none;
+  @apply bg-[url('/finaldesign2.jpg')] bg-cover bg-center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
   @apply h-full;
-  @apply bg-zinc-200;
-  /* @apply bg-[url(/background.jpg)] bg-cover bg-center; */
+  /* @apply bg-white; */
 }
 
 .media-grid {
@@ -117,7 +117,7 @@ body {
   }
 
   ul {
-    @apply mb-4;
+    @apply mb-6;
   }
 
   ul li p {
@@ -125,7 +125,7 @@ body {
   }
 
   p {
-    @apply text-xl mb-4;
+    @apply text-xl/6 mb-6;
   }
 
   img {

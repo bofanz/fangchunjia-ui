@@ -39,7 +39,7 @@ function CarouselItem({ item, index, itemWidth, transition, onClick, isClickable
       }}
       transition={transition}
     >
-        <Link to={item.to} onClick={onClick} className={`block w-fit ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}><div className={`w-fit h-fit p-20 pb-12 text-black text-3xl font-bold ${isClickable && 'text-zinc-400 hover:text-black transition'} `}>
+        <Link to={item.to} onClick={onClick} className={`block w-fit ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}><div className={`w-fit h-fit p-20 pb-12 text-black text-3xl font-bold ${isClickable && 'text-zinc-300 hover:text-black transition'} `}>
           {item.title}
           </div></Link>
     </motion.div>
