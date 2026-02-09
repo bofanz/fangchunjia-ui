@@ -20,7 +20,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="fixed w-fit h-full overflow-y-auto pt-60 [scrollbar-width:none]">
+      <div className="fixed w-full h-full overflow-y-auto pt-60 [scrollbar-width:none]">
         <div className="w-64 sm:w-64 md:w-160 lg:w-192 pl-20 relative">
           <div className="pl-8 pr-12 pt-8 pb-36">
             <section className="markdown">

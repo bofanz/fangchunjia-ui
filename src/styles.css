@@ -45,7 +45,7 @@
 html,
 body {
   @apply m-0 w-full h-dvh font-abc-otto-kai overscroll-none;
-  @apply bg-[url('/finaldesign2.jpg')] bg-cover bg-center;
+  /* @apply bg-[url('/bg2.jpg')] bg-cover bg-center; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -53,6 +53,27 @@ body {
 #app {
   @apply h-full;
   /* @apply bg-white; */
+}
+
+.breeze {
+  @apply grid grid-flow-row h-full aspect-3/2;
+  @apply grid-cols-12 grid-rows-8;
+
+  & > div {
+    @apply col-span-1 aspect-square relative;
+
+    & > * {
+      @apply absolute;
+    }
+
+    & > .petal {
+      @apply cursor-pointer;
+    }
+  }
+
+  & > .c-40 {
+    @apply col-span-2 aspect-[2/1];
+  }
 }
 
 .media-grid {

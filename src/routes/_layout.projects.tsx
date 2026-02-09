@@ -1,27 +1,15 @@
-import type { Category, ProjectInfo } from '@/interfaces/project.interface';
+import type { ProjectInfo } from '@/interfaces/project.interface';
 import {
   createFileRoute,
   getRouteApi,
   Link,
   Outlet,
 } from '@tanstack/react-router';
-import { useState } from 'react';
-import axios from 'redaxios';
-import { motion } from 'motion/react';
+import { useContext, useRef, useState } from 'react';
+import { motion, useMotionValueEvent, useScroll } from 'motion/react';
 import Gallery from '@/components/Gallery';
-
-export const fetchProjects = async (context: { portfolioApi: string }) => {
-  const categories = await axios
-    .get<Category[]>(`${context.portfolioApi}/project-categories`)
-    .then((r) => r.data);
-  const projects = await axios
-    .get<ProjectInfo[]>(`${context.portfolioApi}/projects`)
-    .then((r) => r.data);
-  return {
-    categories: categories,
-    projects: projects,
-  };
-};
+import { fetchProjects } from '@/utils/queries';
+import { LayoutContext } from '@/contexts/LayoutContext';
 
 export const Route = createFileRoute('/_layout/projects')({
   component: RouteComponent,
@@ -40,6 +28,20 @@ function RouteComponent() {
       .filter((p) => 'CAT#' + p.categoryId === c.id)
       .sort((a, b) => b.year - a.year),
   }));
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { scrollY } = useScroll({ container: scrollRef });
+  const { setIsHeaderHidden } = useContext(LayoutContext);
+
+  useMotionValueEvent(scrollY, 'change', (current) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (current > previous) {
+      setIsHeaderHidden(true);
+    } else {
+      setIsHeaderHidden(false);
+    }
+  });
+
   return (
     <>
       <div className="fixed top-0 bottom-0 left-0 right-0">
@@ -55,7 +57,10 @@ function RouteComponent() {
         />
       </div>
 
-      <div className="fixed h-full w-fit overflow-y-auto pt-60 [scrollbar-width:none]">
+      <div
+        className="fixed h-full w-full overflow-y-auto pt-60 [scrollbar-width:none]"
+        ref={scrollRef}
+      >
         <div className="w-64 sm:w-64 md:w-96 lg:w-128 pl-20 relative">
           <div className="pl-8 pr-12 pt-8 pb-36">
             <div className="relative">
@@ -78,11 +83,14 @@ function RouteComponent() {
                                 color: 'var(--color-fangchunjia-pink)',
                                 transition: { duration: 0.1 },
                               }}
-                              className="w-fit h-fit"
+                              className="flex gap-2"
                               onMouseEnter={() => setHoveredProject(p)}
                               onMouseLeave={() => setHoveredProject(null)}
                             >
-                              {p.year} {p.name}
+                              <span className="inline-block min-w-12">
+                                {p.year}
+                              </span>
+                              <span className="inline-block">{p.name}</span>
                             </motion.div>
                           </Link>
                         </li>

@@ -11,8 +11,7 @@ export interface CarouselItem {
 export interface CarouselProps {
   items: CarouselItem[];
   baseWidth?: number;
-  pauseOnHover?: boolean;
-  loop?: boolean;
+  hidden?: boolean;
 }
 
 const TRANSITION_SETTINGS: Transition = { type: 'tween', duration: 0.4 };
@@ -49,6 +48,7 @@ function CarouselItem({ item, index, itemWidth, transition, onClick, isClickable
 export default function Carousel({
   items,
   baseWidth = 400,
+  hidden = false,
 }: CarouselProps) {
   const location = useLocation();
     const initialPosition = items.findIndex(e => location.pathname.startsWith(e.to))
@@ -120,12 +120,17 @@ export default function Carousel({
 
   return (
     <>
-      <div
+      <motion.div
         ref={containerRef}
         className="fixed overflow-hidden mx-auto z-100"
         style={{
           width: `${baseWidth * itemCount}px`,
         }}
+        animate={{
+          y: hidden ? -140 : 0,
+          opacity: hidden ? 0 : 1,
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         <motion.div
           className="flex"
@@ -157,7 +162,7 @@ export default function Carousel({
             );
           })}
         </motion.div>
-      </div>
+      </motion.div>
     </>
   );
 }

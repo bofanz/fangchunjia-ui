@@ -1,15 +1,41 @@
-import { createFileRoute } from '@tanstack/react-router';
+import Breeze from '@/components/Breeze';
+import Gallery from '@/components/Gallery';
+import type { ProjectInfo } from '@/interfaces/project.interface';
+import { fetchProjects } from '@/utils/queries';
+import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_layout/home')({
   component: RouteComponent,
+  loader: ({ context }) => fetchProjects(context as { portfolioApi: string }),
 });
 
 function RouteComponent() {
+  const routeApi = getRouteApi('/_layout/home');
+  const highlights = routeApi
+    .useLoaderData()
+    .projects.filter((p) => p.highlighted);
+  const [hoveredHighlight, setHoveredHighlight] = useState<ProjectInfo | null>(
+    null,
+  );
+
   return (
-    <div className="w-fit h-full overflow-y-auto pt-60">
-      <div className="w-64 sm:w-64 md:w-96 lg:w-128 pl-20 relative">
-        <div className="pl-8 pr-12 pt-8 pb-4">Jiajia's Home</div>
+    <>
+      <div className="fixed top-0 bottom-0 left-0 right-0">
+        <Gallery
+          medias={highlights
+            .filter((p) => p.coverKey)
+            .map((p) => ({
+              url: 'https://files.fangchunjia.com/' + p.coverKey,
+            }))}
+          activeMedia={
+            'https://files.fangchunjia.com/' + hoveredHighlight?.coverKey
+          }
+        />
       </div>
-    </div>
+      <div className="w-full h-full overflow-clip flex justify-center">
+        <Breeze highlights={highlights} callbackFn={setHoveredHighlight} />
+      </div>
+    </>
   );
 }

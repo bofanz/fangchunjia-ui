@@ -1,5 +1,18 @@
-import type { Project } from '@/interfaces/project.interface';
+import type { Category, Project, ProjectInfo } from '@/interfaces/project.interface';
 import axios from 'redaxios';
+
+export const fetchProjects = async (context: { portfolioApi: string }) => {
+  const categories = await axios
+    .get<Category[]>(`${context.portfolioApi}/project-categories`)
+    .then((r) => r.data);
+  const projects = await axios
+    .get<ProjectInfo[]>(`${context.portfolioApi}/projects`)
+    .then((r) => r.data);
+  return {
+    categories: categories,
+    projects: projects,
+  };
+};
 
 export async function createProject(project: Partial<Project>) {
   return axios.post<null>('https://api.fangchunjia.com/projects', {
