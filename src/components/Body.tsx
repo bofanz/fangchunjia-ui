@@ -1,0 +1,29 @@
+import { LayoutContext } from '@/contexts/LayoutContext';
+import { useScroll, useMotionValueEvent } from 'motion/react';
+import { useRef, useContext } from 'react';
+
+export default function Body({ children }: { children: React.ReactNode }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { scrollY } = useScroll({ container: scrollRef });
+  const { setIsHeaderHidden } = useContext(LayoutContext);
+
+  useMotionValueEvent(scrollY, 'change', (current) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (current > previous) {
+      setIsHeaderHidden(true);
+    } else {
+      setIsHeaderHidden(false);
+    }
+  });
+
+  return (
+    <div
+      className="fixed w-full h-full overflow-y-auto pt-60 [scrollbar-width:none]"
+      ref={scrollRef}
+    >
+      <div className="w-64 sm:w-64 md:w-160 lg:w-192 pl-20 relative">
+        <div className="pl-8 pr-12 pt-8 pb-36">{children}</div>
+      </div>
+    </div>
+  );
+}

@@ -1,3 +1,4 @@
+import Body from '@/components/Body';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import Markdown from 'react-markdown';
 import axios from 'redaxios';
@@ -20,15 +21,11 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="fixed w-full h-full overflow-y-auto pt-60 [scrollbar-width:none]">
-        <div className="w-64 sm:w-64 md:w-160 lg:w-192 pl-20 relative">
-          <div className="pl-8 pr-12 pt-8 pb-36">
-            <section className="markdown">
-              <Markdown>{aboutMd}</Markdown>
-            </section>
-          </div>
-        </div>
-      </div>
+      <Body>
+        <section className="markdown">
+          <Markdown>{aboutMd}</Markdown>
+        </section>
+      </Body>
     </>
   );
 }

@@ -127,7 +127,6 @@ export default function Carousel({
           width: `${baseWidth * itemCount}px`,
         }}
         animate={{
-          y: hidden ? -140 : 0,
           opacity: hidden ? 0 : 1,
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
