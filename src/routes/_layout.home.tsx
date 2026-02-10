@@ -1,6 +1,5 @@
 import Breeze from '@/components/Breeze';
 import Gallery from '@/components/Gallery';
-import type { ProjectInfo } from '@/interfaces/project.interface';
 import { fetchProjects } from '@/utils/queries';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import { useState } from 'react';
@@ -15,9 +14,12 @@ function RouteComponent() {
   const highlights = routeApi
     .useLoaderData()
     .projects.filter((p) => p.highlighted);
-  const [hoveredHighlight, setHoveredHighlight] = useState<ProjectInfo | null>(
-    null,
-  );
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const hoveredHighlight =
+    hoveredIndex !== null && hoveredIndex < highlights.length
+      ? highlights[hoveredIndex]
+      : null;
 
   return (
     <>
@@ -34,7 +36,7 @@ function RouteComponent() {
         />
       </div>
       <div className="w-full h-full overflow-clip flex justify-center">
-        <Breeze highlights={highlights} callbackFn={setHoveredHighlight} />
+        <Breeze setHoveredIndex={setHoveredIndex} />
       </div>
     </>
   );

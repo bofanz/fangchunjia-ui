@@ -1,13 +1,18 @@
-import type { ProjectInfo } from '@/interfaces/project.interface';
-
 export default function Breeze({
-  highlights,
-  callbackFn,
+  setHoveredIndex,
 }: {
-  highlights: ProjectInfo[];
-  callbackFn?: any;
+  setHoveredIndex: Function;
 }) {
-  const f = (e) => {};
+  const onMouseEnter = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    const id = Number((e.target as HTMLImageElement).id?.split('-')?.[1]);
+    if (id !== null && id !== undefined) {
+      setHoveredIndex(id);
+    }
+  };
+
+  const onMouseLeave = () => {
+    setHoveredIndex(null);
+  };
 
   return (
     <div className="breeze">
@@ -77,7 +82,9 @@ export default function Breeze({
         <img
           className="petal h-1/2 bottom-0 left-0"
           src="/petals/petal2.png"
-          onClick={(event) => f(event)}
+          id="petal-0"
+          onMouseEnter={(e) => onMouseEnter(e)}
+          onMouseLeave={() => onMouseLeave()}
         ></img>
       </div>
       <div></div>
@@ -108,7 +115,9 @@ export default function Breeze({
         <img
           className="petal h-4/5 right-0 bottom-0"
           src="/petals/petal1.png"
-          onClick={(event) => f(event)}
+          id="petal-1"
+          onMouseEnter={(e) => onMouseEnter(e)}
+          onMouseLeave={() => onMouseLeave()}
         ></img>
       </div>
       <div></div>
@@ -143,7 +152,9 @@ export default function Breeze({
         <img
           className="petal h-1/2 left-[-10%] bottom-0 rotate-15"
           src="/petals/petal3.png"
-          onClick={(event) => f(event)}
+          id="petal-2"
+          onMouseEnter={(e) => onMouseEnter(e)}
+          onMouseLeave={() => onMouseLeave()}
         ></img>
       </div>
       <div></div>
@@ -154,7 +165,9 @@ export default function Breeze({
         <img
           className="petal h-2/3 top-0 left-[-25%] rotate-120"
           src="/petals/petal2.png"
-          onClick={(event) => f(event)}
+          id="petal-3"
+          onMouseEnter={(e) => onMouseEnter(e)}
+          onMouseLeave={() => onMouseLeave()}
         ></img>
         <img
           className="h-1/4 left-1/2 top-[-10%]"
@@ -182,7 +195,9 @@ export default function Breeze({
         <img
           className="petal h-4/5 left-[-5%] top-[-25%] rotate-90"
           src="/petals/petal1.png"
-          onClick={(event) => f(event)}
+          id="petal-4"
+          onMouseEnter={(e) => onMouseEnter(e)}
+          onMouseLeave={() => onMouseLeave()}
         ></img>
       </div>
       <div className="c-71">
@@ -201,7 +216,9 @@ export default function Breeze({
         <img
           className="petal h-2/3 top-1/4 left-[-20%] rotate-15"
           src="/petals/petal10.png"
-          onClick={(event) => f(event)}
+          id="petal-5"
+          onMouseEnter={(e) => onMouseEnter(e)}
+          onMouseLeave={() => onMouseLeave()}
         ></img>
       </div>
       <div></div>
@@ -209,7 +226,9 @@ export default function Breeze({
         <img
           className="petal h-1/4 top-1/5 left-1/5"
           src="/petals/petal12.png"
-          onClick={(event) => f(event)}
+          id="petal-6"
+          onMouseEnter={(e) => onMouseEnter(e)}
+          onMouseLeave={() => onMouseLeave()}
         ></img>
       </div>
       <div></div>
@@ -229,12 +248,16 @@ export default function Breeze({
         <img
           className="petal h-full top-[-40%] right-1/2"
           src="/petals/petal7.png"
-          onClick={(event) => f(event)}
+          id="petal-7"
+          onMouseEnter={(e) => onMouseEnter(e)}
+          onMouseLeave={() => onMouseLeave()}
         ></img>
         <img
           className="petal h-full top-0 left-0 left-1/2"
           src="/petals/petal8.png"
-          onClick={(event) => f(event)}
+          id="petal-8"
+          onMouseEnter={(e) => onMouseEnter(e)}
+          onMouseLeave={() => onMouseLeave()}
         ></img>
       </div>
     </div>

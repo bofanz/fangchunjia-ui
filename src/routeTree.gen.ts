@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
@@ -19,11 +18,6 @@ import { Route as LayoutHomeRouteImport } from './routes/_layout.home'
 import { Route as LayoutAboutRouteImport } from './routes/_layout.about'
 import { Route as LayoutProjectsProjectIdRouteImport } from './routes/_layout.projects.$projectId'
 
-const WelcomeRoute = WelcomeRouteImport.update({
-  id: '/welcome',
-  path: '/welcome',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LayoutRoute = LayoutRouteImport.update({
   id: '/_layout',
   getParentRoute: () => rootRouteImport,
@@ -66,7 +60,6 @@ const LayoutProjectsProjectIdRoute = LayoutProjectsProjectIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/welcome': typeof WelcomeRoute
   '/about': typeof LayoutAboutRoute
   '/home': typeof LayoutHomeRoute
   '/projects': typeof LayoutProjectsRouteWithChildren
@@ -76,7 +69,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/welcome': typeof WelcomeRoute
   '/about': typeof LayoutAboutRoute
   '/home': typeof LayoutHomeRoute
   '/projects': typeof LayoutProjectsRouteWithChildren
@@ -88,7 +80,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_layout': typeof LayoutRouteWithChildren
-  '/welcome': typeof WelcomeRoute
   '/_layout/about': typeof LayoutAboutRoute
   '/_layout/home': typeof LayoutHomeRoute
   '/_layout/projects': typeof LayoutProjectsRouteWithChildren
@@ -100,7 +91,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/welcome'
     | '/about'
     | '/home'
     | '/projects'
@@ -110,7 +100,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/welcome'
     | '/about'
     | '/home'
     | '/projects'
@@ -121,7 +110,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_layout'
-    | '/welcome'
     | '/_layout/about'
     | '/_layout/home'
     | '/_layout/projects'
@@ -133,20 +121,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
-  WelcomeRoute: typeof WelcomeRoute
   AdminProjectIdRoute: typeof AdminProjectIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/welcome': {
-      id: '/welcome'
-      path: '/welcome'
-      fullPath: '/welcome'
-      preLoaderRoute: typeof WelcomeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_layout': {
       id: '/_layout'
       path: ''
@@ -236,7 +216,6 @@ const LayoutRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
-  WelcomeRoute: WelcomeRoute,
   AdminProjectIdRoute: AdminProjectIdRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

@@ -128,6 +128,7 @@ export default function Carousel({
         }}
         animate={{
           opacity: hidden ? 0 : 1,
+          display: hidden ? 'none' : 'block',
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
