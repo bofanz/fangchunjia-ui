@@ -4,6 +4,7 @@ export interface ProjectInfo {
   year: number;
   categoryId: string;
   coverKey?: string;
+  highlighted?: boolean;
 }
 
 export interface Project extends ProjectInfo {

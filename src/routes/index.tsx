@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import StartButton from '@/components/StartButton';
-import { useAnimate } from 'motion/react';
+import { motion } from 'motion/react';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
@@ -9,17 +9,6 @@ export const Route = createFileRoute('/')({
 
 function RouteComponent() {
   const [bgLoaded, setBgLoaded] = useState<boolean>(false);
-  const [scope, animate] = useAnimate();
-
-  useEffect(() => {
-    if (bgLoaded) {
-      animate(
-        scope.current,
-        { opacity: 1, display: 'block' },
-        { duration: 1, delay: 1 },
-      );
-    }
-  }, [bgLoaded]);
 
   return (
     <>
@@ -33,9 +22,20 @@ function RouteComponent() {
           onLoadedData={() => setBgLoaded(true)}
         ></video>
       </div>
-      <div ref={scope} className="opacity-0 hidden">
+      <motion.div
+        className="opacity-0 hidden"
+        animate={
+          bgLoaded
+            ? {
+                opacity: 1,
+                display: 'block',
+              }
+            : {}
+        }
+        transition={{ delay: 1, duration: 1 }}
+      >
         <StartButton />
-      </div>
+      </motion.div>
     </>
   );
 }

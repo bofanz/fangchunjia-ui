@@ -45,66 +45,35 @@
 html,
 body {
   @apply m-0 w-full h-dvh font-abc-otto-kai overscroll-none;
+  /* @apply bg-[url('/bg2.jpg')] bg-cover bg-center; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
   @apply h-full;
-  @apply bg-zinc-200;
-  /* @apply bg-[url(/background.jpg)] bg-cover bg-center; */
+  /* @apply bg-white; */
 }
 
-/* ViewTransitions */
+.breeze {
+  @apply grid grid-flow-row h-full aspect-3/2;
+  @apply grid-cols-12 grid-rows-8;
 
-html:active-view-transition-type(fade) {
-  &::view-transition-old(header) {
-    animation: 1200ms ease-in-out both slide-out-left;
-  }
-  &::view-transition-new(header) {
-    animation: 1200ms ease-in-out both slide-in-left;
-  }
-}
+  & > div {
+    @apply col-span-1 aspect-square relative;
 
-@keyframes fade-out {
-  from {
-    opacity: 100;
-  }
-  to {
-    opacity: 0;
-  }
-}
+    & > * {
+      @apply absolute;
+    }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
+    & > .petal {
+      @apply cursor-pointer;
+    }
   }
-  to {
-    opacity: 100;
-  }
-}
 
-@keyframes slide-out-left {
-  from {
-    transform: translateX(0);
+  & > .c-40 {
+    @apply col-span-2 aspect-[2/1];
   }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes slide-in-left {
-  from {
-    transform: translateX(50%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-.gradient-overlay {
-  @apply absolute w-full h-full;
-  @apply bg-gradient-to-r from-white from-40% via-[#ffffffbf] via-50% to-transparent to-60%;
 }
 
 .media-grid {
@@ -151,107 +120,6 @@ html:active-view-transition-type(fade) {
   }
 }
 
-/* TODO: media boundaries need to be recalculated */
-/*  */
-
-.file-input-label {
-  @apply block mb-1 text-xl w-full border-black border-[2px] px-2 py-1;
-
-  &:hover {
-    @apply bg-fangchunjia-pink-shade;
-  }
-  cursor: pointer;
-}
-
-.file-input-status {
-  @apply text-xs;
-}
-
-.native-file-input {
-  visibility: hidden;
-  display: none;
-}
-
-.form-fields {
-  @apply flex flex-col gap-4;
-
-  & > div {
-    @apply w-full;
-    > label {
-      @apply block mb-1 text-xs w-full;
-    }
-    > input,
-    textarea {
-      @apply block border-b-[2px] border-black py-1 text-xl w-full;
-    }
-
-    textarea {
-      @apply block border-[2px] border-black px-2 py-1 w-full;
-    }
-
-    > input:focus,
-    textarea:focus,
-    input[type='number'] {
-      @apply bg-[#80808022];
-      outline: none;
-    }
-
-    select,
-    ::picker(select) {
-      appearance: base-select;
-    }
-
-    select {
-      @apply w-full py-1 border-b-[2px] border-black text-xl;
-    }
-
-    select::picker-icon {
-      @apply text-black;
-    }
-    select:open::picker-icon {
-      rotate: 180deg;
-    }
-    ::picker(select) {
-      border: none;
-    }
-    option {
-      @apply bg-white border-[2px] border-black;
-      display: flex;
-      justify-content: flex-start;
-      gap: 20px;
-      padding: 10px;
-    }
-
-    option:hover,
-    option:focus,
-    option:checked {
-      @apply font-bold bg-fangchunjia-pink-shade;
-    }
-    option:not(:last-child) {
-      @apply mb-[-2px];
-    }
-    option::checkmark {
-      order: 1;
-      margin-left: auto;
-    }
-    ::picker(select) {
-      opacity: 0;
-      transition: all 0.4s allow-discrete;
-    }
-    ::picker(select):popover-open {
-      opacity: 1;
-    }
-    @starting-style {
-      ::picker(select):popover-open {
-        opacity: 0;
-      }
-    }
-    ::picker(select) {
-      top: calc(anchor(bottom) + 1px);
-    }
-  }
-}
-
 .markdown {
   h1 {
     @apply text-2xl leading-none font-bold mb-4;
@@ -269,7 +137,121 @@ html:active-view-transition-type(fade) {
     @apply text-fangchunjia-pink;
   }
 
+  ul {
+    @apply mb-6;
+  }
+
+  ul li p {
+    @apply mb-0 text-lg;
+  }
+
   p {
-    @apply text-xl;
+    @apply text-xl/6 mb-6;
+  }
+
+  img {
+    @apply w-3/5 my-8;
+  }
+}
+
+/* Admin */
+
+#uploadMediaForm {
+  .file-input-label {
+    @apply block mb-1 text-xl w-full border-black border-[2px] px-2 py-1;
+
+    &:hover {
+      @apply bg-fangchunjia-pink-shade;
+    }
+    cursor: pointer;
+  }
+
+  .file-input-status {
+    @apply text-xs;
+  }
+
+  .native-file-input {
+    visibility: hidden;
+    display: none;
+  }
+
+  .form-fields {
+    @apply flex flex-col gap-4;
+
+    & > div {
+      @apply w-full;
+      > label {
+        @apply block mb-1 text-xs w-full;
+      }
+      > input,
+      textarea {
+        @apply block border-b-[2px] border-black py-1 text-xl w-full;
+      }
+
+      textarea {
+        @apply block border-[2px] border-black px-2 py-1 w-full;
+      }
+
+      > input:focus,
+      textarea:focus,
+      input[type='number'] {
+        @apply bg-[#80808022];
+        outline: none;
+      }
+
+      select,
+      ::picker(select) {
+        appearance: base-select;
+      }
+
+      select {
+        @apply w-full py-1 border-b-[2px] border-black text-xl;
+      }
+
+      select::picker-icon {
+        @apply text-black;
+      }
+      select:open::picker-icon {
+        rotate: 180deg;
+      }
+      ::picker(select) {
+        border: none;
+      }
+      option {
+        @apply bg-white border-[2px] border-black;
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        padding: 10px;
+      }
+
+      option:hover,
+      option:focus,
+      option:checked {
+        @apply font-bold bg-fangchunjia-pink-shade;
+      }
+      option:not(:last-child) {
+        @apply mb-[-2px];
+      }
+      option::checkmark {
+        order: 1;
+        margin-left: auto;
+      }
+      ::picker(select) {
+        opacity: 0;
+        transition: all 0.4s allow-discrete;
+      }
+      ::picker(select):popover-open {
+        opacity: 1;
+      }
+      @starting-style {
+        ::picker(select):popover-open {
+          opacity: 0;
+        }
+      }
+      ::picker(select) {
+        top: calc(anchor(bottom) + 1px);
+      }
+    }
   }
 }
