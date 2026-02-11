@@ -18,11 +18,11 @@ export default function Body({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="fixed w-full h-full overflow-y-auto pt-60 [scrollbar-width:none]"
+      className="fixed w-full h-full overflow-y-auto pt-20 sm:pt-60 [scrollbar-width:none]"
       ref={scrollRef}
     >
-      <div className="w-64 sm:w-64 md:w-160 lg:w-192 pl-20 relative">
-        <div className="pl-8 pr-12 py-8">{children}</div>
+      <div className="w-full relative md:px-16">
+        <div className="p-8">{children}</div>
       </div>
     </div>
   );

@@ -22,9 +22,11 @@ function RouteComponent() {
   return (
     <>
       <Body>
-        <section className="markdown">
-          <Markdown>{aboutMd}</Markdown>
-        </section>
+        <div className="w-full md:w-5/8">
+          <section className="markdown">
+            <Markdown>{aboutMd}</Markdown>
+          </section>
+        </div>
       </Body>
     </>
   );

@@ -4,13 +4,12 @@ import { Link, useLocation } from '@tanstack/react-router';
 
 export interface CarouselItem {
   title: string;
-  id?: number;
+  id: string;
   to: string
 }
 
 export interface CarouselProps {
   items: CarouselItem[];
-  baseWidth?: number;
   hidden?: boolean;
 }
 
@@ -19,44 +18,41 @@ const TRANSITION_SETTINGS: Transition = { type: 'tween', duration: 0.4 };
 interface CarouselItemProps {
   item: CarouselItem;
   index: number;
-  itemWidth: number;
-  trackItemOffset: number;
   x: any;
   transition: any;
   onClick: () => void;
   isClickable: boolean;
+  itemCount: number;
 }
 
-function CarouselItem({ item, index, itemWidth, transition, onClick, isClickable }: CarouselItemProps) {
+function CarouselItem({ item, index, transition, onClick, isClickable, itemCount }: CarouselItemProps) {
   return (
     <motion.div
       key={`${item?.id ?? index}-${index}`}
-      className={`relative shrink-0 flex flex-col items-start px-8 pt-16 overflow-hidden`}
+      className={`relative shrink-0 flex flex-col items-start px-8 pt-16 overflow-hidden w-1/3 h-full`}
       style={{
-        width: itemWidth,
-        height: '100%',
+        width: `calc(100% / ${itemCount})`
       }}
       transition={transition}
     >
-        <Link to={item.to} onClick={onClick} className={`block w-fit ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}><div className={`w-fit h-fit p-20 pb-12 text-black text-3xl font-bold ${isClickable && 'text-zinc-300 hover:text-black transition'} `}>
-          {item.title}
-          </div></Link>
+        <Link to={item.to} onClick={onClick} className={`block w-fit ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}>
+          <div className={`w-full h-fit pt-20 pb-12 text-black text-3xl font-bold ${isClickable && 'text-zinc-300 hover:text-black transition'} `}>
+            {item.title}
+          </div>
+        </Link>
     </motion.div>
   );
 }
 
 export default function Carousel({
   items,
-  baseWidth = 400,
   hidden = false,
 }: CarouselProps) {
   const location = useLocation();
-    const initialPosition = items.findIndex(e => location.pathname.startsWith(e.to))
+  const initialPosition = items.findIndex(e => location.pathname.startsWith(e.to))
 
   // Calculate item width based on how many items we have
   const itemCount = items.length || 1;
-  const itemWidth = (baseWidth * itemCount) / itemCount;
-  const trackItemOffset = itemWidth;
   
   // E.g., for 3 items show [a, b, c, a, b, c, a]
   // This makes sure that when its jumping from the 1st c to the 2nd b, 
@@ -69,7 +65,7 @@ export default function Carousel({
   }, [items]);
 
   const [position, setPosition] = useState<number>(initialPosition >= 0 ? initialPosition : 0);
-  const x = useMotionValue(0);
+  const x = useMotionValue('0%');
   const [isJumping, setIsJumping] = useState<boolean>(false);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
@@ -79,8 +75,8 @@ export default function Carousel({
   useEffect(() => {
     const startingPosition = initialPosition;
     setPosition(startingPosition);
-    x.set(-startingPosition * trackItemOffset);
-  }, [items.length, trackItemOffset, x]);
+    x.set(`calc(-100% / ${itemCount} * ${startingPosition})`)
+  }, [items.length, x]);
 
   const effectiveTransition = isJumping ? { duration: 0 } : TRANSITION_SETTINGS;
 
@@ -94,7 +90,7 @@ export default function Carousel({
       const normalizedPosition = position % items.length;
       setIsJumping(true);
       setPosition(normalizedPosition);
-      x.set(-normalizedPosition * trackItemOffset);
+      x.set(`calc(-100% / ${itemCount} * ${normalizedPosition})`)
       requestAnimationFrame(() => {
         setIsJumping(false);
         setIsAnimating(false);
@@ -120,49 +116,47 @@ export default function Carousel({
 
   return (
     <>
-      <motion.div
-        ref={containerRef}
-        className="fixed overflow-hidden mx-auto z-100"
-        style={{
-          width: `${baseWidth * itemCount}px`,
-        }}
-        animate={{
-          opacity: hidden ? 0 : 1,
-          display: hidden ? 'none' : 'block',
-        }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-      >
+      <div className='fixed hidden sm:block sm:w-160 md:w-192 lg:w-256 xl:w-256 md:mx-16 z-100'>
         <motion.div
-          className="flex"
-          style={{
-            x
+          ref={containerRef}
+          className="w-full overflow-hidden"
+          animate={{
+            opacity: hidden ? 0 : 1,
+            display: hidden ? 'none' : 'block',
           }}
-          animate={{ x: -(position * trackItemOffset) }}
-          transition={effectiveTransition}
-          onAnimationStart={handleAnimationStart}
-          onAnimationComplete={handleAnimationComplete}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          {itemsForRender.map((item, index) => {
-            // Determine which items are currently visible (clickable)
-            const isInView = index >= position && index < position + itemCount;
-            const relativeIndex = index - position; // Position within visible items (0, 1, 2, etc.)
-            
-            return (
-              <CarouselItem
-                key={`${item?.id ?? index}-${index}`}
-                item={item}
-                index={index}
-                itemWidth={itemWidth}
-                trackItemOffset={trackItemOffset}
-                x={x}
-                transition={effectiveTransition}
-                onClick={() => isInView && handleItemClick(relativeIndex)}
-                isClickable={isInView && relativeIndex > 0} // First item not clickable
-              />
-            );
-          })}
+          <motion.div
+            className="flex"
+            style={{
+              x
+            }}
+            animate={{ x: `calc(-100% / ${itemCount} * ${position})`}}
+            transition={effectiveTransition}
+            onAnimationStart={handleAnimationStart}
+            onAnimationComplete={handleAnimationComplete}
+          >
+            {itemsForRender.map((item, index) => {
+              // Determine which items are currently visible (clickable)
+              const isInView = index >= position && index < position + itemCount;
+              const relativeIndex = index - position; // Position within visible items (0, 1, 2, etc.)
+              
+              return (
+                <CarouselItem
+                  key={`${item?.id ?? index}-${index}`}
+                  item={item}
+                  index={index}
+                  x={x}
+                  transition={effectiveTransition}
+                  onClick={() => isInView && handleItemClick(relativeIndex)}
+                  isClickable={isInView && relativeIndex > 0} // First item not clickable
+                  itemCount={itemCount}
+                />
+              );
+            })}
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </>
   );
 }

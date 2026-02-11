@@ -28,18 +28,20 @@ function RouteComponent() {
   return (
     <ScrollWrapper>
       <Overlay>
-        <div className="pl-40 flex flex-col min-h-screen">
-          <div>
-            <div className="basis-2/5 pl-4 pr-24 pt-16 pb-4">
-              <h1 className="text-xl">{project.name}</h1>
-              <h2 className="text-lg">{project.year}</h2>
-              <div>{project.link}</div>
-              <div>{project.description}</div>
+        <div className="flex justify-end min-h-screen">
+          <div className="flex flex-col p-8 w-full md:w-5/8">
+            <div>
+              <div className="basis-2/5 pt-16 pb-4">
+                <h1 className="text-xl">{project.name}</h1>
+                <h2 className="text-lg">{project.year}</h2>
+                <div>{project.link}</div>
+                <div>{project.description}</div>
+              </div>
             </div>
-          </div>
 
-          <div className="pl-4 pr-64 pt-4 pb-8">
-            <MediaGrid items={project.files} />
+            <div className="pt-4 pb-8 w-full sm:w-4/5">
+              <MediaGrid items={project.files} />
+            </div>
           </div>
         </div>
       </Overlay>
