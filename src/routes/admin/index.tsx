@@ -9,7 +9,7 @@ function RouteComponent() {
   const createProjectMutation = useCreateProjectMutation();
 
   return (
-    <div className="bg-white h-full p-16 overflow-y-auto">
+    <div className="bg-white h-full p-16">
       <div className="font-bold text-2xl pt-4 pb-4 mb-4">
         <h1>Add Project</h1>
       </div>
