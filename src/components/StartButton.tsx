@@ -4,16 +4,16 @@ import { motion } from 'motion/react';
 export default function StartButton() {
   return (
     <>
-      <header className="fixed top-0 right-0">
-        <nav className="flex justify-end font-bold text-2xl">
-          <div className="px-8 pt-16">
+      <header className="fixed w-full bottom-0 sm:top-0">
+        <nav className="flex justify-end">
+          <div className="">
             <Link to="/home" className="">
               <motion.div
                 whileHover={{
                   color: '#FFFFFF',
                   transition: { duration: 0.1 },
                 }}
-                className="w-fit h-fit p-20 pb-12 text-black text-3xl"
+                className="font-bold text-2xl w-fit h-fit p-12 sm:p-20 text-black text-3xl"
               >
                 To Start
               </motion.div>

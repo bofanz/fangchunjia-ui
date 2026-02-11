@@ -32,7 +32,7 @@ function RouteComponent() {
           <div className="flex flex-col p-8 w-full md:w-5/8">
             <div>
               <div className="basis-2/5 pt-16 pb-4">
-                <h1 className="text-xl">{project.name}</h1>
+                <h1 className="text-xl font-bold">{project.name}</h1>
                 <h2 className="text-lg">{project.year}</h2>
                 <div>{project.link}</div>
                 <div>{project.description}</div>
