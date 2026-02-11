@@ -18,9 +18,14 @@ function RouteComponent() {
           muted
           autoPlay
           loop
-          src="https://files.fangchunjia.com/media/cover.mp4"
+          playsInline
           onLoadedData={() => setBgLoaded(true)}
-        ></video>
+        >
+          <source
+            src="https://files.fangchunjia.com/welcome/welcoming0001-0357.mp4"
+            type="video/mp4"
+          />
+        </video>
       </div>
       <motion.div
         className="opacity-0 hidden"
