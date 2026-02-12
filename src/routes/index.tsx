@@ -28,12 +28,11 @@ function RouteComponent() {
         </video>
       </div>
       <motion.div
-        className="opacity-0 hidden"
+        className="opacity-0"
         animate={
           bgLoaded
             ? {
-                opacity: 1,
-                display: 'block',
+                opacity: '100%',
               }
             : {}
         }

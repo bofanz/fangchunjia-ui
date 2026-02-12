@@ -5,11 +5,12 @@ import {
   Link,
   Outlet,
 } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { motion } from 'motion/react';
 import Gallery from '@/components/Gallery';
 import { fetchProjects } from '@/utils/queries';
 import Body from '@/components/Body';
+import { MediaQueryContext } from '@/contexts/MediaQueryContext';
 
 export const Route = createFileRoute('/_layout/projects')({
   component: RouteComponent,
@@ -19,6 +20,9 @@ export const Route = createFileRoute('/_layout/projects')({
 function RouteComponent() {
   const routeApi = getRouteApi('/_layout/projects');
   const { categories, projects } = routeApi.useLoaderData();
+
+  const { isNotTouchDevice } = useContext(MediaQueryContext);
+
   const [hoveredProject, setHoveredProject] = useState<ProjectInfo | null>(
     null,
   );
@@ -46,6 +50,7 @@ function RouteComponent() {
         </div>
 
         <div className="relative">
+          {isNotTouchDevice ? 'Yes' : 'No'}
           <ul className="text-xl text-cherry-lamp-pink">
             {categoriesAndProjects.map((c) => (
               <li key={c.id} className="mb-4">
@@ -61,13 +66,25 @@ function RouteComponent() {
                         }}
                       >
                         <motion.div
-                          whileHover={{
-                            color: 'var(--color-fangchunjia-pink)',
-                            transition: { duration: 0.1 },
-                          }}
+                          whileHover={
+                            isNotTouchDevice
+                              ? {
+                                  color: 'var(--color-fangchunjia-pink)',
+                                  transition: { duration: 0.1 },
+                                }
+                              : undefined
+                          }
                           className="flex gap-2"
-                          onMouseEnter={() => setHoveredProject(p)}
-                          onMouseLeave={() => setHoveredProject(null)}
+                          onMouseEnter={
+                            isNotTouchDevice
+                              ? () => setHoveredProject(p)
+                              : undefined
+                          }
+                          onMouseLeave={
+                            isNotTouchDevice
+                              ? () => setHoveredProject(null)
+                              : undefined
+                          }
                         >
                           <span className="inline-block min-w-12">
                             {p.year}
@@ -81,75 +98,8 @@ function RouteComponent() {
               </li>
             ))}
           </ul>
-
-          <ul className="text-xl text-cherry-lamp-pink">
-            {categoriesAndProjects.map((c) => (
-              <li key={c.id} className="mb-4">
-                <div className="font-bold">{c.name}</div>
-                <ul>
-                  {c.projects.map((p) => (
-                    <li key={p.id}>
-                      <Link
-                        to={'/projects/$projectId'}
-                        className="cursor-pointer h-full w-fit block"
-                        params={{
-                          projectId: p.id,
-                        }}
-                      >
-                        <motion.div
-                          whileHover={{
-                            color: 'var(--color-fangchunjia-pink)',
-                            transition: { duration: 0.1 },
-                          }}
-                          className="w-fit h-fit"
-                          onMouseEnter={() => setHoveredProject(p)}
-                          onMouseLeave={() => setHoveredProject(null)}
-                        >
-                          {p.year} {p.name}
-                        </motion.div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-
-          <ul className="text-xl text-cherry-lamp-pink">
-            {categoriesAndProjects.map((c) => (
-              <li key={c.id} className="mb-4">
-                <div className="font-bold">{c.name}</div>
-                <ul>
-                  {c.projects.map((p) => (
-                    <li key={p.id}>
-                      <Link
-                        to={'/projects/$projectId'}
-                        className="cursor-pointer h-full w-fit block"
-                        params={{
-                          projectId: p.id,
-                        }}
-                      >
-                        <motion.div
-                          whileHover={{
-                            color: 'var(--color-fangchunjia-pink)',
-                            transition: { duration: 0.1 },
-                          }}
-                          className="w-fit h-fit"
-                          onMouseEnter={() => setHoveredProject(p)}
-                          onMouseLeave={() => setHoveredProject(null)}
-                        >
-                          {p.year} {p.name}
-                        </motion.div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
         </div>
       </Body>
-
       <Outlet />
     </>
   );
