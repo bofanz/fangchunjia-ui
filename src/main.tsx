@@ -1,22 +1,25 @@
-import { StrictMode } from 'react'
-import ReactDOM from 'react-dom/client'
-import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { StrictMode } from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider, createRouter } from '@tanstack/react-router';
 
 // Import the generated route tree
-import { routeTree } from './routeTree.gen'
+import { routeTree } from './routeTree.gen';
 
-import './styles.css'
-import reportWebVitals from './reportWebVitals.ts'
-import { AuthProvider } from 'react-oidc-context'
+import './styles.css';
+import reportWebVitals from './reportWebVitals.ts';
+import { AuthProvider } from 'react-oidc-context';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import gsap from "gsap";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import gsap from 'gsap';
+import { ScrollSmoother } from 'gsap/ScrollSmoother';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { MediaQueryContext } from './contexts/MediaQueryContext.tsx';
 
-export const queryClient = new QueryClient()
+export const queryClient = new QueryClient();
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+const isNotTouchDevice = !window.matchMedia('(pointer: coarse)').matches;
 
 // Create a new router instance
 const router = createRouter({
@@ -30,12 +33,12 @@ const router = createRouter({
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
-})
+});
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
   interface Register {
-    router: typeof router
+    router: typeof router;
   }
 }
 
@@ -45,24 +48,26 @@ const cognitoAuthConfig = {
   redirect_uri: 'http://localhost:3000/admin',
   response_type: 'code',
   scope: 'email openid phone',
-}
+};
 
 // Render the app
-const rootElement = document.getElementById('app')
+const rootElement = document.getElementById('app');
 if (rootElement && !rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement)
+  const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <AuthProvider {...cognitoAuthConfig}>
-          <RouterProvider router={router} />
+          <MediaQueryContext value={{ isNotTouchDevice: isNotTouchDevice }}>
+            <RouterProvider router={router} />
+          </MediaQueryContext>
         </AuthProvider>
       </QueryClientProvider>
     </StrictMode>,
-  )
+  );
 }
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals()
+reportWebVitals();
