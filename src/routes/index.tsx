@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import StartButton from '@/components/StartButton';
 import { motion } from 'motion/react';
 
@@ -9,17 +9,22 @@ export const Route = createFileRoute('/')({
 
 function RouteComponent() {
   const [bgLoaded, setBgLoaded] = useState<boolean>(false);
+  const video = useRef<HTMLVideoElement | null>(null);
 
   return (
     <>
       <div className="w-full h-full overflow-hidden">
         <video
+          ref={video}
           className="w-full h-full object-cover"
           muted
           autoPlay
-          loop
           playsInline
           onLoadedData={() => setBgLoaded(true)}
+          onEnded={() => {
+            (video.current as HTMLVideoElement).currentTime = 0;
+            (video.current as HTMLVideoElement).controls = true;
+          }}
         >
           <source
             src="https://files.fangchunjia.com/welcome/welcoming0001-0357.mp4"

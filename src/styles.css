@@ -50,6 +50,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+button {
+  @apply cursor-pointer;
+}
+
 #app {
   @apply h-full;
   /* @apply bg-white; */

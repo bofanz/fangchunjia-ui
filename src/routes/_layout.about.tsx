@@ -1,19 +1,37 @@
 import Body from '@/components/Body';
+import { fetchAboutMd } from '@/utils/queries';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import Markdown from 'react-markdown';
-import axios from 'redaxios';
-
-export const fetchAboutMd = async (context: { filesApi: string }) => {
-  const aboutMd = await axios
-    .get(`${context.filesApi}/about/about.md`)
-    .then((r) => r.data);
-  return aboutMd;
-};
 
 export const Route = createFileRoute('/_layout/about')({
   component: RouteComponent,
   loader: ({ context }) => fetchAboutMd(context as { filesApi: string }),
+  pendingComponent: PendingComponent,
+  errorComponent: ErrorComponent,
+  head: () => ({
+    meta: [
+      {
+        title: `Chunjia Fang (About)`,
+      },
+    ],
+  }),
 });
+
+function PendingComponent() {
+  return (
+    <>
+      <Body>Fetching about...</Body>
+    </>
+  );
+}
+
+function ErrorComponent({ error }: { error: Error }) {
+  return (
+    <>
+      <Body>An error occurred when fetching about: {error.message}</Body>
+    </>
+  );
+}
 
 function RouteComponent() {
   const routeApi = getRouteApi('/_layout/about');

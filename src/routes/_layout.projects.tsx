@@ -15,7 +15,32 @@ import { MediaQueryContext } from '@/contexts/MediaQueryContext';
 export const Route = createFileRoute('/_layout/projects')({
   component: RouteComponent,
   loader: ({ context }) => fetchProjects(context as { portfolioApi: string }),
+  pendingComponent: PendingComponent,
+  errorComponent: ErrorComponent,
+  head: () => ({
+    meta: [
+      {
+        title: 'Chunjia Fang (Projects)',
+      },
+    ],
+  }),
 });
+
+function PendingComponent() {
+  return (
+    <>
+      <Body>Fetching projects...</Body>
+    </>
+  );
+}
+
+function ErrorComponent({ error }: { error: Error }) {
+  return (
+    <>
+      <Body>An error occurred when fetching the project: {error.message}</Body>
+    </>
+  );
+}
 
 function RouteComponent() {
   const routeApi = getRouteApi('/_layout/projects');
@@ -50,7 +75,6 @@ function RouteComponent() {
         </div>
 
         <div className="relative">
-          {isNotTouchDevice ? 'Yes' : 'No'}
           <ul className="text-xl text-cherry-lamp-pink">
             {categoriesAndProjects.map((c) => (
               <li key={c.id} className="mb-4">
@@ -74,7 +98,7 @@ function RouteComponent() {
                                 }
                               : undefined
                           }
-                          className="flex gap-2"
+                          className="flex gap-2 active:text-fangchunjia-pink"
                           onMouseEnter={
                             isNotTouchDevice
                               ? () => setHoveredProject(p)

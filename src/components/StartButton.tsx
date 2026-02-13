@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 export default function StartButton() {
   return (
     <>
-      <header className="fixed w-full bottom-0 sm:top-0">
+      <header className="fixed w-full top-0">
         <nav className="flex justify-end">
           <div className="">
             <Link to="/home" className="">
