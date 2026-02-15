@@ -31,8 +31,10 @@
 @theme {
   --font-abc-otto-kai: 'ABC Otto', 'FZShengSKSJW', serif;
   --color-fangchunjia-pink: #ff43bc;
-  --color-fangchunjia-pink-shade: #ff43bc40;
-  --color-overlay-bg: #ffffffcc;
+  --color-fangchunjia-green: #5eff00;
+  --color-fangchunjia-gray: #bbbbbb;
+  --color-fangchunjia-black: #000000;
+  --color-fangchunjia-translucent: #ffffffcc;
   --media-s-w-max: 160px;
   --media-s-h-max: 160px;
   --media-m-w-max: 160px;
@@ -57,6 +59,33 @@ button {
 #app {
   @apply h-full;
   /* @apply bg-white; */
+}
+
+html:active-view-transition-type(fade) {
+  &::view-transition-old(main-content) {
+    animation: 3000ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+  }
+  &::view-transition-new(main-content) {
+    animation: 3000ms cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: '100%';
+  }
+  to {
+    opacity: '0%';
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: '0%';
+  }
+  to {
+    opacity: '100%';
+  }
 }
 
 .breeze {
@@ -142,15 +171,15 @@ button {
   }
 
   ul {
-    @apply mb-6;
+    @apply mb-4;
   }
 
   ul li p {
-    @apply mb-0 text-lg;
+    @apply mb-0;
   }
 
   p {
-    @apply text-xl/6 mb-6;
+    @apply mb-2;
   }
 
   img {
@@ -165,7 +194,7 @@ button {
     @apply block mb-1 text-xl w-full border-black border-[2px] px-2 py-1;
 
     &:hover {
-      @apply bg-fangchunjia-pink-shade;
+      /* @apply bg-fangchunjia-pink-shade; */
     }
     cursor: pointer;
   }
@@ -232,7 +261,7 @@ button {
       option:hover,
       option:focus,
       option:checked {
-        @apply font-bold bg-fangchunjia-pink-shade;
+        /* @apply font-bold bg-fangchunjia-pink-shade; */
       }
       option:not(:last-child) {
         @apply mb-[-2px];

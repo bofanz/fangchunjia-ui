@@ -1,7 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useRef, useState } from 'react';
-import StartButton from '@/components/StartButton';
 import { motion } from 'motion/react';
+import ToStart from '@/components/ToStart';
+import Quote from '@/components/Quote';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
@@ -10,6 +11,7 @@ export const Route = createFileRoute('/')({
 function RouteComponent() {
   const [bgLoaded, setBgLoaded] = useState<boolean>(false);
   const video = useRef<HTMLVideoElement | null>(null);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -20,10 +22,9 @@ function RouteComponent() {
           muted
           autoPlay
           playsInline
-          onLoadedData={() => setBgLoaded(true)}
+          onPlay={() => setBgLoaded(true)}
           onEnded={() => {
-            (video.current as HTMLVideoElement).currentTime = 0;
-            (video.current as HTMLVideoElement).controls = true;
+            navigate({ to: '/home' });
           }}
         >
           <source
@@ -41,9 +42,10 @@ function RouteComponent() {
               }
             : {}
         }
-        transition={{ delay: 1, duration: 1 }}
+        transition={{ delay: 4, duration: 1 }}
       >
-        <StartButton />
+        <ToStart />
+        <Quote />
       </motion.div>
     </>
   );

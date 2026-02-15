@@ -1,15 +1,10 @@
 import { Link, useLocation } from '@tanstack/react-router';
 import { motion } from 'motion/react';
 import { useState } from 'react';
-
-export interface HeaderItem {
-  title: string;
-  id: string;
-  to: string;
-}
+import type { NavItem } from './Header';
 
 export interface HeaderProps {
-  items: HeaderItem[];
+  items: NavItem[];
   hidden: boolean;
 }
 
@@ -19,7 +14,7 @@ function CompactHeaderItem({
   setIsNavHidden,
 }: {
   isClickable: boolean;
-  item: HeaderItem;
+  item: NavItem;
   setIsNavHidden?: Function;
 }) {
   return (

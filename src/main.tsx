@@ -33,6 +33,9 @@ const router = createRouter({
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
+  defaultViewTransition: {
+    types: ['fade'],
+  },
 });
 
 // Register the router instance for type safety

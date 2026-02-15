@@ -1,12 +1,5 @@
 import MediaGrid from '@/components/MediaGrid';
-import {
-  createFileRoute,
-  getRouteApi,
-  useCanGoBack,
-  useNavigate,
-  useRouter,
-} from '@tanstack/react-router';
-import { ScrollWrapper } from '@/components/ScrollWrapper';
+import { createFileRoute, getRouteApi, Link } from '@tanstack/react-router';
 import { fetchProject } from '@/utils/queries';
 import Layer from '@/components/Layer';
 
@@ -24,14 +17,14 @@ export const Route = createFileRoute('/_layout/projects/$projectId')({
       },
     ],
   }),
-  pendingMs: 500,
+  pendingMs: 0,
 });
 
 function PendingComponent() {
   return (
     <>
       <Layer>
-        <div className="flex justify-end min-h-screen">
+        <div className="flex justify-end min-h-screen pt-24">
           <div className="flex flex-col p-8 w-full md:w-5/8">
             <div>
               <div className="pb-4">Fetching project...</div>
@@ -47,7 +40,7 @@ function NotFoundComponent() {
   return (
     <>
       <Layer>
-        <div className="flex justify-end min-h-screen">
+        <div className="flex justify-end min-h-screen pt-24">
           <div className="flex flex-col p-8 w-full md:w-5/8">
             <div>
               <div className="pt-16 pb-4">Project not found</div>
@@ -63,7 +56,7 @@ function ErrorComponent({ error }: { error: Error }) {
   return (
     <>
       <Layer>
-        <div className="flex justify-end min-h-screen">
+        <div className="flex justify-end min-h-screen pt-24">
           <div className="flex flex-col p-8 w-full md:w-5/8">
             <div>
               <div className="pt-16 pb-4">
@@ -81,26 +74,13 @@ function RouteComponent() {
   const routeApi = getRouteApi('/_layout/projects/$projectId');
   const project = routeApi.useLoaderData();
 
-  const router = useRouter();
-  const canGoBack = useCanGoBack();
-  const navigate = useNavigate();
-
   return (
     <Layer>
-      <ScrollWrapper>
-        <div className="flex justify-end min-h-screen md:px-16 ">
-          <div className="flex flex-col p-8 w-full md:w-5/8">
-            <div>
-              <button
-                className="hover:text-fangchunjia-pink active:text-fangchunjia-pink transition"
-                onClick={() =>
-                  canGoBack ? router.history.back() : navigate({ to: '..' })
-                }
-              >
-                Back
-              </button>
-            </div>
-            <div className="pt-16 pb-4">
+      <div className="overflow-y-auto h-full [scrollbar-width:none]">
+        <div className="min-h-screen flex justify-end pt-24">
+          <Link to=".." className="block w-0 md:w-3/8 cursor-pointer"></Link>
+          <div className="flex flex-col p-8  w-full md:w-5/8">
+            <div className="">
               <h1 className="text-xl font-bold">{project.name}</h1>
               <h2 className="text-lg">{project.year}</h2>
               <div>{project.link}</div>
@@ -112,7 +92,7 @@ function RouteComponent() {
             </div>
           </div>
         </div>
-      </ScrollWrapper>
+      </div>
     </Layer>
   );
 }
