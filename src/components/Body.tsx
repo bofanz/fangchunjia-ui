@@ -22,7 +22,7 @@ export default function Body({ children }: { children: React.ReactNode }) {
       ref={scrollRef}
     >
       <div className="w-full relative">
-        <div className="p-8">{children}</div>
+        <div className="p-4 sm:p-8">{children}</div>
       </div>
     </div>
   );

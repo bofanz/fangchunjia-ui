@@ -17,7 +17,7 @@ export default function Header({
   onClickBranding: Function;
 }) {
   return (
-    <div className="fixed flex z-300 ">
+    <div className="fixed z-300 hidden sm:flex">
       <div
         onClick={() => {
           onClickBranding();

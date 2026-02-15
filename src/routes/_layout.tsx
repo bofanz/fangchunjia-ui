@@ -40,7 +40,6 @@ function RouteComponent() {
           navItems={navItems}
           onClickBranding={() => setIsPurikuraVisible(!isPurikuraVisible)}
         />
-
         <CompactHeader items={navItems} hidden={isHeaderHidden} />
         <Outlet />
         {isPurikuraVisible && <Purikura />}

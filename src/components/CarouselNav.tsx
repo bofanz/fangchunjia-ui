@@ -19,7 +19,6 @@ interface CarouselItemProps {
   x: any;
   transition: any;
   onClick: () => void;
-  isClickable: boolean;
   isCurrent: boolean;
   itemCount: number;
 }
@@ -29,7 +28,6 @@ function CarouselNavItem({
   index,
   transition,
   onClick,
-  isClickable,
   isCurrent,
   itemCount,
 }: CarouselItemProps) {
@@ -45,7 +43,7 @@ function CarouselNavItem({
       <Link
         to={item.to}
         onClick={onClick}
-        className={`block w-fit ${!isCurrent && '*:fill-fangchunjia-gray hover:*:fill-black active:*:fill-black'} *:transition`}
+        className={`block w-fit *:w-full  ${!isCurrent && '*:fill-fangchunjia-gray hover:*:fill-black active:*:fill-black'} *:transition`}
       >
         {item.title === 'Home' ? (
           <HomeGraphic />
@@ -128,19 +126,12 @@ export default function CarouselNav({ items, hidden = false }: CarouselProps) {
     setPosition(newPosition);
   };
 
-  // Calculate active index for pagination dots
-  // const activeIndex = items.length === 0 ? 0 : position % items.length;
-
   return (
     <>
-      <div className="p-4 hidden sm:block">
+      <div className="p-4">
         <motion.div
           ref={containerRef}
           className="w-108 overflow-hidden flex"
-          // animate={{
-          //   opacity: hidden ? 0 : 1,
-          //   display: hidden ? 'none' : 'block',
-          // }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
         >
           <motion.div
@@ -167,8 +158,9 @@ export default function CarouselNav({ items, hidden = false }: CarouselProps) {
                   x={x}
                   transition={effectiveTransition}
                   onClick={() => isInView && handleItemClick(relativeIndex)}
-                  isClickable={isInView && relativeIndex > 0} // First item not clickable
-                  isCurrent={relativeIndex === 0}
+                  // Makes it apply to the current active item as well as its copies
+                  // So that flickering is avoided during jump
+                  isCurrent={relativeIndex % items.length === 0}
                   itemCount={itemCount}
                 />
               );
