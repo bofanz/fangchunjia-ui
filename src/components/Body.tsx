@@ -18,10 +18,10 @@ export default function Body({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="fixed w-full h-full overflow-y-auto overscroll-none pt-20 sm:pt-60 [scrollbar-width:none]"
+      className="flex w-full h-full overflow-y-auto overscroll-none pt-24 [scrollbar-width:none]"
       ref={scrollRef}
     >
-      <div className="w-full relative md:px-16">
+      <div className="w-full relative">
         <div className="p-8">{children}</div>
       </div>
     </div>

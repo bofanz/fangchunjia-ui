@@ -1,16 +1,26 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
-import axios from 'redaxios';
+import { createFileRoute, getRouteApi, notFound } from '@tanstack/react-router';
 import MediaUploader from '@/components/MediaUploader';
 import type { Project } from '@/interfaces/project.interface';
+import axios, { AxiosError } from 'axios';
 
 export const fetchProject = async (
   context: { portfolioApi: string },
   projectId: string,
 ) => {
-  const project = await axios
-    .get<Project>(`${context.portfolioApi}/projects/${projectId}`)
-    .then((r) => r.data);
-  return project;
+  try {
+    const project = await axios
+      .get<Project>(`${context.portfolioApi}/projects/${projectId}`)
+      .then((r) => r.data);
+    return project;
+  } catch (e) {
+    const res = (e as AxiosError).response;
+    if (res) {
+      if (res.status === 404) {
+        throw notFound();
+      }
+    }
+    throw e;
+  }
 };
 
 export const Route = createFileRoute('/admin/$projectId')({

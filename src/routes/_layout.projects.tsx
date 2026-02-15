@@ -15,7 +15,32 @@ import { MediaQueryContext } from '@/contexts/MediaQueryContext';
 export const Route = createFileRoute('/_layout/projects')({
   component: RouteComponent,
   loader: ({ context }) => fetchProjects(context as { portfolioApi: string }),
+  pendingComponent: PendingComponent,
+  errorComponent: ErrorComponent,
+  head: () => ({
+    meta: [
+      {
+        title: 'Chunjia Fang (Projects)',
+      },
+    ],
+  }),
 });
+
+function PendingComponent() {
+  return (
+    <>
+      <Body>Fetching projects...</Body>
+    </>
+  );
+}
+
+function ErrorComponent({ error }: { error: Error }) {
+  return (
+    <>
+      <Body>An error occurred when fetching the project: {error.message}</Body>
+    </>
+  );
+}
 
 function RouteComponent() {
   const routeApi = getRouteApi('/_layout/projects');
@@ -50,8 +75,7 @@ function RouteComponent() {
         </div>
 
         <div className="relative">
-          {isNotTouchDevice ? 'Yes' : 'No'}
-          <ul className="text-xl text-cherry-lamp-pink">
+          <ul className="text-cherry-lamp-pink">
             {categoriesAndProjects.map((c) => (
               <li key={c.id} className="mb-4">
                 <div className="font-bold">{c.name}</div>
@@ -74,7 +98,7 @@ function RouteComponent() {
                                 }
                               : undefined
                           }
-                          className="flex gap-2"
+                          className="flex gap-2 active:text-fangchunjia-pink"
                           onMouseEnter={
                             isNotTouchDevice
                               ? () => setHoveredProject(p)
@@ -86,9 +110,97 @@ function RouteComponent() {
                               : undefined
                           }
                         >
-                          <span className="inline-block min-w-12">
-                            {p.year}
-                          </span>
+                          <span className="inline-block min-w-8">{p.year}</span>
+                          <span className="inline-block">{p.name}</span>
+                        </motion.div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+          <ul className="text-cherry-lamp-pink">
+            {categoriesAndProjects.map((c) => (
+              <li key={c.id} className="mb-4">
+                <div className="font-bold">{c.name}</div>
+                <ul>
+                  {c.projects.map((p) => (
+                    <li key={p.id}>
+                      <Link
+                        to={'/projects/$projectId'}
+                        className="cursor-pointer h-full w-fit block"
+                        params={{
+                          projectId: p.id,
+                        }}
+                      >
+                        <motion.div
+                          whileHover={
+                            isNotTouchDevice
+                              ? {
+                                  color: 'var(--color-fangchunjia-pink)',
+                                  transition: { duration: 0.1 },
+                                }
+                              : undefined
+                          }
+                          className="flex gap-2 active:text-fangchunjia-pink"
+                          onMouseEnter={
+                            isNotTouchDevice
+                              ? () => setHoveredProject(p)
+                              : undefined
+                          }
+                          onMouseLeave={
+                            isNotTouchDevice
+                              ? () => setHoveredProject(null)
+                              : undefined
+                          }
+                        >
+                          <span className="inline-block min-w-8">{p.year}</span>
+                          <span className="inline-block">{p.name}</span>
+                        </motion.div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+          <ul className="text-cherry-lamp-pink">
+            {categoriesAndProjects.map((c) => (
+              <li key={c.id} className="mb-4">
+                <div className="font-bold">{c.name}</div>
+                <ul>
+                  {c.projects.map((p) => (
+                    <li key={p.id}>
+                      <Link
+                        to={'/projects/$projectId'}
+                        className="cursor-pointer h-full w-fit block"
+                        params={{
+                          projectId: p.id,
+                        }}
+                      >
+                        <motion.div
+                          whileHover={
+                            isNotTouchDevice
+                              ? {
+                                  color: 'var(--color-fangchunjia-pink)',
+                                  transition: { duration: 0.1 },
+                                }
+                              : undefined
+                          }
+                          className="flex gap-2 active:text-fangchunjia-pink"
+                          onMouseEnter={
+                            isNotTouchDevice
+                              ? () => setHoveredProject(p)
+                              : undefined
+                          }
+                          onMouseLeave={
+                            isNotTouchDevice
+                              ? () => setHoveredProject(null)
+                              : undefined
+                          }
+                        >
+                          <span className="inline-block min-w-8">{p.year}</span>
                           <span className="inline-block">{p.name}</span>
                         </motion.div>
                       </Link>

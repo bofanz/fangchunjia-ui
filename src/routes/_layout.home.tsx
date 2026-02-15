@@ -7,6 +7,13 @@ import { useState } from 'react';
 export const Route = createFileRoute('/_layout/home')({
   component: RouteComponent,
   loader: ({ context }) => fetchProjects(context as { portfolioApi: string }),
+  head: ({}) => ({
+    meta: [
+      {
+        title: 'Chunjia Fang (Home)',
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {

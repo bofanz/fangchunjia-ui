@@ -2,13 +2,13 @@ name: Deploy to S3
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
   # pull_request:
   #   branches: [main]
 
 env:
   AWS_REGION: eu-west-3
-  NODE_VERSION: "22.x"
+  NODE_VERSION: '22.x'
 
 permissions:
   id-token: write
@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
       - name: npm install and build
         run: |
           npm install

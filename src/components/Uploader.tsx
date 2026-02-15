@@ -1,4 +1,4 @@
-import axios from 'redaxios';
+import axios from 'axios';
 
 export default function Uploader({ status }: { status?: string }) {
   async function uploadProjectCover(file: File, projectId: string) {
