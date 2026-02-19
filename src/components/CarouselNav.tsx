@@ -34,7 +34,7 @@ function CarouselNavItem({
   return (
     <motion.div
       key={`${item?.id ?? index}-${index}`}
-      className={`relative shrink-0 flex flex-col items-start px-8 py-0 overflow-hidden w-1/3 h-full`}
+      className={`relative shrink-0 flex flex-col items-start px-4 py-0 overflow-hidden w-1/3 h-full`}
       style={{
         width: `calc(100% / ${itemCount})`,
       }}
@@ -128,10 +128,10 @@ export default function CarouselNav({ items, hidden = false }: CarouselProps) {
 
   return (
     <>
-      <div className="p-4">
+      <div className="">
         <motion.div
           ref={containerRef}
-          className="w-108 overflow-hidden flex"
+          className="w-84 overflow-hidden flex"
           transition={{ duration: 0.3, ease: 'easeInOut' }}
         >
           <motion.div
