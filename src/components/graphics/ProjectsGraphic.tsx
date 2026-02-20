@@ -5,6 +5,7 @@ export default function ProjectsGraphic() {
       data-name="图层 2"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 132.71 37.44"
+      className="w-[104px]"
     >
       <g id="_图层_1-2" data-name="图层 1">
         <g>

@@ -1,23 +1,8 @@
 import { createFileRoute, getRouteApi, notFound } from '@tanstack/react-router';
-import MediaUploader from '@/components/admin/MediaUploader';
 import type { Project } from '@/interfaces/project.interface';
 import axios, { AxiosError } from 'axios';
 import Body from '@/components/Body';
-import {
-  Button,
-  Description,
-  Field,
-  Fieldset,
-  Input,
-  Label,
-  Legend,
-  Radio,
-  RadioGroup,
-  Select,
-  Textarea,
-} from '@headlessui/react';
-import clsx from 'clsx';
-import { useState } from 'react';
+import MediaGridEditor from '@/components/admin/MediaGridEditor';
 
 export const fetchProject = async (
   context: { portfolioApi: string },
@@ -53,9 +38,10 @@ function RouteComponent() {
     <>
       <Body>
         <h1 className="text-lg font-bold mb-8">{project.name}</h1>
-        <div className="space-y-4">
+        {/* <div className="space-y-4">
           <MediaUploader projectId="a" />
-        </div>
+        </div> */}
+        <MediaGridEditor initialMedias={project.files} />
       </Body>
     </>
   );

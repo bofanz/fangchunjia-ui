@@ -9,6 +9,13 @@
 
 @font-face {
   font-family: 'ABC Otto';
+  src: url('/fonts/ABCOtto-Medium-Trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ABC Otto';
   src: url('/fonts/ABCOtto-RegularItalic-Trial.otf') format('opentype');
   font-weight: normal;
   font-style: italic;
@@ -34,7 +41,7 @@
   --color-fangchunjia-green: #5eff00;
   --color-fangchunjia-gray: #bbbbbb;
   --color-fangchunjia-black: #000000;
-  --color-fangchunjia-translucent: #ffffffcc;
+  --color-fangchunjia-translucent: #ffffff1a;
   --media-s-w-max: 160px;
   --media-s-h-max: 160px;
   --media-m-w-max: 160px;
@@ -58,7 +65,8 @@ button {
 
 #app {
   @apply h-full;
-  /* @apply bg-white; */
+  @apply bg-white;
+  @apply bg-[url('/bg2.jpg')] bg-cover bg-center;
 }
 
 html:active-view-transition-type(fade) {
@@ -179,7 +187,7 @@ html:active-view-transition-type(fade) {
   }
 
   p {
-    @apply mb-2;
+    @apply leading-[22px];
   }
 
   img {

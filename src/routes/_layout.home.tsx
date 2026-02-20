@@ -1,4 +1,3 @@
-import Breeze from '@/components/Breeze';
 import Breeze3D from '@/components/Breeze3D';
 import Gallery from '@/components/Gallery';
 import { fetchProjects } from '@/utils/queries';

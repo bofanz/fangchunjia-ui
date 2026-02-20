@@ -9,7 +9,6 @@ import {
   Label,
   Legend,
   Select,
-  Textarea,
 } from '@headlessui/react';
 
 export const Route = createFileRoute('/admin/')({

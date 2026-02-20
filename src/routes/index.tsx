@@ -9,7 +9,7 @@ export const Route = createFileRoute('/')({
 });
 
 function RouteComponent() {
-  const [bgLoaded, setBgLoaded] = useState<boolean>(false);
+  const [toStartLoaded, setToStartLoaded] = useState<boolean>(false);
   const video = useRef<HTMLVideoElement | null>(null);
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ function RouteComponent() {
           muted
           autoPlay
           playsInline
-          onPlay={() => setBgLoaded(true)}
+          onPlay={() => setToStartLoaded(true)}
           onEnded={() => {
             navigate({ to: '/home' });
           }}
@@ -36,7 +36,7 @@ function RouteComponent() {
       <motion.div
         className="opacity-0"
         animate={
-          bgLoaded
+          toStartLoaded
             ? {
                 opacity: '100%',
               }

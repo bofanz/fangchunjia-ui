@@ -1,3 +1,5 @@
+import type { Media } from './media.interface';
+
 export interface ProjectInfo {
   id: string;
   name: string;
@@ -10,10 +12,7 @@ export interface ProjectInfo {
 export interface Project extends ProjectInfo {
   link?: string;
   description: string;
-  files: {
-    seq: number;
-    key: string;
-  }[];
+  files: Media[];
 }
 
 export interface Category {

@@ -5,6 +5,7 @@ export default function HomeGraphic() {
       data-name="图层 2"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 93.46 33"
+      className="w-[76px]"
     >
       <g id="_图层_1-2" data-name="图层 1">
         <g id="lYNJxo">

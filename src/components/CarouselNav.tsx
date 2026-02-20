@@ -8,7 +8,6 @@ import type { NavItem } from './Header';
 
 export interface CarouselProps {
   items: NavItem[];
-  hidden?: boolean;
 }
 
 const TRANSITION_SETTINGS: Transition = { type: 'tween', duration: 0.4 };
@@ -23,20 +22,21 @@ interface CarouselItemProps {
   itemCount: number;
 }
 
+// const baseW = 32;
+
 function CarouselNavItem({
   item,
   index,
   transition,
   onClick,
   isCurrent,
-  itemCount,
 }: CarouselItemProps) {
   return (
     <motion.div
       key={`${item?.id ?? index}-${index}`}
-      className={`relative shrink-0 flex flex-col items-start px-4 py-0 overflow-hidden w-1/3 h-full`}
+      className={`relative shrink-0 flex flex-col items-start overflow-hidden h-full`}
       style={{
-        width: `calc(100% / ${itemCount})`,
+        width: `128px`,
       }}
       transition={transition}
     >
@@ -46,11 +46,17 @@ function CarouselNavItem({
         className={`block w-fit *:w-full  ${!isCurrent && '*:fill-fangchunjia-gray hover:*:fill-black active:*:fill-black'} *:transition`}
       >
         {item.title === 'Home' ? (
-          <HomeGraphic />
+          <div className="w-full pl-3">
+            <HomeGraphic />
+          </div>
         ) : item.title === 'About' ? (
-          <AboutGraphic />
+          <div className="w-full pl-2 pt-1">
+            <AboutGraphic />
+          </div>
         ) : item.title === 'Projects' ? (
-          <ProjectsGraphic />
+          <div className="w-full pl-2 pt-1">
+            <ProjectsGraphic />
+          </div>
         ) : (
           <></>
         )}
@@ -59,7 +65,7 @@ function CarouselNavItem({
   );
 }
 
-export default function CarouselNav({ items, hidden = false }: CarouselProps) {
+export default function CarouselNav({ items }: CarouselProps) {
   const location = useLocation();
   const initialPosition = items.findIndex((e) =>
     location.pathname.startsWith(e.to),
@@ -90,7 +96,7 @@ export default function CarouselNav({ items, hidden = false }: CarouselProps) {
   useEffect(() => {
     const startingPosition = initialPosition;
     setPosition(startingPosition);
-    x.set(`calc(-100% / ${itemCount} * ${startingPosition})`);
+    x.set(`calc(-128px * ${startingPosition})`);
   }, [items.length, x]);
 
   const effectiveTransition = isJumping ? { duration: 0 } : TRANSITION_SETTINGS;
@@ -105,7 +111,7 @@ export default function CarouselNav({ items, hidden = false }: CarouselProps) {
       const normalizedPosition = position % items.length;
       setIsJumping(true);
       setPosition(normalizedPosition);
-      x.set(`calc(-100% / ${itemCount} * ${normalizedPosition})`);
+      x.set(`calc(-128px * ${normalizedPosition})`);
       requestAnimationFrame(() => {
         setIsJumping(false);
         setIsAnimating(false);
@@ -131,15 +137,15 @@ export default function CarouselNav({ items, hidden = false }: CarouselProps) {
       <div className="">
         <motion.div
           ref={containerRef}
-          className="w-84 overflow-hidden flex"
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          className={`w-96 overflow-hidden flex`}
+          // transition={{ duration: 0.3, ease: 'easeInOut' }}
         >
           <motion.div
             className="flex"
             style={{
               x,
             }}
-            animate={{ x: `calc(-100% / ${itemCount} * ${position})` }}
+            animate={{ x: `calc(-128px * ${position})` }}
             transition={effectiveTransition}
             onAnimationStart={handleAnimationStart}
             onAnimationComplete={handleAnimationComplete}

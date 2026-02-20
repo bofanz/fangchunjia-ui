@@ -52,7 +52,7 @@ export default function CompactHeader({ items, hidden }: HeaderProps) {
   const [isNavHidden, setIsNavHidden] = useState<boolean>(true);
 
   return (
-    <div className="fixed sm:hidden z-100 w-full">
+    <div className="fixed sm:hidden z-300 w-full">
       <motion.div
         className="flex-col justify-between"
         animate={{

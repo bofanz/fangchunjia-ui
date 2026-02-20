@@ -45,7 +45,6 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({
 }) => {
   // References for the instanced mesh
   const meshRef = useRef<THREE.InstancedMesh>(null);
-  const mouseRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const elapsedRef = useRef(0);
 
   // Generate particle data once on mount or when dependencies change
@@ -120,7 +119,7 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({
   }, [particleCount, particleData, particleBaseSize]);
 
   // Animation loop - runs every frame
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (!meshRef.current) return;
 
     // Update elapsed time

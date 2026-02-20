@@ -5,6 +5,7 @@ export default function AboutGraphic() {
       data-name="图层 2"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 99.23 22.94"
+      className="w-[82px]"
     >
       <g id="_图层_1-2" data-name="图层 1">
         <g>

@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { Model } from './SamplePetal';
-import { Environment, PerspectiveCamera } from '@react-three/drei';
+import { Environment } from '@react-three/drei';
 
 export default function Breeze3D({
   setHoveredIndex,

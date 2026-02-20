@@ -1,4 +1,3 @@
-import Branding from '@/components/Branding';
 import CompactHeader from '@/components/CompactHeader';
 import Header from '@/components/Header';
 import Purikura from '@/components/Purikura';
@@ -36,7 +35,6 @@ function RouteComponent() {
     <>
       <LayoutContext value={{ isHeaderHidden, setIsHeaderHidden }}>
         <Header
-          isNavHidden={isHeaderHidden}
           navItems={navItems}
           onClickBranding={() => setIsPurikuraVisible(!isPurikuraVisible)}
         />
