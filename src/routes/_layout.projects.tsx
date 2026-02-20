@@ -77,7 +77,7 @@ function RouteComponent() {
         <div className="relative">
           <ul className="text-cherry-lamp-pink">
             {categoriesAndProjects.map((c) => (
-              <li key={c.id} className="mb-4">
+              <li key={c.id} className="mb-6">
                 <div className="font-bold">{c.name}</div>
                 <ul>
                   {c.projects.map((p) => (
@@ -98,7 +98,7 @@ function RouteComponent() {
                                 }
                               : undefined
                           }
-                          className="flex gap-2 active:text-fangchunjia-pink"
+                          className="flex gap-2 active:text-fangchunjia-pink font-medium"
                           onMouseEnter={
                             isNotTouchDevice
                               ? () => setHoveredProject(p)
@@ -110,98 +110,9 @@ function RouteComponent() {
                               : undefined
                           }
                         >
-                          <span className="inline-block min-w-8">{p.year}</span>
-                          <span className="inline-block">{p.name}</span>
-                        </motion.div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-          <ul className="text-cherry-lamp-pink">
-            {categoriesAndProjects.map((c) => (
-              <li key={c.id} className="mb-4">
-                <div className="font-bold">{c.name}</div>
-                <ul>
-                  {c.projects.map((p) => (
-                    <li key={p.id}>
-                      <Link
-                        to={'/projects/$projectId'}
-                        className="cursor-pointer h-full w-fit block"
-                        params={{
-                          projectId: p.id,
-                        }}
-                      >
-                        <motion.div
-                          whileHover={
-                            isNotTouchDevice
-                              ? {
-                                  color: 'var(--color-fangchunjia-pink)',
-                                  transition: { duration: 0.1 },
-                                }
-                              : undefined
-                          }
-                          className="flex gap-2 active:text-fangchunjia-pink"
-                          onMouseEnter={
-                            isNotTouchDevice
-                              ? () => setHoveredProject(p)
-                              : undefined
-                          }
-                          onMouseLeave={
-                            isNotTouchDevice
-                              ? () => setHoveredProject(null)
-                              : undefined
-                          }
-                        >
-                          <span className="inline-block min-w-8">{p.year}</span>
-                          <span className="inline-block">{p.name}</span>
-                        </motion.div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-          <ul className="text-cherry-lamp-pink">
-            {categoriesAndProjects.map((c) => (
-              <li key={c.id} className="mb-4">
-                <div className="font-bold">{c.name}</div>
-                <ul>
-                  {c.projects.map((p) => (
-                    <li key={p.id}>
-                      <Link
-                        to={'/projects/$projectId'}
-                        className="cursor-pointer h-full w-fit block"
-                        params={{
-                          projectId: p.id,
-                        }}
-                      >
-                        <motion.div
-                          whileHover={
-                            isNotTouchDevice
-                              ? {
-                                  color: 'var(--color-fangchunjia-pink)',
-                                  transition: { duration: 0.1 },
-                                }
-                              : undefined
-                          }
-                          className="flex gap-2 active:text-fangchunjia-pink"
-                          onMouseEnter={
-                            isNotTouchDevice
-                              ? () => setHoveredProject(p)
-                              : undefined
-                          }
-                          onMouseLeave={
-                            isNotTouchDevice
-                              ? () => setHoveredProject(null)
-                              : undefined
-                          }
-                        >
-                          <span className="inline-block min-w-8">{p.year}</span>
-                          <span className="inline-block">{p.name}</span>
+                          <span className="inline-block leading-[22px]">
+                            {p.name}
+                          </span>
                         </motion.div>
                       </Link>
                     </li>

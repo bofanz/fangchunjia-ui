@@ -2,6 +2,10 @@ import { Link, useLocation } from '@tanstack/react-router';
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import type { NavItem } from './Header';
+import AboutGraphic from './graphics/AboutGraphic';
+import HomeGraphic from './graphics/HomeGraphic';
+import ProjectsGraphic from './graphics/ProjectsGraphic';
+import Branding from './Branding';
 
 export interface HeaderProps {
   items: NavItem[];
@@ -19,16 +23,26 @@ function CompactHeaderItem({
 }) {
   return (
     <Link
-      className={`flex px-8 pt-8 pb-4 text-2xl font-bold ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
+      className={`flex p-4 h-16 ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
       to={item.to}
       onClick={() => isClickable && setIsNavHidden && setIsNavHidden(true)}
     >
       <div
-        className={`${isClickable && 'text-zinc-300 hover:text-black transition'}`}
+        className={`w-full h-full *:h-full ${isClickable && 'text-zinc-300 hover:text-black transition'}`}
       >
-        {item.title}
+        {item.title === 'Home' ? (
+          <HomeGraphic />
+        ) : item.title === 'About' ? (
+          <AboutGraphic />
+        ) : item.title === 'Projects' ? (
+          <ProjectsGraphic />
+        ) : (
+          <></>
+        )}
       </div>
     </Link>
+
+    // className={`block w-fit ${!isCurrent && '*:fill-fangchunjia-gray hover:*:fill-black active:*:fill-black'} *:transition`}
   );
 }
 
@@ -38,11 +52,12 @@ export default function CompactHeader({ items, hidden }: HeaderProps) {
   const [isNavHidden, setIsNavHidden] = useState<boolean>(true);
 
   return (
-    <div className="fixed sm:hidden z-100 w-full">
+    <div className="fixed sm:hidden z-300 w-full">
       <motion.div
+        className="flex-col justify-between"
         animate={{
           opacity: hidden ? 0 : 1,
-          display: hidden ? 'none' : 'block',
+          display: hidden ? 'none' : 'flex',
           backgroundColor: isNavHidden ? '' : '#ffffff',
           height: isNavHidden ? '' : '100vh',
         }}
@@ -55,9 +70,9 @@ export default function CompactHeader({ items, hidden }: HeaderProps) {
               )}
             </div>
 
-            <div className="px-8 pt-8 pb-4 flex flex-col">
+            <div className="p-4 flex flex-col">
               <motion.button
-                className="h-6 w-8 bg-fangchunjia-pink cursor-pointer rounded-[50%]"
+                className="h-6 w-8 m-auto bg-fangchunjia-pink cursor-pointer rounded-[50%]"
                 onClick={() => setIsNavHidden(!isNavHidden)}
                 animate={{
                   rotate: isNavHidden ? 0 : 90,
@@ -83,6 +98,14 @@ export default function CompactHeader({ items, hidden }: HeaderProps) {
               ))}
           </motion.nav>
         </header>
+        <motion.div
+          animate={{
+            opacity: isNavHidden ? 0 : 1,
+            display: isNavHidden ? 'none' : 'block',
+          }}
+        >
+          <Branding />
+        </motion.div>
       </motion.div>
     </div>
   );

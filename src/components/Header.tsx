@@ -8,16 +8,14 @@ export interface NavItem {
 }
 
 export default function Header({
-  isNavHidden,
   navItems,
   onClickBranding,
 }: {
-  isNavHidden: boolean;
   navItems: NavItem[];
   onClickBranding: Function;
 }) {
   return (
-    <div className="fixed flex z-300 ">
+    <div className="fixed z-300 hidden sm:flex">
       <div
         onClick={() => {
           onClickBranding();
@@ -25,7 +23,7 @@ export default function Header({
       >
         <Branding />
       </div>
-      <CarouselNav items={navItems} hidden={isNavHidden} />
+      <CarouselNav items={navItems} />
     </div>
   );
 }

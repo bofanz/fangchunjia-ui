@@ -9,6 +9,13 @@
 
 @font-face {
   font-family: 'ABC Otto';
+  src: url('/fonts/ABCOtto-Medium-Trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ABC Otto';
   src: url('/fonts/ABCOtto-RegularItalic-Trial.otf') format('opentype');
   font-weight: normal;
   font-style: italic;
@@ -34,7 +41,7 @@
   --color-fangchunjia-green: #5eff00;
   --color-fangchunjia-gray: #bbbbbb;
   --color-fangchunjia-black: #000000;
-  --color-fangchunjia-translucent: #ffffffcc;
+  --color-fangchunjia-translucent: #ffffff1a;
   --media-s-w-max: 160px;
   --media-s-h-max: 160px;
   --media-m-w-max: 160px;
@@ -58,7 +65,8 @@ button {
 
 #app {
   @apply h-full;
-  /* @apply bg-white; */
+  @apply bg-white;
+  @apply bg-[url('/bg2.jpg')] bg-cover bg-center;
 }
 
 html:active-view-transition-type(fade) {
@@ -179,112 +187,10 @@ html:active-view-transition-type(fade) {
   }
 
   p {
-    @apply mb-2;
+    @apply leading-[22px];
   }
 
   img {
     @apply w-3/5 my-8;
-  }
-}
-
-/* Admin */
-
-#uploadMediaForm {
-  .file-input-label {
-    @apply block mb-1 text-xl w-full border-black border-[2px] px-2 py-1;
-
-    &:hover {
-      /* @apply bg-fangchunjia-pink-shade; */
-    }
-    cursor: pointer;
-  }
-
-  .file-input-status {
-    @apply text-xs;
-  }
-
-  .native-file-input {
-    visibility: hidden;
-    display: none;
-  }
-
-  .form-fields {
-    @apply flex flex-col gap-4;
-
-    & > div {
-      @apply w-full;
-      > label {
-        @apply block mb-1 text-xs w-full;
-      }
-      > input,
-      textarea {
-        @apply block border-b-[2px] border-black py-1 text-xl w-full;
-      }
-
-      textarea {
-        @apply block border-[2px] border-black px-2 py-1 w-full;
-      }
-
-      > input:focus,
-      textarea:focus,
-      input[type='number'] {
-        @apply bg-[#80808022];
-        outline: none;
-      }
-
-      select,
-      ::picker(select) {
-        appearance: base-select;
-      }
-
-      select {
-        @apply w-full py-1 border-b-[2px] border-black text-xl;
-      }
-
-      select::picker-icon {
-        @apply text-black;
-      }
-      select:open::picker-icon {
-        rotate: 180deg;
-      }
-      ::picker(select) {
-        border: none;
-      }
-      option {
-        @apply bg-white border-[2px] border-black;
-        display: flex;
-        justify-content: flex-start;
-        gap: 20px;
-        padding: 10px;
-      }
-
-      option:hover,
-      option:focus,
-      option:checked {
-        /* @apply font-bold bg-fangchunjia-pink-shade; */
-      }
-      option:not(:last-child) {
-        @apply mb-[-2px];
-      }
-      option::checkmark {
-        order: 1;
-        margin-left: auto;
-      }
-      ::picker(select) {
-        opacity: 0;
-        transition: all 0.4s allow-discrete;
-      }
-      ::picker(select):popover-open {
-        opacity: 1;
-      }
-      @starting-style {
-        ::picker(select):popover-open {
-          opacity: 0;
-        }
-      }
-      ::picker(select) {
-        top: calc(anchor(bottom) + 1px);
-      }
-    }
   }
 }

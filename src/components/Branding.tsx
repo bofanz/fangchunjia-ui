@@ -2,7 +2,7 @@ import FangchunjiaGraphic from './graphics/FangchunjiaGraphic';
 
 export default function Branding() {
   return (
-    <div className="w-40 p-4">
+    <div className="w-50 pl-4 pt-1">
       <FangchunjiaGraphic />
     </div>
   );

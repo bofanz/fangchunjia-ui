@@ -21,8 +21,8 @@ export default function Body({ children }: { children: React.ReactNode }) {
       className="flex w-full h-full overflow-y-auto overscroll-none pt-24 [scrollbar-width:none]"
       ref={scrollRef}
     >
-      <div className="w-full relative">
-        <div className="p-8">{children}</div>
+      <div className="w-144 relative">
+        <div className="p-4 sm:p-8">{children}</div>
       </div>
     </div>
   );

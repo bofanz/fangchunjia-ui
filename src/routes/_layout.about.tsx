@@ -40,7 +40,7 @@ function RouteComponent() {
   return (
     <>
       <Body>
-        <div className="w-full md:w-5/8">
+        <div className="w-full">
           <section className="markdown">
             <Markdown>{aboutMd}</Markdown>
           </section>

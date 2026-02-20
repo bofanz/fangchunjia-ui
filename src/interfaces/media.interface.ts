@@ -1,7 +1,7 @@
 export interface Media {
   title?: string;
   key: string;
-  size?: 's' | 'm' | 'l';
+  size?: MediaSize;
 }
 
 export enum MediaSize {

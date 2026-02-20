@@ -1,5 +1,15 @@
+import Body from '@/components/Body';
 import { useCreateProjectMutation } from '@/utils/queryOptions';
 import { createFileRoute } from '@tanstack/react-router';
+import {
+  Button,
+  Field,
+  Fieldset,
+  Input,
+  Label,
+  Legend,
+  Select,
+} from '@headlessui/react';
 
 export const Route = createFileRoute('/admin/')({
   component: RouteComponent,
@@ -9,10 +19,7 @@ function RouteComponent() {
   const createProjectMutation = useCreateProjectMutation();
 
   return (
-    <div className="bg-white h-full p-16">
-      <div className="font-bold text-2xl pt-4 pb-4 mb-4">
-        <h1>Add Project</h1>
-      </div>
+    <Body>
       <form
         method="post"
         id="createProjectForm"
@@ -30,59 +37,51 @@ function RouteComponent() {
           });
         }}
       >
-        <div className="w-[320px]">
-          <div className="flex flex-col mb-8 form-fields">
-            <div>
-              <label htmlFor="id">ID</label>
-              <input id="id" name="id" pattern="[a-z0-9]*" />
-            </div>
-
-            <div>
-              <label htmlFor="name">Name</label>
-              <input id="name" name="name" />
-            </div>
-
-            <div>
-              <label htmlFor="categoryId">Category</label>
-              <select id="categoryId" name="categoryId">
-                <option value="experimental">Experimental</option>
-                <option value="collaborations">Collaborations</option>
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="year">Year</label>
-              <input
-                id="year"
-                name="year"
-                type="number"
-                min="1997"
-                max="2099"
-                step="1"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="link">Link</label>
-              <input id="link" name="link" type="url" />
-            </div>
-
-            <div>
-              <label htmlFor="description">Description</label>
-              <textarea id="description" name="description" />
-            </div>
-          </div>
-          <div>
-            <button
-              className="text-fangchunjia-pink cursor-pointer text-lg font-bold hover:underline"
-              type="submit"
-              disabled={createProjectMutation.status === 'pending'}
+        <Fieldset className="space-y-8">
+          <Legend className="text-lg font-bold">Add Project</Legend>
+          <Field>
+            <Label className="block">ID</Label>
+            <Input className="mt-1 block border-b-2 border-black" name="id" />
+          </Field>
+          <Field>
+            <Label className="block">Name</Label>
+            <Input className="mt-1 block border-b-2 border-black" name="name" />
+          </Field>
+          <Field>
+            <Label className="block">Category</Label>
+            <Select
+              className="mt-1 block border-b-2 border-black"
+              name="categoryId"
             >
-              Confirm
-            </button>
-          </div>
-        </div>
+              <option value="experimental">Experimental</option>
+              <option value="collaborations">Collaborations</option>
+            </Select>
+          </Field>
+          <Field>
+            <Label className="block">Year</Label>
+            <Input
+              className="mt-1 block border-b-2 border-black"
+              name="year"
+              type="number"
+            />
+          </Field>
+          <Field>
+            <Label className="block">Link</Label>
+            <Input
+              className="mt-1 block border-b-2 border-black"
+              name="Link"
+              type="url"
+            />
+          </Field>
+          <Button
+            className="rounded bg-fangchunjia-black px-4 py-2 text-sm text-white data-active:bg-fangchunjia-pink data-hover:bg-fangchunjia-pink data-disabled:bg-fangchunjia-gray transition"
+            type="submit"
+            disabled={createProjectMutation.status === 'pending'}
+          >
+            Publish
+          </Button>
+        </Fieldset>
       </form>
-    </div>
+    </Body>
   );
 }
