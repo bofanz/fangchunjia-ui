@@ -19,7 +19,6 @@ export const Route = createFileRoute('/_layout/home')({
 function RouteComponent() {
   const routeApi = getRouteApi('/_layout/home');
   const highlights = routeApi.useLoaderData().projects;
-  console.log(highlights);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const hoveredHighlight =
