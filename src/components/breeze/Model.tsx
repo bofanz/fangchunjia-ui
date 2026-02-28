@@ -140,7 +140,7 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
     });
   }, [nodes]);
   return (
-    <group dispose={null} scale={6} position={[0, -6, 0]} ref={groupRef}>
+    <group dispose={null} scale={3} position={[0, -5, 0]} ref={groupRef}>
       <mesh
         ref={(el) => (meshRefs.current[0] = el)}
         castShadow
@@ -211,7 +211,7 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
         onPointerEnter={() => setHoveredIndex(2)}
         onPointerLeave={() => setHoveredIndex(null)}
       >
-        {/* <BluebellMaterial /> */}
+        <BluebellMaterial />
       </mesh>
       <mesh
         ref={(el) => (meshRefs.current[7] = el)}

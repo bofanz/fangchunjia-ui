@@ -1,4 +1,3 @@
-import { Field, Input, Label } from '@headlessui/react';
 import { useRef, useState } from 'react';
 
 export default function MediaUploader() {
@@ -23,30 +22,31 @@ export default function MediaUploader() {
   const [files, setFiles] = useState<File[] | null>(null);
   return (
     <div>
-      <Field>
-        <Label className="text-sm/6 font-medium text-white">Name</Label>
-        <Input
-          ref={fileInput}
-          type="file"
-          multiple
-          className="mt-1 block border-b-2 border-black"
-          name="media"
-          onChange={(x) => {
-            if (x.target.files) {
-              const files = [];
-              for (const file of x.target.files) {
-                files.push(file);
-                console.log(file);
+      <div>
+        <label className="text-sm/6 font-medium">
+          <input
+            ref={fileInput}
+            type="file"
+            multiple
+            className="mt-1 block border-b-2 border-black"
+            name="media"
+            onChange={(x) => {
+              if (x.target.files) {
+                const files = [];
+                for (const file of x.target.files) {
+                  files.push(file);
+                  console.log(file);
+                }
+                setFiles(files);
+                console.log('xxx');
+                console.log(files);
+              } else {
+                setFiles(null);
               }
-              setFiles(files);
-              console.log('xxx');
-              console.log(files);
-            } else {
-              setFiles(null);
-            }
-          }}
-        />
-      </Field>
+            }}
+          />
+        </label>
+      </div>
       {files && files.map((f) => <div>{f.name}</div>)}
     </div>
   );

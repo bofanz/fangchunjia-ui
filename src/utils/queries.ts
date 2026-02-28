@@ -1,3 +1,4 @@
+import type { About } from '@/interfaces/about.interface';
 import type {
   Category,
   Project,
@@ -12,6 +13,22 @@ export const fetchAboutMd = async (context: { filesApi: string }) => {
     .then((r) => r.data);
   return aboutMd;
 };
+
+export const fetchAbout = async (context: { portfolioApi: string }) => {
+  try {
+    return await axios
+      .get<About>(`${context.portfolioApi}/about`)
+      .then((r) => r.data);
+  } catch (e) {
+    throw e;
+  }
+};
+
+export async function updateAbout(about: About) {
+  return axios.post<null>(`https://api.fangchunjia.com/about`, {
+    ...(about.text && { text: about.text }),
+  });
+}
 
 export const fetchProjects = async (context: { portfolioApi: string }) => {
   const categories = await axios
@@ -52,9 +69,22 @@ export async function createProject(project: Partial<Project>) {
     name: project.name,
     categoryId: project.categoryId,
     year: project.year,
-    description: project.description,
+    // description: project.description,
     link: project.link,
   });
+}
+
+export async function updateProject(project: Partial<Project>) {
+  return axios.post<null>(
+    `https://api.fangchunjia.com/projects/${project.id}`,
+    {
+      ...(project.name && { name: project.name }),
+      ...(project.categoryId && { categoryId: project.categoryId }),
+      ...(project.year && { year: project.year }),
+      ...(project.description && { description: project.description }),
+      ...(project.link && { link: project.link }),
+    },
+  );
 }
 
 export async function uploadProjectMedia(data: {
@@ -62,9 +92,6 @@ export async function uploadProjectMedia(data: {
   fileTitle: string;
   projectId: string;
 }) {
-  console.log('query');
-  console.log(data);
-
   await fetch(
     `https://api.fangchunjia.com/projects/${data.projectId}/gen-file-upload-url?filename=a.jpg`,
   );

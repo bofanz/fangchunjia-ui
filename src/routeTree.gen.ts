@@ -12,11 +12,17 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
-import { Route as AdminProjectIdRouteImport } from './routes/admin/$projectId'
+import { Route as AdminAboutRouteImport } from './routes/admin/about'
 import { Route as LayoutProjectsRouteImport } from './routes/_layout.projects'
 import { Route as LayoutHomeRouteImport } from './routes/_layout.home'
 import { Route as LayoutAboutRouteImport } from './routes/_layout.about'
+import { Route as AdminProjectsIndexRouteImport } from './routes/admin/projects/index'
+import { Route as AdminProjectsPublishRouteImport } from './routes/admin/projects/publish'
 import { Route as LayoutProjectsProjectIdRouteImport } from './routes/_layout.projects.$projectId'
+import { Route as AdminProjectsProjectIdIndexRouteImport } from './routes/admin/projects/$projectId/index'
+import { Route as AdminProjectsProjectIdMediasRouteImport } from './routes/admin/projects/$projectId/medias'
+import { Route as AdminProjectsProjectIdInfoRouteImport } from './routes/admin/projects/$projectId/info'
+import { Route as AdminProjectsProjectIdDescriptionRouteImport } from './routes/admin/projects/$projectId/description'
 
 const LayoutRoute = LayoutRouteImport.update({
   id: '/_layout',
@@ -32,9 +38,9 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminProjectIdRoute = AdminProjectIdRouteImport.update({
-  id: '/admin/$projectId',
-  path: '/admin/$projectId',
+const AdminAboutRoute = AdminAboutRouteImport.update({
+  id: '/admin/about',
+  path: '/admin/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LayoutProjectsRoute = LayoutProjectsRouteImport.update({
@@ -52,29 +58,75 @@ const LayoutAboutRoute = LayoutAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => LayoutRoute,
 } as any)
+const AdminProjectsIndexRoute = AdminProjectsIndexRouteImport.update({
+  id: '/admin/projects/',
+  path: '/admin/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminProjectsPublishRoute = AdminProjectsPublishRouteImport.update({
+  id: '/admin/projects/publish',
+  path: '/admin/projects/publish',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LayoutProjectsProjectIdRoute = LayoutProjectsProjectIdRouteImport.update({
   id: '/$projectId',
   path: '/$projectId',
   getParentRoute: () => LayoutProjectsRoute,
 } as any)
+const AdminProjectsProjectIdIndexRoute =
+  AdminProjectsProjectIdIndexRouteImport.update({
+    id: '/admin/projects/$projectId/',
+    path: '/admin/projects/$projectId/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminProjectsProjectIdMediasRoute =
+  AdminProjectsProjectIdMediasRouteImport.update({
+    id: '/admin/projects/$projectId/medias',
+    path: '/admin/projects/$projectId/medias',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminProjectsProjectIdInfoRoute =
+  AdminProjectsProjectIdInfoRouteImport.update({
+    id: '/admin/projects/$projectId/info',
+    path: '/admin/projects/$projectId/info',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminProjectsProjectIdDescriptionRoute =
+  AdminProjectsProjectIdDescriptionRouteImport.update({
+    id: '/admin/projects/$projectId/description',
+    path: '/admin/projects/$projectId/description',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof LayoutAboutRoute
   '/home': typeof LayoutHomeRoute
   '/projects': typeof LayoutProjectsRouteWithChildren
-  '/admin/$projectId': typeof AdminProjectIdRoute
+  '/admin/about': typeof AdminAboutRoute
   '/admin/': typeof AdminIndexRoute
   '/projects/$projectId': typeof LayoutProjectsProjectIdRoute
+  '/admin/projects/publish': typeof AdminProjectsPublishRoute
+  '/admin/projects/': typeof AdminProjectsIndexRoute
+  '/admin/projects/$projectId/description': typeof AdminProjectsProjectIdDescriptionRoute
+  '/admin/projects/$projectId/info': typeof AdminProjectsProjectIdInfoRoute
+  '/admin/projects/$projectId/medias': typeof AdminProjectsProjectIdMediasRoute
+  '/admin/projects/$projectId/': typeof AdminProjectsProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof LayoutAboutRoute
   '/home': typeof LayoutHomeRoute
   '/projects': typeof LayoutProjectsRouteWithChildren
-  '/admin/$projectId': typeof AdminProjectIdRoute
+  '/admin/about': typeof AdminAboutRoute
   '/admin': typeof AdminIndexRoute
   '/projects/$projectId': typeof LayoutProjectsProjectIdRoute
+  '/admin/projects/publish': typeof AdminProjectsPublishRoute
+  '/admin/projects': typeof AdminProjectsIndexRoute
+  '/admin/projects/$projectId/description': typeof AdminProjectsProjectIdDescriptionRoute
+  '/admin/projects/$projectId/info': typeof AdminProjectsProjectIdInfoRoute
+  '/admin/projects/$projectId/medias': typeof AdminProjectsProjectIdMediasRoute
+  '/admin/projects/$projectId': typeof AdminProjectsProjectIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -83,9 +135,15 @@ export interface FileRoutesById {
   '/_layout/about': typeof LayoutAboutRoute
   '/_layout/home': typeof LayoutHomeRoute
   '/_layout/projects': typeof LayoutProjectsRouteWithChildren
-  '/admin/$projectId': typeof AdminProjectIdRoute
+  '/admin/about': typeof AdminAboutRoute
   '/admin/': typeof AdminIndexRoute
   '/_layout/projects/$projectId': typeof LayoutProjectsProjectIdRoute
+  '/admin/projects/publish': typeof AdminProjectsPublishRoute
+  '/admin/projects/': typeof AdminProjectsIndexRoute
+  '/admin/projects/$projectId/description': typeof AdminProjectsProjectIdDescriptionRoute
+  '/admin/projects/$projectId/info': typeof AdminProjectsProjectIdInfoRoute
+  '/admin/projects/$projectId/medias': typeof AdminProjectsProjectIdMediasRoute
+  '/admin/projects/$projectId/': typeof AdminProjectsProjectIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -94,18 +152,30 @@ export interface FileRouteTypes {
     | '/about'
     | '/home'
     | '/projects'
-    | '/admin/$projectId'
+    | '/admin/about'
     | '/admin/'
     | '/projects/$projectId'
+    | '/admin/projects/publish'
+    | '/admin/projects/'
+    | '/admin/projects/$projectId/description'
+    | '/admin/projects/$projectId/info'
+    | '/admin/projects/$projectId/medias'
+    | '/admin/projects/$projectId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/home'
     | '/projects'
-    | '/admin/$projectId'
+    | '/admin/about'
     | '/admin'
     | '/projects/$projectId'
+    | '/admin/projects/publish'
+    | '/admin/projects'
+    | '/admin/projects/$projectId/description'
+    | '/admin/projects/$projectId/info'
+    | '/admin/projects/$projectId/medias'
+    | '/admin/projects/$projectId'
   id:
     | '__root__'
     | '/'
@@ -113,16 +183,28 @@ export interface FileRouteTypes {
     | '/_layout/about'
     | '/_layout/home'
     | '/_layout/projects'
-    | '/admin/$projectId'
+    | '/admin/about'
     | '/admin/'
     | '/_layout/projects/$projectId'
+    | '/admin/projects/publish'
+    | '/admin/projects/'
+    | '/admin/projects/$projectId/description'
+    | '/admin/projects/$projectId/info'
+    | '/admin/projects/$projectId/medias'
+    | '/admin/projects/$projectId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
-  AdminProjectIdRoute: typeof AdminProjectIdRoute
+  AdminAboutRoute: typeof AdminAboutRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminProjectsPublishRoute: typeof AdminProjectsPublishRoute
+  AdminProjectsIndexRoute: typeof AdminProjectsIndexRoute
+  AdminProjectsProjectIdDescriptionRoute: typeof AdminProjectsProjectIdDescriptionRoute
+  AdminProjectsProjectIdInfoRoute: typeof AdminProjectsProjectIdInfoRoute
+  AdminProjectsProjectIdMediasRoute: typeof AdminProjectsProjectIdMediasRoute
+  AdminProjectsProjectIdIndexRoute: typeof AdminProjectsProjectIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -148,11 +230,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/$projectId': {
-      id: '/admin/$projectId'
-      path: '/admin/$projectId'
-      fullPath: '/admin/$projectId'
-      preLoaderRoute: typeof AdminProjectIdRouteImport
+    '/admin/about': {
+      id: '/admin/about'
+      path: '/admin/about'
+      fullPath: '/admin/about'
+      preLoaderRoute: typeof AdminAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_layout/projects': {
@@ -176,12 +258,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAboutRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/admin/projects/': {
+      id: '/admin/projects/'
+      path: '/admin/projects'
+      fullPath: '/admin/projects/'
+      preLoaderRoute: typeof AdminProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/projects/publish': {
+      id: '/admin/projects/publish'
+      path: '/admin/projects/publish'
+      fullPath: '/admin/projects/publish'
+      preLoaderRoute: typeof AdminProjectsPublishRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_layout/projects/$projectId': {
       id: '/_layout/projects/$projectId'
       path: '/$projectId'
       fullPath: '/projects/$projectId'
       preLoaderRoute: typeof LayoutProjectsProjectIdRouteImport
       parentRoute: typeof LayoutProjectsRoute
+    }
+    '/admin/projects/$projectId/': {
+      id: '/admin/projects/$projectId/'
+      path: '/admin/projects/$projectId'
+      fullPath: '/admin/projects/$projectId/'
+      preLoaderRoute: typeof AdminProjectsProjectIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/projects/$projectId/medias': {
+      id: '/admin/projects/$projectId/medias'
+      path: '/admin/projects/$projectId/medias'
+      fullPath: '/admin/projects/$projectId/medias'
+      preLoaderRoute: typeof AdminProjectsProjectIdMediasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/projects/$projectId/info': {
+      id: '/admin/projects/$projectId/info'
+      path: '/admin/projects/$projectId/info'
+      fullPath: '/admin/projects/$projectId/info'
+      preLoaderRoute: typeof AdminProjectsProjectIdInfoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/projects/$projectId/description': {
+      id: '/admin/projects/$projectId/description'
+      path: '/admin/projects/$projectId/description'
+      fullPath: '/admin/projects/$projectId/description'
+      preLoaderRoute: typeof AdminProjectsProjectIdDescriptionRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -216,8 +340,15 @@ const LayoutRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
-  AdminProjectIdRoute: AdminProjectIdRoute,
+  AdminAboutRoute: AdminAboutRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminProjectsPublishRoute: AdminProjectsPublishRoute,
+  AdminProjectsIndexRoute: AdminProjectsIndexRoute,
+  AdminProjectsProjectIdDescriptionRoute:
+    AdminProjectsProjectIdDescriptionRoute,
+  AdminProjectsProjectIdInfoRoute: AdminProjectsProjectIdInfoRoute,
+  AdminProjectsProjectIdMediasRoute: AdminProjectsProjectIdMediasRoute,
+  AdminProjectsProjectIdIndexRoute: AdminProjectsProjectIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

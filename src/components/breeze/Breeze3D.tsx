@@ -1,9 +1,9 @@
 import { Canvas, useLoader } from '@react-three/fiber';
 // import { Model } from './SamplePetal';
 import { Environment } from '@react-three/drei';
-import { Model } from './Model';
 import { RGBELoader } from 'three-stdlib';
 import { Suspense } from 'react';
+import { Model } from './Model';
 
 useLoader.preload(RGBELoader, '/qwantani_dusk_2_puresky_1k.hdr');
 

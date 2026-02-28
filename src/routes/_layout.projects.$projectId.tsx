@@ -2,6 +2,7 @@ import MediaGrid from '@/components/MediaGrid';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import { fetchProject } from '@/utils/queries';
 import Layer from '@/components/Layer';
+import TextRenderer from '@/components/lexical/TextRenderer';
 
 export const Route = createFileRoute('/_layout/projects/$projectId')({
   component: RouteComponent,
@@ -83,7 +84,9 @@ function RouteComponent() {
               <h1 className="text-xl font-bold">{project.name}</h1>
               <h2 className="text-lg">{project.year}</h2>
               <div>{project.link}</div>
-              <div>{project.description}</div>
+              <div>
+                <TextRenderer editorState={JSON.parse(project.description)} />
+              </div>
             </div>
 
             <div className="pt-4 pb-8">
