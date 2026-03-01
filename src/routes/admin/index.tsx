@@ -3,9 +3,11 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/admin/')({
   component: RouteComponent,
-  beforeLoad: async ({ context, location }) => {
+  beforeLoad: async ({ context }) => {
+    // @ts-ignore
     if (!context.auth.isAuthenticated) {
       // Auth0 handles login redirects, so just trigger login
+      // @ts-ignore
       context.auth.login();
       return;
     }

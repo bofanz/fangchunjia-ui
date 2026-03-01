@@ -22,11 +22,15 @@ export default function ProjectForm({
   const linkFieldRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (project) {
-      idFieldRef.current.value = project.id;
-      nameFieldRef.current.value = project.name;
-      categoryIdFieldRef.current.value = project.categoryId;
-      yearFieldRef.current.value = project.year;
-      linkFieldRef.current.value = project.link;
+      idFieldRef.current && (idFieldRef.current.value = project.id);
+      nameFieldRef.current && (nameFieldRef.current.value = project.name);
+      categoryIdFieldRef.current &&
+        (categoryIdFieldRef.current.value = project.categoryId);
+      yearFieldRef.current &&
+        (yearFieldRef.current.value = project.year.toString());
+      linkFieldRef.current &&
+        project.link &&
+        (linkFieldRef.current.value = project.link);
     }
   }, [project]);
   return (

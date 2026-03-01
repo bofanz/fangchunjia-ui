@@ -55,7 +55,7 @@ export const MenuBar = ({ editor }: { editor: Editor | null }) => {
         .setLink({ href: url })
         .run();
     } catch (e) {
-      alert(e.message);
+      alert((e as Error).message);
     }
   }, [editor]);
 

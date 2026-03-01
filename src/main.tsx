@@ -8,11 +8,9 @@ import { routeTree } from './routeTree.gen';
 import './styles.css';
 import './tiptapStyles.css';
 import reportWebVitals from './reportWebVitals.ts';
-import { AuthProvider } from 'react-oidc-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MediaQueryContext } from './contexts/MediaQueryContext.tsx';
 import * as Sentry from '@sentry/react';
-import { Auth0Provider } from '@auth0/auth0-react';
 import { Auth0Wrapper, useAuth0Context } from './auth/auth0.tsx';
 
 export const queryClient = new QueryClient();

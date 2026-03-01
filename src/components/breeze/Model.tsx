@@ -103,7 +103,7 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
   }, []);
 
   // Animation loop - applies floating effect to each mesh
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     // Update elapsed time (speed multiplier can be adjusted)
     elapsedRef.current += delta * 0.5; // 0.5 is the speed - adjust as needed
     const t = elapsedRef.current;
