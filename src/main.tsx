@@ -6,8 +6,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 
 import './styles.css';
-import './lexicalEditorStyles.css';
-import './lexicalRendererStyles.css';
+import './tiptapStyles.css';
 import reportWebVitals from './reportWebVitals.ts';
 import { AuthProvider } from 'react-oidc-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

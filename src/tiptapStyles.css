@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+
+.tiptap-wrapper {
+  @apply flex flex-col gap-2;
+  .control-group {
+    .button-group {
+      @apply flex flex-wrap gap-1;
+
+      .divider {
+        width: 1px;
+        background-color: #eee;
+        margin: 0 4px;
+      }
+
+      button {
+        @apply bg-white hover:bg-pink-100;
+
+        &.is-active {
+          @apply bg-pink-200;
+        }
+
+        display: flex;
+        width: 32px;
+        height: 32px;
+        padding: 8px;
+        user-select: none;
+        line-height: 16px;
+      }
+    }
+  }
+}
+
+.tiptap {
+  @apply min-h-80 max-h-120 overflow-y-auto p-4 bg-gray-100;
+}
+
+.tiptap,
+.tiptap-renderer {
+  :first-child {
+    margin-top: 0;
+  }
+
+  p {
+    font-size: 16px !important;
+    line-height: 22px !important;
+    margin: 0;
+    margin-bottom: 22px;
+    position: relative;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  a {
+    color: #ff43bc;
+    cursor: pointer;
+  }
+
+  ul,
+  ol {
+    margin-bottom: 22px;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--gray-3);
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+  }
+}

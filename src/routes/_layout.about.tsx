@@ -1,11 +1,8 @@
 import Body from '@/components/Body';
-import TextRenderer from '@/components/lexical/TextRenderer';
-import { parseEditorState } from '@/components/lexical/utils';
 import { fetchAbout } from '@/utils/queries';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
-import type { EditorState } from 'lexical';
-import { useState } from 'react';
-import Markdown from 'react-markdown';
+import TiptapRenderer from '@/components/TiptapRenderer';
+import { parseJsonContent } from '@/components/Tiptap/parseJsonContent';
 
 export const Route = createFileRoute('/_layout/about')({
   component: RouteComponent,
@@ -41,16 +38,13 @@ function ErrorComponent({ error }: { error: Error }) {
 function RouteComponent() {
   const routeApi = getRouteApi('/_layout/about');
   const about = routeApi.useLoaderData();
-  const [editorState, setEditorState] = useState<EditorState | undefined>(
-    parseEditorState(about.text),
-  );
 
   return (
     <>
       <Body>
         <div className="w-full">
-          <section className="markdown">
-            <TextRenderer editorState={JSON.parse(about.text)} />
+          <section>
+            <TiptapRenderer content={parseJsonContent(about.text)} />
           </section>
         </div>
       </Body>

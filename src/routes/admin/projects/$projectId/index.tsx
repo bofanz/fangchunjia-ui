@@ -1,19 +1,9 @@
-import {
-  createFileRoute,
-  getRouteApi,
-  Link,
-  notFound,
-} from '@tanstack/react-router';
-import type { Project } from '@/interfaces/project.interface';
-import axios, { AxiosError } from 'axios';
+import { createFileRoute, getRouteApi, Link } from '@tanstack/react-router';
 import Body from '@/components/Body';
-import TextEditor from '@/components/lexical/TextEditor';
-import ProjectForm from '@/components/admin/ProjectForm';
-import MediaGridEditor from '@/components/admin/MediaGridEditor';
 import AdminHeader from '@/components/admin/AdminHeader';
 import { fetchProject } from '@/utils/queries';
-import TextRenderer from '@/components/lexical/TextRenderer';
-import { parseEditorState } from '@/components/lexical/utils';
+import TiptapRenderer from '@/components/TiptapRenderer';
+import { parseJsonContent } from '@/components/Tiptap/parseJsonContent';
 
 export const Route = createFileRoute('/admin/projects/$projectId/')({
   component: RouteComponent,
@@ -71,7 +61,7 @@ function RouteComponent() {
                 Edit
               </Link>
             </div>
-            <TextRenderer editorState={parseEditorState(project.description)} />
+            <TiptapRenderer content={parseJsonContent(project.description)} />
           </div>
           <div className="p-4 bg-black/5">
             <div className="flex justify-between">

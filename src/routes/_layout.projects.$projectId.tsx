@@ -2,7 +2,8 @@ import MediaGrid from '@/components/MediaGrid';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import { fetchProject } from '@/utils/queries';
 import Layer from '@/components/Layer';
-import TextRenderer from '@/components/lexical/TextRenderer';
+import TiptapRenderer from '@/components/TiptapRenderer';
+import { parseJsonContent } from '@/components/Tiptap/parseJsonContent';
 
 export const Route = createFileRoute('/_layout/projects/$projectId')({
   component: RouteComponent,
@@ -78,14 +79,15 @@ function RouteComponent() {
     <Layer>
       <div className="overflow-y-auto h-full [scrollbar-width:none]">
         <div className="min-h-screen flex justify-start pt-24">
-          {/* <Link to=".." className="block w-0 md:w-3/8 cursor-pointer"></Link> */}
           <div className="flex flex-col p-8 w-full sm:w-4/5">
             <div className="">
               <h1 className="text-xl font-bold">{project.name}</h1>
               <h2 className="text-lg">{project.year}</h2>
               <div>{project.link}</div>
               <div>
-                <TextRenderer editorState={JSON.parse(project.description)} />
+                <TiptapRenderer
+                  content={parseJsonContent(project.description)}
+                />
               </div>
             </div>
 

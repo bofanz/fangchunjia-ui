@@ -1,5 +1,5 @@
 import Body from '@/components/Body';
-import { createFileRoute, Link, redirect } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/admin/')({
   component: RouteComponent,
