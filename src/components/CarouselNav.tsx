@@ -10,7 +10,11 @@ export interface CarouselProps {
   items: NavItem[];
 }
 
-const TRANSITION_SETTINGS: Transition = { type: 'tween', duration: 0.4 };
+const TRANSITION_SETTINGS: Transition = {
+  type: 'tween',
+  duration: 0.4,
+  ease: 'linear',
+};
 
 interface CarouselItemProps {
   item: NavItem;
@@ -96,7 +100,7 @@ export default function CarouselNav({ items }: CarouselProps) {
   useEffect(() => {
     const startingPosition = initialPosition;
     setPosition(startingPosition);
-    x.set(`calc(-128px * ${startingPosition})`);
+    x.set(`-128 * ${startingPosition}`);
   }, [items.length, x]);
 
   const effectiveTransition = isJumping ? { duration: 0 } : TRANSITION_SETTINGS;
@@ -111,7 +115,7 @@ export default function CarouselNav({ items }: CarouselProps) {
       const normalizedPosition = position % items.length;
       setIsJumping(true);
       setPosition(normalizedPosition);
-      x.set(`calc(-128px * ${normalizedPosition})`);
+      x.set(`-128 * ${normalizedPosition}`);
       requestAnimationFrame(() => {
         setIsJumping(false);
         setIsAnimating(false);
@@ -145,7 +149,7 @@ export default function CarouselNav({ items }: CarouselProps) {
             style={{
               x,
             }}
-            animate={{ x: `calc(-128px * ${position})` }}
+            animate={{ x: -(128 * position) }}
             transition={effectiveTransition}
             onAnimationStart={handleAnimationStart}
             onAnimationComplete={handleAnimationComplete}

@@ -1,11 +1,13 @@
 import Body from '@/components/Body';
-import { fetchAboutMd } from '@/utils/queries';
+import { fetchAbout } from '@/utils/queries';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
-import Markdown from 'react-markdown';
+import TiptapRenderer from '@/components/TiptapRenderer';
+import { parseJsonContent } from '@/components/Tiptap/parseJsonContent';
 
 export const Route = createFileRoute('/_layout/about')({
   component: RouteComponent,
-  loader: ({ context }) => fetchAboutMd(context as { filesApi: string }),
+  // @ts-ignore
+  loader: ({ params, context }) => fetchAbout(context, params.projectId),
   pendingComponent: PendingComponent,
   errorComponent: ErrorComponent,
   head: () => ({
@@ -35,14 +37,14 @@ function ErrorComponent({ error }: { error: Error }) {
 
 function RouteComponent() {
   const routeApi = getRouteApi('/_layout/about');
-  const aboutMd = routeApi.useLoaderData();
+  const about = routeApi.useLoaderData();
 
   return (
     <>
       <Body>
         <div className="w-full">
-          <section className="markdown">
-            <Markdown>{aboutMd}</Markdown>
+          <section>
+            <TiptapRenderer content={parseJsonContent(about.text)} />
           </section>
         </div>
       </Body>
