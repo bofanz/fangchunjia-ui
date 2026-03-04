@@ -4,9 +4,9 @@ import { fetchProject } from '@/utils/queries';
 import Body from '@/components/Body';
 import { useState } from 'react';
 import { useUpdateProjectMutation } from '@/utils/queryOptions';
-import Editor from '@/components/Tiptap';
+import Editor from '@/components/admin/Tiptap';
 import type { JSONContent } from '@tiptap/react';
-import { parseJsonContent } from '@/components/Tiptap/parseJsonContent';
+import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
 
 export const Route = createFileRoute('/admin/projects/$projectId/description')({
   component: RouteComponent,

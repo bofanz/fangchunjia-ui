@@ -2,7 +2,7 @@ import Body from '@/components/Body';
 import { fetchAbout } from '@/utils/queries';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import TiptapRenderer from '@/components/TiptapRenderer';
-import { parseJsonContent } from '@/components/Tiptap/parseJsonContent';
+import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
 
 export const Route = createFileRoute('/_layout/about')({
   component: RouteComponent,

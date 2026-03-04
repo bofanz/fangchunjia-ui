@@ -93,7 +93,7 @@ export default function MediaGridEditor({
             Save
           </button>
         </div>
-        <div className="w-full">
+        <div className="w-80">
           <DragDropProvider
             onDragEnd={(event) => {
               // @ts-expect-error

@@ -3,7 +3,7 @@ import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import { fetchProject } from '@/utils/queries';
 import Layer from '@/components/Layer';
 import TiptapRenderer from '@/components/TiptapRenderer';
-import { parseJsonContent } from '@/components/Tiptap/parseJsonContent';
+import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
 
 export const Route = createFileRoute('/_layout/projects/$projectId')({
   component: RouteComponent,

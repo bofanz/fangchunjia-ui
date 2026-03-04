@@ -3,7 +3,7 @@ import Body from '@/components/Body';
 import AdminHeader from '@/components/admin/AdminHeader';
 import { fetchProject } from '@/utils/queries';
 import TiptapRenderer from '@/components/TiptapRenderer';
-import { parseJsonContent } from '@/components/Tiptap/parseJsonContent';
+import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
 
 export const Route = createFileRoute('/admin/projects/$projectId/')({
   component: RouteComponent,

@@ -1,25 +1,37 @@
+import { useUploadProjectMediaMutation } from '@/utils/queryOptions';
+import clsx from 'clsx';
 import { useRef, useState } from 'react';
 
 export default function MediaUploader() {
-  // async function uploadProjectCover(file: File, projectId: string) {
-  //   const presigned = await axios.get<{ uploadUrl: string }>(
-  //     `https://api.fangchunjia.com/projects/${projectId}/gen-file-upload-url`,
-  //     { params: { filename: file.name } },
-  //   );
-  //   console.log(file);
-  //   // const formData = new FormData();
-  //   // formData.append('file', file);
-  //   const res = await axios.put(presigned.data.uploadUrl, file, {
-  //     headers: {
-  //       'Content-Type': 'application/octet-stream',
-  //       Accept: '*/*',
-  //     },
-  //   });
-  //   return res;
-  // }
+  const [uploadStates, setUploadStates] = useState<
+    Record<string, 'pending' | 'success' | 'error'>
+  >({});
+
+  const uploadProjectMediaMutation = useUploadProjectMediaMutation();
+
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []) as File[];
+    if (!files.length) return;
+
+    // Set all files to pending
+    setUploadStates(Object.fromEntries(files.map((f) => [f.name, 'pending'])));
+
+    // Fire all mutations simultaneously
+    await Promise.all(
+      files.map((file) =>
+        uploadProjectMediaMutation
+          .mutateAsync({ file: file, projectId: 'arinoroom' })
+          .then(() =>
+            setUploadStates((prev) => ({ ...prev, [file.name]: 'success' })),
+          )
+          .catch(() =>
+            setUploadStates((prev) => ({ ...prev, [file.name]: 'error' })),
+          ),
+      ),
+    );
+  };
 
   const fileInput = useRef<HTMLInputElement | null>(null);
-  const [files, setFiles] = useState<File[] | null>(null);
   return (
     <div>
       <div>
@@ -28,26 +40,27 @@ export default function MediaUploader() {
             ref={fileInput}
             type="file"
             multiple
-            className="mt-1 block border-b-2 border-black"
+            className={clsx(
+              'mt-1 block border-b-2 border-black disabled:text-gray-400',
+            )}
             name="media"
-            onChange={(x) => {
-              if (x.target.files) {
-                const files = [];
-                for (const file of x.target.files) {
-                  files.push(file);
-                  console.log(file);
-                }
-                setFiles(files);
-                console.log('xxx');
-                console.log(files);
-              } else {
-                setFiles(null);
-              }
-            }}
+            onChange={handleChange}
+            disabled={uploadProjectMediaMutation.isPending}
           />
         </label>
+        {Object.entries(uploadStates).map(([name, status]) => (
+          <div key={name}>
+            <span>{name}</span>
+            <span>
+              {status === 'pending'
+                ? 'Uploading'
+                : status === 'success'
+                  ? 'Uploaded'
+                  : 'Failed'}
+            </span>
+          </div>
+        ))}
       </div>
-      {files && files.map((f) => <div>{f.name}</div>)}
     </div>
   );
 }

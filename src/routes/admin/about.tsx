@@ -1,7 +1,7 @@
 import AdminHeader from '@/components/admin/AdminHeader';
 import Body from '@/components/Body';
-import Editor from '@/components/Tiptap';
-import { parseJsonContent } from '@/components/Tiptap/parseJsonContent';
+import Editor from '@/components/admin/Tiptap';
+import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
 import { fetchAbout } from '@/utils/queries';
 import { useUpdateAboutMutation } from '@/utils/queryOptions';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
