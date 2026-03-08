@@ -2,7 +2,7 @@ import { useUploadProjectMediaMutation } from '@/utils/queryOptions';
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
 
-export default function MediaUploader() {
+export default function MediaUploader({ projectId }: { projectId: string }) {
   const [uploadStates, setUploadStates] = useState<
     Record<string, 'pending' | 'success' | 'error'>
   >({});
@@ -20,7 +20,7 @@ export default function MediaUploader() {
     await Promise.all(
       files.map((file) =>
         uploadProjectMediaMutation
-          .mutateAsync({ file: file, projectId: 'arinoroom' })
+          .mutateAsync({ file: file, projectId: projectId })
           .then(() =>
             setUploadStates((prev) => ({ ...prev, [file.name]: 'success' })),
           )
@@ -35,31 +35,38 @@ export default function MediaUploader() {
   return (
     <div>
       <div>
-        <label className="text-sm/6 font-medium">
+        <label className="text-sm/6 flex font-medium bg-gray-100 disabled:text-gray-400 w-60 h-40">
+          <span className="m-auto">Upload</span>
           <input
             ref={fileInput}
             type="file"
             multiple
-            className={clsx(
-              'mt-1 block border-b-2 border-black disabled:text-gray-400',
-            )}
+            className={clsx('hidden')}
             name="media"
             onChange={handleChange}
             disabled={uploadProjectMediaMutation.isPending}
           />
         </label>
-        {Object.entries(uploadStates).map(([name, status]) => (
-          <div key={name}>
-            <span>{name}</span>
-            <span>
-              {status === 'pending'
-                ? 'Uploading'
-                : status === 'success'
-                  ? 'Uploaded'
-                  : 'Failed'}
-            </span>
-          </div>
-        ))}
+        <div className="mt-2">
+          <ul>
+            {Object.entries(uploadStates).map(([name, status]) => (
+              <li key={name}>
+                <div className="flex">
+                  <span className="w-0 grow overflow-hidden whitespace-nowrap text-ellipsis">
+                    {name}
+                  </span>
+                  <span>
+                    {status === 'pending'
+                      ? 'Uploading'
+                      : status === 'success'
+                        ? 'Uploaded'
+                        : 'Failed'}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

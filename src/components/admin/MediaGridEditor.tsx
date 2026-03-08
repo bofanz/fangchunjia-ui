@@ -1,4 +1,5 @@
-import { MediaSize, type Media } from '@/interfaces/media.interface';
+import { MediaSize, type MediaLayoutItem } from '@/interfaces/media.interface';
+import { useCreateOrUpdateProjectMediaLayoutMutation } from '@/utils/queryOptions';
 import { move } from '@dnd-kit/helpers';
 import { DragDropProvider } from '@dnd-kit/react';
 import { useSortable } from '@dnd-kit/react/sortable';
@@ -12,7 +13,7 @@ function Sortable({
 }: {
   id: string;
   index: number;
-  media: Media;
+  media: MediaLayoutItem;
   setMedia: Function;
 }) {
   const { ref } = useSortable({ id, index });
@@ -57,7 +58,7 @@ function MediaSizer({
     <div className="flex">
       {sizeOptions.map((s) => (
         <div key={s}>
-          <label className="has-checked:bg-fangchunjia-pink py-1 px-2 flex w-8 h-8 items-center justify-center bg-white">
+          <label className="has-checked:bg-fangchunjia-pink py-1 px-2 flex text-sm w-6 h-6 items-center justify-center bg-white">
             {mediaSizeMap[s]}
             <input
               type="radio"
@@ -76,47 +77,58 @@ function MediaSizer({
 }
 
 export default function MediaGridEditor({
+  projectId,
   initialMedias,
 }: {
-  initialMedias: Media[];
+  projectId: string;
+  initialMedias: MediaLayoutItem[];
 }) {
-  const [medias, setMedias] = useState<Media[]>(initialMedias);
+  const [medias, setMedias] = useState<MediaLayoutItem[]>(initialMedias);
+  const createOrUpdateProjectMediaLayoutMutation =
+    useCreateOrUpdateProjectMediaLayoutMutation();
 
   return (
     <>
-      <div className="space-y-8">
+      <div className="space-y-8 h-full flex flex-col">
+        <div className="grow overflow-y-auto w-full p-4">
+          <div className="w-60">
+            <DragDropProvider
+              onDragEnd={(event) => {
+                // @ts-expect-error
+                setMedias((medias) => {
+                  // @ts-expect-error
+                  return move(medias, event);
+                });
+              }}
+            >
+              <ul className="media-grid fit-content">
+                {medias.map((item, index) => (
+                  <Sortable
+                    key={item.key}
+                    id={item.key}
+                    index={index}
+                    media={item}
+                    setMedia={(media: MediaLayoutItem) =>
+                      setMedias(medias.toSpliced(index, 1, media))
+                    }
+                  />
+                ))}
+              </ul>
+            </DragDropProvider>
+          </div>
+        </div>
         <div>
           <button
-            className="bg-fangchunjia-black px-4 py-2 text-sm text-white data-active:bg-fangchunjia-pink data-hover:bg-fangchunjia-pink data-disabled:bg-fangchunjia-gray transition"
-            onClick={() => console.log(medias)}
-          >
-            Save
-          </button>
-        </div>
-        <div className="w-80">
-          <DragDropProvider
-            onDragEnd={(event) => {
-              // @ts-expect-error
-              setMedias((medias) => {
-                // @ts-expect-error
-                return move(medias, event);
+            className="w-full bg-fangchunjia-black px-4 py-2 text-sm text-white active:bg-fangchunjia-pink hover:bg-fangchunjia-pink disabled:bg-fangchunjia-gray transition"
+            onClick={() => {
+              createOrUpdateProjectMediaLayoutMutation.mutate({
+                projectId: projectId,
+                mediaLayout: medias,
               });
             }}
           >
-            <ul className="media-grid fit-content">
-              {medias.map((item, index) => (
-                <Sortable
-                  key={item.key}
-                  id={item.key}
-                  index={index}
-                  media={item}
-                  setMedia={(media: Media) =>
-                    setMedias(medias.toSpliced(index, 1, media))
-                  }
-                />
-              ))}
-            </ul>
-          </DragDropProvider>
+            Save
+          </button>
         </div>
       </div>
     </>

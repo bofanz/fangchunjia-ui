@@ -1,6 +1,6 @@
-import type { Media } from '@/interfaces/media.interface';
+import type { MediaLayoutItem } from '@/interfaces/media.interface';
 
-export default function MediaGrid({ items }: { items: Media[] }) {
+export default function MediaGrid({ items }: { items: MediaLayoutItem[] }) {
   return (
     <div className="media-grid fit-content">
       {items.map((item) => (

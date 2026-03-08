@@ -67,7 +67,7 @@ export default function ProjectForm({
         <div>
           <label className="block">ID</label>
           <input
-            className="mt-1 block border-b-2 border-black"
+            className="mt-1 block bg-gray-100 px-2 py-1 w-80"
             name="id"
             ref={idFieldRef}
           />
@@ -75,7 +75,7 @@ export default function ProjectForm({
         <div>
           <label className="block">Name</label>
           <input
-            className="mt-1 block border-b-2 border-black"
+            className="mt-1 block bg-gray-100 px-2 py-1 w-80"
             name="name"
             ref={nameFieldRef}
           />
@@ -83,7 +83,7 @@ export default function ProjectForm({
         <div>
           <label className="block">Category</label>
           <select
-            className="mt-1 block border-b-2 border-black"
+            className="mt-1 block bg-gray-100 px-2 py-1 w-80"
             name="categoryId"
             ref={categoryIdFieldRef}
           >
@@ -94,7 +94,7 @@ export default function ProjectForm({
         <div>
           <label className="block">Year</label>
           <input
-            className="mt-1 block border-b-2 border-black"
+            className="mt-1 block bg-gray-100 px-2 py-1 w-80"
             name="year"
             type="number"
             ref={yearFieldRef}
@@ -103,7 +103,7 @@ export default function ProjectForm({
         <div>
           <label className="block">Link</label>
           <input
-            className="mt-1 block border-b-2 border-black"
+            className="mt-1 block bg-gray-100 px-2 py-1 w-80"
             name="Link"
             type="url"
             ref={linkFieldRef}

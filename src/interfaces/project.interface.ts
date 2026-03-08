@@ -1,4 +1,4 @@
-import type { Media } from './media.interface';
+import type { MediaLayoutItem } from './media.interface';
 
 export interface ProjectInfo {
   id: string;
@@ -12,7 +12,7 @@ export interface ProjectInfo {
 export interface Project extends ProjectInfo {
   link?: string;
   description: string;
-  files: Media[];
+  mediaLayout: MediaLayoutItem[];
 }
 
 export interface Category {

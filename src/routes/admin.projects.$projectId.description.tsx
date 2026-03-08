@@ -1,17 +1,23 @@
-import AdminHeader from '@/components/admin/AdminHeader';
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
-import { fetchProject } from '@/utils/queries';
-import Body from '@/components/Body';
-import { useState } from 'react';
-import { useUpdateProjectMutation } from '@/utils/queryOptions';
 import Editor from '@/components/admin/Tiptap';
-import type { JSONContent } from '@tiptap/react';
 import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
+import { useUpdateProjectMutation } from '@/utils/queryOptions';
+import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import type { JSONContent } from '@tiptap/react';
+import { useState } from 'react';
+import { fetchProject } from '@/utils/queries';
+import Pane from '@/components/admin/Pane';
 
 export const Route = createFileRoute('/admin/projects/$projectId/description')({
   component: RouteComponent,
   // @ts-ignore
   loader: ({ params, context }) => fetchProject(context, params.projectId),
+  head: () => ({
+    meta: [
+      {
+        title: 'Description',
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {
@@ -36,9 +42,10 @@ function RouteComponent() {
 
   return (
     <>
-      <AdminHeader label={`Edit: ${project.name} - Description`} />
-      <Body>
-        <Editor content={content} setContent={setContent} />
+      <Pane>
+        <div className="flex-1">
+          <Editor content={content} setContent={setContent} />
+        </div>
         <button
           className="px-4 py-2 bg-black hover:bg-fangchunjia-pink text-white transition"
           onClick={() => {
@@ -47,7 +54,7 @@ function RouteComponent() {
         >
           Save
         </button>
-      </Body>
+      </Pane>
     </>
   );
 }

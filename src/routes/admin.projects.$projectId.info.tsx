@@ -1,13 +1,19 @@
-import AdminHeader from '@/components/admin/AdminHeader';
 import ProjectForm from '@/components/admin/ProjectForm';
-import Body from '@/components/Body';
-import { fetchProject } from '@/utils/queries';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { fetchProject } from '@/utils/queries';
+import Pane from '@/components/admin/Pane';
 
 export const Route = createFileRoute('/admin/projects/$projectId/info')({
   component: RouteComponent,
   // @ts-ignore
   loader: ({ params, context }) => fetchProject(context, params.projectId),
+  head: () => ({
+    meta: [
+      {
+        title: 'Info',
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {
@@ -15,10 +21,11 @@ function RouteComponent() {
   const project = routeApi.useLoaderData();
   return (
     <>
-      <AdminHeader label={`Edit: ${project.name} - Info`} />
-      <Body>
-        <ProjectForm project={project} update={true} />
-      </Body>
+      <Pane>
+        <div className="p-4">
+          <ProjectForm project={project} update={true} />
+        </div>
+      </Pane>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import type { About } from '@/interfaces/about.interface';
+import type { MediaSize } from '@/interfaces/media.interface';
 import type {
   Category,
   Project,
@@ -89,14 +90,11 @@ export async function updateProject(project: Partial<Project>) {
 
 export async function uploadProjectMedia(data: {
   file: File;
-  // fileTitle: string;
   projectId: string;
 }) {
-  console.log(data.file);
-  console.log('====');
   const getPresignedUrl = async (fileName: string) => {
-    const { data } = await axios.post<{ uploadUrl: string; key: string }>(
-      'https://api.fangchunjia.com/projects/arinoroom/gen-file-upload-url',
+    const res = await axios.post<{ uploadUrl: string; key: string }>(
+      `https://api.fangchunjia.com/projects/${data.projectId}/gen-file-upload-url`,
       null,
       {
         params: {
@@ -104,7 +102,7 @@ export async function uploadProjectMedia(data: {
         },
       },
     );
-    return data;
+    return res.data;
   };
 
   const uploadToS3 = async ({
@@ -120,8 +118,6 @@ export async function uploadProjectMedia(data: {
     await axios.put(presignedUrl, file, {
       headers: {
         'Content-Type': file.type,
-        'x-amz-meta-size': 's',
-        'x-amz-meta-seq': 0,
       },
     });
 
@@ -139,4 +135,14 @@ export async function uploadProjectMedia(data: {
   await uploadToS3({ presignedUrl: uploadUrl, file: data.file });
 
   return { success: true, fileName: data.file.name };
+}
+
+export async function createOrUpdateProjectMediaLayout(data: {
+  projectId: string;
+  mediaLayout: { key: string; size: MediaSize; seq: number }[];
+}) {
+  return axios.post<null>(
+    `https://api.fangchunjia.com/projects/${data.projectId}/media-layout`,
+    { mediaLayout: data.mediaLayout },
+  );
 }

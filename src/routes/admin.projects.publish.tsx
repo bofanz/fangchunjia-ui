@@ -1,21 +1,24 @@
-import AdminHeader from '@/components/admin/AdminHeader';
+import Pane from '@/components/admin/Pane';
 import ProjectForm from '@/components/admin/ProjectForm';
-import Body from '@/components/Body';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/admin/projects/publish')({
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        title: 'Publish',
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {
   return (
-    <>
-      <AdminHeader label="Publish" />
-      <Body>
-        <div className="pt-4">
-          <ProjectForm />
-        </div>
-      </Body>
-    </>
+    <Pane>
+      <div className="p-4">
+        <ProjectForm />
+      </div>
+    </Pane>
   );
 }

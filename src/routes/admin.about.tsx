@@ -1,17 +1,23 @@
-import AdminHeader from '@/components/admin/AdminHeader';
-import Body from '@/components/Body';
 import Editor from '@/components/admin/Tiptap';
 import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
-import { fetchAbout } from '@/utils/queries';
 import { useUpdateAboutMutation } from '@/utils/queryOptions';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import type { JSONContent } from '@tiptap/react';
 import { useState } from 'react';
+import { fetchAbout } from '@/utils/queries';
+import Pane from '@/components/admin/Pane';
 
 export const Route = createFileRoute('/admin/about')({
   component: RouteComponent,
   // @ts-ignore
   loader: ({ params, context }) => fetchAbout(context, params.projectId),
+  head: () => ({
+    meta: [
+      {
+        title: 'About',
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {
@@ -36,9 +42,10 @@ function RouteComponent() {
 
   return (
     <>
-      <AdminHeader label={`Edit: About`} />
-      <Body>
-        <Editor content={content} setContent={setContent} />
+      <Pane>
+        <div className="flex-1">
+          <Editor content={content} setContent={setContent} />
+        </div>
         <button
           className="px-4 py-2 bg-black hover:bg-fangchunjia-pink text-white transition"
           onClick={() => {
@@ -47,7 +54,7 @@ function RouteComponent() {
         >
           Save
         </button>
-      </Body>
+      </Pane>
     </>
   );
 }
