@@ -1,4 +1,8 @@
-import { MediaSize, type MediaLayoutItem } from '@/interfaces/media.interface';
+import {
+  MediaSize,
+  type Media,
+  type MediaLayoutItem,
+} from '@/interfaces/media.interface';
 import { useCreateOrUpdateProjectMediaLayoutMutation } from '@/utils/queryOptions';
 import { move } from '@dnd-kit/helpers';
 import { DragDropProvider } from '@dnd-kit/react';
@@ -13,7 +17,7 @@ function Sortable({
 }: {
   id: string;
   index: number;
-  media: MediaLayoutItem;
+  media: MediaLayoutItem & Media;
   setMedia: Function;
 }) {
   const { ref } = useSortable({ id, index });
@@ -21,10 +25,23 @@ function Sortable({
   return (
     <li ref={ref} className={'relative media-wrapper ' + media.size}>
       <div>
-        <img
-          className="media"
-          src={`https://files.fangchunjia.com/${media.key}`}
-        />
+        {media.contentType?.startsWith('image') ? (
+          <img
+            className="media"
+            src={`https://files.fangchunjia.com/${media.key}`}
+          />
+        ) : media.contentType?.startsWith('video') ? (
+          <video muted playsInline controls>
+            <source
+              src={`https://files.fangchunjia.com/${media.key}`}
+              type={media.contentType}
+            />
+          </video>
+        ) : media.contentType?.startsWith('audio') ? (
+          <audio />
+        ) : (
+          <>Unsupported media type</>
+        )}
       </div>
       <div className="absolute top-0 left-0">
         <MediaSizer
@@ -78,12 +95,17 @@ function MediaSizer({
 
 export default function MediaGridEditor({
   projectId,
-  initialMedias,
+  media,
+  initialMediaLayout,
 }: {
   projectId: string;
-  initialMedias: MediaLayoutItem[];
+  media: Media[];
+  initialMediaLayout: MediaLayoutItem[];
 }) {
-  const [medias, setMedias] = useState<MediaLayoutItem[]>(initialMedias);
+  const [mediaLayout, setMediaLayout] = useState<MediaLayoutItem[]>(
+    // Use media to initiate mediaLayout if mediaLayout does not exists
+    initialMediaLayout || media.map((m) => ({ key: m.key, size: MediaSize.M })),
+  );
   const createOrUpdateProjectMediaLayoutMutation =
     useCreateOrUpdateProjectMediaLayoutMutation();
 
@@ -95,21 +117,27 @@ export default function MediaGridEditor({
             <DragDropProvider
               onDragEnd={(event) => {
                 // @ts-expect-error
-                setMedias((medias) => {
+                setMediaLayout((mediaLayout) => {
                   // @ts-expect-error
-                  return move(medias, event);
+                  return move(mediaLayout, event);
                 });
               }}
             >
               <ul className="media-grid fit-content">
-                {medias.map((item, index) => (
+                {mediaLayout.map((item, index) => (
                   <Sortable
                     key={item.key}
                     id={item.key}
                     index={index}
-                    media={item}
-                    setMedia={(media: MediaLayoutItem) =>
-                      setMedias(medias.toSpliced(index, 1, media))
+                    media={{
+                      ...item,
+                      contentType: media.find((m) => m.key === item.key)
+                        ?.contentType,
+                    }}
+                    setMedia={(mediaLayoutItem: MediaLayoutItem) =>
+                      setMediaLayout(
+                        mediaLayout.toSpliced(index, 1, mediaLayoutItem),
+                      )
                     }
                   />
                 ))}
@@ -123,7 +151,7 @@ export default function MediaGridEditor({
             onClick={() => {
               createOrUpdateProjectMediaLayoutMutation.mutate({
                 projectId: projectId,
-                mediaLayout: medias,
+                mediaLayout: mediaLayout,
               });
             }}
           >

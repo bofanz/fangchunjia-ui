@@ -1,5 +1,5 @@
 import Pane from '@/components/admin/Pane';
-import { fetchProjects } from '@/utils/queries';
+import { fetchProjects, type QueryContext } from '@/utils/queries';
 import {
   createFileRoute,
   getRouteApi,
@@ -9,7 +9,7 @@ import {
 
 export const Route = createFileRoute('/admin/projects')({
   component: RouteComponent,
-  loader: ({ context }) => fetchProjects(context as { portfolioApi: string }),
+  loader: ({ context }) => fetchProjects(context as QueryContext),
   head: () => ({
     meta: [
       {

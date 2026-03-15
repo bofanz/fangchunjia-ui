@@ -1,5 +1,5 @@
 import { queryClient } from '@/main';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import {
   createOrUpdateProjectMediaLayout,
@@ -8,26 +8,60 @@ import {
   updateProject,
   uploadProjectMedia,
 } from './queries';
+import { useAuth0 } from '@auth0/auth0-react';
+import type { About } from '@/interfaces/about.interface';
+import type { Project } from '@/interfaces/project.interface';
+import type { MediaLayoutItem, MediaSize } from '@/interfaces/media.interface';
+
+// MutationOptions with mandatory mutationFn which takes variables and a token
+type AuthMutationOptions<TData, TError, TVariables, TContext> = Omit<
+  UseMutationOptions<TData, TError, TVariables, TContext>,
+  'mutationFn'
+> & {
+  mutationFn: (variables: TVariables, token: string) => Promise<TData>;
+};
+
+// Gets the access token on the of useMutation
+const createAuthMutation = <TData, TError, TVariables, TContext>({
+  mutationFn,
+  ...rest
+}: AuthMutationOptions<TData, TError, TVariables, TContext>) => {
+  return () => {
+    const { getAccessTokenSilently } = useAuth0();
+
+    return useMutation({
+      ...rest,
+      mutationFn: async (variables: TVariables) => {
+        const token = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: 'https://admin.fangchunjia.com/',
+            scope: 'write:all',
+          },
+        });
+        return mutationFn(variables, token);
+      },
+    });
+  };
+};
 
 export const useUpdateAboutMutation = () => {
   const navigate = useNavigate();
-
-  return useMutation({
-    mutationFn: updateAbout,
+  return createAuthMutation({
+    mutationFn: (about: About, token: string) => updateAbout(about, token),
     onSuccess: () => {
       queryClient.invalidateQueries();
       navigate({
         to: `/admin/about`,
       });
     },
-  });
+  })();
 };
 
 export const useCreateProjectMutation = () => {
   const navigate = useNavigate();
-
-  return useMutation({
-    mutationFn: createProject,
+  return createAuthMutation({
+    mutationFn: (project: Partial<Project>, token: string) =>
+      createProject(project, token),
     onSuccess: (data) => {
       queryClient.invalidateQueries();
       navigate({
@@ -36,14 +70,15 @@ export const useCreateProjectMutation = () => {
         params: { projectId: data.data.id },
       });
     },
-  });
+  })();
 };
 
 export const useUpdateProjectMutation = () => {
   const navigate = useNavigate();
 
-  return useMutation({
-    mutationFn: updateProject,
+  return createAuthMutation({
+    mutationFn: (project: Partial<Project>, token: string) =>
+      updateProject(project, token),
     onSuccess: (data) => {
       queryClient.invalidateQueries();
       navigate({
@@ -52,23 +87,35 @@ export const useUpdateProjectMutation = () => {
         params: { projectId: data.data.id },
       });
     },
-  });
+  })();
 };
 
 export const useUploadProjectMediaMutation = () => {
-  return useMutation({
-    mutationFn: uploadProjectMedia,
+  return createAuthMutation({
+    mutationFn: (
+      data: {
+        file: File;
+        projectId: string;
+      },
+      token: string,
+    ) => uploadProjectMedia(data, token),
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
-  });
+  })();
 };
 
 export const useCreateOrUpdateProjectMediaLayoutMutation = () => {
-  return useMutation({
-    mutationFn: createOrUpdateProjectMediaLayout,
+  return createAuthMutation({
+    mutationFn: (
+      data: {
+        projectId: string;
+        mediaLayout: MediaLayoutItem[];
+      },
+      token: string,
+    ) => createOrUpdateProjectMediaLayout(data, token),
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
-  });
+  })();
 };

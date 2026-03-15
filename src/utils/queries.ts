@@ -1,5 +1,5 @@
 import type { About } from '@/interfaces/about.interface';
-import type { MediaSize } from '@/interfaces/media.interface';
+import type { MediaLayoutItem, MediaSize } from '@/interfaces/media.interface';
 import type {
   Category,
   Project,
@@ -8,35 +8,31 @@ import type {
 import { notFound } from '@tanstack/react-router';
 import axios, { AxiosError } from 'axios';
 
-export const fetchAboutMd = async (context: { filesApi: string }) => {
-  const aboutMd = await axios
-    .get(`${context.filesApi}/about/about.md`)
-    .then((r) => r.data);
-  return aboutMd;
-};
+export interface QueryContext {
+  fangchunjiaApiOrigin: string;
+  fangchunjiaFilesApiOrigin: string;
+  fangchunjiaAdminApiOrigin: string;
+  // queryClient: QueryClient;
+}
 
-export const fetchAbout = async (context: { portfolioApi: string }) => {
+// Public endpoints
+
+export const fetchAbout = async (context: QueryContext) => {
   try {
     return await axios
-      .get<About>(`${context.portfolioApi}/about`)
+      .get<About>(`${context.fangchunjiaApiOrigin}/about`)
       .then((r) => r.data);
   } catch (e) {
     throw e;
   }
 };
 
-export async function updateAbout(about: About) {
-  return axios.post<null>(`https://api.fangchunjia.com/about`, {
-    ...(about.text && { text: about.text }),
-  });
-}
-
-export const fetchProjects = async (context: { portfolioApi: string }) => {
+export const fetchProjects = async (context: QueryContext) => {
   const categories = await axios
-    .get<Category[]>(`${context.portfolioApi}/project-categories`)
+    .get<Category[]>(`${context.fangchunjiaApiOrigin}/project-categories`)
     .then((r) => r.data);
   const projects = await axios
-    .get<ProjectInfo[]>(`${context.portfolioApi}/projects`)
+    .get<ProjectInfo[]>(`${context.fangchunjiaApiOrigin}/projects`)
     .then((r) => r.data);
   return {
     categories: categories,
@@ -45,12 +41,12 @@ export const fetchProjects = async (context: { portfolioApi: string }) => {
 };
 
 export const fetchProject = async (
-  context: { portfolioApi: string },
+  context: QueryContext,
   projectId: string,
 ) => {
   try {
     const project = await axios
-      .get<Project>(`${context.portfolioApi}/projects/${projectId}`)
+      .get<Project>(`${context.fangchunjiaApiOrigin}/projects/${projectId}`)
       .then((r) => r.data);
     return project;
   } catch (e) {
@@ -64,20 +60,48 @@ export const fetchProject = async (
   }
 };
 
-export async function createProject(project: Partial<Project>) {
-  return axios.post<null>('https://api.fangchunjia.com/projects', {
-    id: project.id,
-    name: project.name,
-    categoryId: project.categoryId,
-    year: project.year,
-    // description: project.description,
-    link: project.link,
-  });
+// Admin endpoints
+
+export async function updateAbout(about: About, token: string) {
+  try {
+    return axios.post<null>(
+      `https://admin.fangchunjia.com/about`,
+      {
+        ...(about.text && { text: about.text }),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+  } catch (e) {
+    console.error(e);
+  }
 }
 
-export async function updateProject(project: Partial<Project>) {
+export async function createProject(project: Partial<Project>, token: string) {
   return axios.post<null>(
-    `https://api.fangchunjia.com/projects/${project.id}`,
+    'https://admin.fangchunjia.com/projects',
+    {
+      id: project.id,
+      name: project.name,
+      categoryId: project.categoryId,
+      year: project.year,
+      // description: project.description,
+      link: project.link,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}
+
+export async function updateProject(project: Partial<Project>, token: string) {
+  return axios.post<null>(
+    `https://admin.fangchunjia.com/projects/${project.id}`,
     {
       ...(project.name && { name: project.name }),
       ...(project.categoryId && { categoryId: project.categoryId }),
@@ -85,20 +109,31 @@ export async function updateProject(project: Partial<Project>) {
       ...(project.description && { description: project.description }),
       ...(project.link && { link: project.link }),
     },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
 }
 
-export async function uploadProjectMedia(data: {
-  file: File;
-  projectId: string;
-}) {
+export async function uploadProjectMedia(
+  data: {
+    file: File;
+    projectId: string;
+  },
+  token: string,
+) {
   const getPresignedUrl = async (fileName: string) => {
     const res = await axios.post<{ uploadUrl: string; key: string }>(
-      `https://api.fangchunjia.com/projects/${data.projectId}/gen-file-upload-url`,
+      `https://admin.fangchunjia.com/projects/${data.projectId}/gen-file-upload-url`,
       null,
       {
         params: {
           filename: fileName,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -112,22 +147,11 @@ export async function uploadProjectMedia(data: {
     presignedUrl: string;
     file: File;
   }) => {
-    console.log(presignedUrl);
-    console.log(file);
-
     await axios.put(presignedUrl, file, {
       headers: {
         'Content-Type': file.type,
       },
     });
-
-    // const res = await fetch(presignedUrl, {
-    //   method: 'PUT',
-    //   body: file,
-    //   headers: { 'Content-Type': file.type },
-    // });
-    // if (!res.ok) throw new Error('S3 upload failed');
-    // return res;
   };
 
   const { uploadUrl, key } = await getPresignedUrl(data.file.name);
@@ -137,12 +161,20 @@ export async function uploadProjectMedia(data: {
   return { success: true, fileName: data.file.name };
 }
 
-export async function createOrUpdateProjectMediaLayout(data: {
-  projectId: string;
-  mediaLayout: { key: string; size: MediaSize; seq: number }[];
-}) {
+export async function createOrUpdateProjectMediaLayout(
+  data: {
+    projectId: string;
+    mediaLayout: MediaLayoutItem[];
+  },
+  token: string,
+) {
   return axios.post<null>(
-    `https://api.fangchunjia.com/projects/${data.projectId}/media-layout`,
+    `https://admin.fangchunjia.com/projects/${data.projectId}/media-layout`,
     { mediaLayout: data.mediaLayout },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
 }

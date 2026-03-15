@@ -33,8 +33,9 @@ const isNotTouchDevice = !window.matchMedia('(pointer: coarse)').matches;
 const router = createRouter({
   routeTree,
   context: {
-    portfolioApi: 'https://api.fangchunjia.com',
-    filesApi: 'https://files.fangchunjia.com',
+    fangchunjiaApiOrigin: 'https://api.fangchunjia.com',
+    fangchunjiaFilesApiOrigin: 'https://files.fangchunjia.com',
+    fangchunjiaAdminApiOrigin: 'https://admin.fangchunjia.com',
     queryClient,
   },
   defaultPreload: 'intent',

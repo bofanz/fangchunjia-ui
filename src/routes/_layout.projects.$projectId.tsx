@@ -1,6 +1,6 @@
 import MediaGrid from '@/components/MediaGrid';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
-import { fetchProject } from '@/utils/queries';
+import { fetchProject, type QueryContext } from '@/utils/queries';
 import Layer from '@/components/Layer';
 import TiptapRenderer from '@/components/TiptapRenderer';
 import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
@@ -8,7 +8,7 @@ import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
 export const Route = createFileRoute('/_layout/projects/$projectId')({
   component: RouteComponent,
   loader: ({ params, context }) =>
-    fetchProject(context as { portfolioApi: string }, params.projectId),
+    fetchProject(context as QueryContext, params.projectId),
   pendingComponent: PendingComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,

@@ -8,13 +8,13 @@ import {
 import { useContext, useState } from 'react';
 import { motion } from 'motion/react';
 import Gallery from '@/components/Gallery';
-import { fetchProjects } from '@/utils/queries';
+import { fetchProjects, type QueryContext } from '@/utils/queries';
 import Body from '@/components/Body';
 import { MediaQueryContext } from '@/contexts/MediaQueryContext';
 
 export const Route = createFileRoute('/_layout/projects')({
   component: RouteComponent,
-  loader: ({ context }) => fetchProjects(context as { portfolioApi: string }),
+  loader: ({ context }) => fetchProjects(context as QueryContext),
   pendingComponent: PendingComponent,
   errorComponent: ErrorComponent,
   head: () => ({
@@ -63,7 +63,7 @@ function RouteComponent() {
       <Body>
         <div className="fixed top-0 bottom-0 left-0 right-0">
           <Gallery
-            medias={projects
+            media={projects
               .filter((p) => p.coverKey)
               .map((p) => ({
                 url: 'https://files.fangchunjia.com/' + p.coverKey,

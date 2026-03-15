@@ -1,5 +1,6 @@
 export interface Media {
   key: string;
+  contentType?: string;
 }
 
 export interface MediaLayoutItem {

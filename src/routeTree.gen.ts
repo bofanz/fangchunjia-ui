@@ -20,7 +20,7 @@ import { Route as LayoutAboutRouteImport } from './routes/_layout.about'
 import { Route as AdminProjectsPublishRouteImport } from './routes/admin.projects.publish'
 import { Route as AdminProjectsProjectIdRouteImport } from './routes/admin.projects.$projectId'
 import { Route as LayoutProjectsProjectIdRouteImport } from './routes/_layout.projects.$projectId'
-import { Route as AdminProjectsProjectIdMediasRouteImport } from './routes/admin.projects.$projectId.medias'
+import { Route as AdminProjectsProjectIdMediaRouteImport } from './routes/admin.projects.$projectId.media'
 import { Route as AdminProjectsProjectIdInfoRouteImport } from './routes/admin.projects.$projectId.info'
 import { Route as AdminProjectsProjectIdDescriptionRouteImport } from './routes/admin.projects.$projectId.description'
 
@@ -78,10 +78,10 @@ const LayoutProjectsProjectIdRoute = LayoutProjectsProjectIdRouteImport.update({
   path: '/$projectId',
   getParentRoute: () => LayoutProjectsRoute,
 } as any)
-const AdminProjectsProjectIdMediasRoute =
-  AdminProjectsProjectIdMediasRouteImport.update({
-    id: '/medias',
-    path: '/medias',
+const AdminProjectsProjectIdMediaRoute =
+  AdminProjectsProjectIdMediaRouteImport.update({
+    id: '/media',
+    path: '/media',
     getParentRoute: () => AdminProjectsProjectIdRoute,
   } as any)
 const AdminProjectsProjectIdInfoRoute =
@@ -110,7 +110,7 @@ export interface FileRoutesByFullPath {
   '/admin/projects/publish': typeof AdminProjectsPublishRoute
   '/admin/projects/$projectId/description': typeof AdminProjectsProjectIdDescriptionRoute
   '/admin/projects/$projectId/info': typeof AdminProjectsProjectIdInfoRoute
-  '/admin/projects/$projectId/medias': typeof AdminProjectsProjectIdMediasRoute
+  '/admin/projects/$projectId/media': typeof AdminProjectsProjectIdMediaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -125,7 +125,7 @@ export interface FileRoutesByTo {
   '/admin/projects/publish': typeof AdminProjectsPublishRoute
   '/admin/projects/$projectId/description': typeof AdminProjectsProjectIdDescriptionRoute
   '/admin/projects/$projectId/info': typeof AdminProjectsProjectIdInfoRoute
-  '/admin/projects/$projectId/medias': typeof AdminProjectsProjectIdMediasRoute
+  '/admin/projects/$projectId/media': typeof AdminProjectsProjectIdMediaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -142,7 +142,7 @@ export interface FileRoutesById {
   '/admin/projects/publish': typeof AdminProjectsPublishRoute
   '/admin/projects/$projectId/description': typeof AdminProjectsProjectIdDescriptionRoute
   '/admin/projects/$projectId/info': typeof AdminProjectsProjectIdInfoRoute
-  '/admin/projects/$projectId/medias': typeof AdminProjectsProjectIdMediasRoute
+  '/admin/projects/$projectId/media': typeof AdminProjectsProjectIdMediaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -159,7 +159,7 @@ export interface FileRouteTypes {
     | '/admin/projects/publish'
     | '/admin/projects/$projectId/description'
     | '/admin/projects/$projectId/info'
-    | '/admin/projects/$projectId/medias'
+    | '/admin/projects/$projectId/media'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -174,7 +174,7 @@ export interface FileRouteTypes {
     | '/admin/projects/publish'
     | '/admin/projects/$projectId/description'
     | '/admin/projects/$projectId/info'
-    | '/admin/projects/$projectId/medias'
+    | '/admin/projects/$projectId/media'
   id:
     | '__root__'
     | '/'
@@ -190,7 +190,7 @@ export interface FileRouteTypes {
     | '/admin/projects/publish'
     | '/admin/projects/$projectId/description'
     | '/admin/projects/$projectId/info'
-    | '/admin/projects/$projectId/medias'
+    | '/admin/projects/$projectId/media'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -278,11 +278,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutProjectsProjectIdRouteImport
       parentRoute: typeof LayoutProjectsRoute
     }
-    '/admin/projects/$projectId/medias': {
-      id: '/admin/projects/$projectId/medias'
-      path: '/medias'
-      fullPath: '/admin/projects/$projectId/medias'
-      preLoaderRoute: typeof AdminProjectsProjectIdMediasRouteImport
+    '/admin/projects/$projectId/media': {
+      id: '/admin/projects/$projectId/media'
+      path: '/media'
+      fullPath: '/admin/projects/$projectId/media'
+      preLoaderRoute: typeof AdminProjectsProjectIdMediaRouteImport
       parentRoute: typeof AdminProjectsProjectIdRoute
     }
     '/admin/projects/$projectId/info': {
@@ -332,7 +332,7 @@ const LayoutRouteWithChildren =
 interface AdminProjectsProjectIdRouteChildren {
   AdminProjectsProjectIdDescriptionRoute: typeof AdminProjectsProjectIdDescriptionRoute
   AdminProjectsProjectIdInfoRoute: typeof AdminProjectsProjectIdInfoRoute
-  AdminProjectsProjectIdMediasRoute: typeof AdminProjectsProjectIdMediasRoute
+  AdminProjectsProjectIdMediaRoute: typeof AdminProjectsProjectIdMediaRoute
 }
 
 const AdminProjectsProjectIdRouteChildren: AdminProjectsProjectIdRouteChildren =
@@ -340,7 +340,7 @@ const AdminProjectsProjectIdRouteChildren: AdminProjectsProjectIdRouteChildren =
     AdminProjectsProjectIdDescriptionRoute:
       AdminProjectsProjectIdDescriptionRoute,
     AdminProjectsProjectIdInfoRoute: AdminProjectsProjectIdInfoRoute,
-    AdminProjectsProjectIdMediasRoute: AdminProjectsProjectIdMediasRoute,
+    AdminProjectsProjectIdMediaRoute: AdminProjectsProjectIdMediaRoute,
   }
 
 const AdminProjectsProjectIdRouteWithChildren =

@@ -1,13 +1,13 @@
 export default function Gallery({
-  medias,
+  media,
   activeMedia,
 }: {
-  medias: { url: string }[];
+  media: { url: string }[];
   activeMedia: string;
 }) {
   return (
     <div className="relative w-full h-full pointer-events-none">
-      {medias.map((m) => (
+      {media.map((m) => (
         <div
           key={m.url}
           className={

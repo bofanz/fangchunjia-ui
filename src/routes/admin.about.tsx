@@ -3,9 +3,10 @@ import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
 import { useUpdateAboutMutation } from '@/utils/queryOptions';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import type { JSONContent } from '@tiptap/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchAbout } from '@/utils/queries';
 import Pane from '@/components/admin/Pane';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const Route = createFileRoute('/admin/about')({
   component: RouteComponent,

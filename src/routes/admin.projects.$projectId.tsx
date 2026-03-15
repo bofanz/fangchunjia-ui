@@ -6,13 +6,13 @@ import {
   Link,
   Outlet,
 } from '@tanstack/react-router';
-import { fetchProject } from '@/utils/queries';
+import { fetchProject, type QueryContext } from '@/utils/queries';
 import Pane from '@/components/admin/Pane';
 
 export const Route = createFileRoute('/admin/projects/$projectId')({
   component: RouteComponent,
   loader: ({ params, context }) =>
-    fetchProject(context as { portfolioApi: string }, params.projectId),
+    fetchProject(context as QueryContext, params.projectId),
   head: ({ loaderData }) => ({
     meta: [
       {
@@ -80,13 +80,13 @@ function RouteComponent() {
 
         <div className="border-b">
           <Link
-            to="/admin/projects/$projectId/medias"
+            to="/admin/projects/$projectId/media"
             params={{ projectId: project.id }}
             className="flex justify-between px-3 py-2 hover:bg-fangchunjia-pink/20"
             activeOptions={{ exact: false }}
             activeProps={{ className: 'bg-fangchunjia-pink/20' }}
           >
-            Medias
+            Media
           </Link>
         </div>
       </Pane>

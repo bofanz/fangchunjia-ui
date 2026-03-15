@@ -4,21 +4,21 @@ import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import { fetchProject } from '@/utils/queries';
 import Pane from '@/components/admin/Pane';
 
-export const Route = createFileRoute('/admin/projects/$projectId/medias')({
+export const Route = createFileRoute('/admin/projects/$projectId/media')({
   component: RouteComponent,
   // @ts-ignore
   loader: ({ params, context }) => fetchProject(context, params.projectId),
   head: () => ({
     meta: [
       {
-        title: 'Medias',
+        title: 'Media',
       },
     ],
   }),
 });
 
 function RouteComponent() {
-  const routeApi = getRouteApi('/admin/projects/$projectId/medias');
+  const routeApi = getRouteApi('/admin/projects/$projectId/media');
   const project = routeApi.useLoaderData();
   return (
     <>
@@ -31,7 +31,8 @@ function RouteComponent() {
             <div className="overflow-y-auto h-full grow">
               <MediaGridEditor
                 projectId={project.id}
-                initialMedias={project.mediaLayout}
+                media={project.media}
+                initialMediaLayout={project.mediaLayout}
               />
             </div>
           </div>
