@@ -92,7 +92,10 @@ function RouteComponent() {
             </div>
 
             <div className="pt-4 pb-8">
-              <MediaGrid items={project.mediaLayout} />
+              <MediaGrid
+                media={project.media}
+                mediaLayout={project.mediaLayout}
+              />
             </div>
           </div>
         </div>

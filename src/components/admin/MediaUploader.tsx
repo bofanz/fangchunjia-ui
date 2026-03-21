@@ -35,7 +35,7 @@ export default function MediaUploader({ projectId }: { projectId: string }) {
   return (
     <div>
       <div>
-        <label className="text-sm/6 flex font-medium bg-gray-100 disabled:text-gray-400 w-60 h-40">
+        <label className="text-sm/6 flex font-medium bg-fangchunjia-lightgray disabled:text-gray-400 w-60 h-40">
           <span className="m-auto">Upload</span>
           <input
             ref={fileInput}
@@ -47,7 +47,7 @@ export default function MediaUploader({ projectId }: { projectId: string }) {
             disabled={uploadProjectMediaMutation.isPending}
           />
         </label>
-        <div className="mt-2">
+        <div className="mt-2 text-sm">
           <ul>
             {Object.entries(uploadStates).map(([name, status]) => (
               <li key={name}>

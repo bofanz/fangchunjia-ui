@@ -11,7 +11,8 @@ import {
 import { useAuth0 } from '@auth0/auth0-react';
 import type { About } from '@/interfaces/about.interface';
 import type { Project } from '@/interfaces/project.interface';
-import type { MediaLayoutItem, MediaSize } from '@/interfaces/media.interface';
+import type { MediaLayoutItem } from '@/interfaces/media.interface';
+import { toast } from 'sonner';
 
 // MutationOptions with mandatory mutationFn which takes variables and a token
 type AuthMutationOptions<TData, TError, TVariables, TContext> = Omit<
@@ -81,6 +82,7 @@ export const useUpdateProjectMutation = () => {
       updateProject(project, token),
     onSuccess: (data) => {
       queryClient.invalidateQueries();
+      toast('Successfully updated the project');
       navigate({
         to: `/admin/projects/$projectId`,
         // @ts-ignore
@@ -115,7 +117,12 @@ export const useCreateOrUpdateProjectMediaLayoutMutation = () => {
       token: string,
     ) => createOrUpdateProjectMediaLayout(data, token),
     onSuccess: () => {
+      toast('Successfully updated the media layout');
       queryClient.invalidateQueries();
+    },
+    onError: (err) => {
+      console.log(err);
+      toast.error('Error updating the media layout');
     },
   })();
 };

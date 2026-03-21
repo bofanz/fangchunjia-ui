@@ -1,8 +1,8 @@
-import Pane from '@/components/admin/Pane';
 import ProjectForm from '@/components/admin/ProjectForm';
 import { createFileRoute } from '@tanstack/react-router';
+import { Panel } from 'react-resizable-panels';
 
-export const Route = createFileRoute('/admin/projects/publish')({
+export const Route = createFileRoute('/admin/_adminLayout/projects/publish')({
   component: RouteComponent,
   head: () => ({
     meta: [
@@ -15,10 +15,10 @@ export const Route = createFileRoute('/admin/projects/publish')({
 
 function RouteComponent() {
   return (
-    <Pane>
+    <Panel>
       <div className="p-4">
         <ProjectForm />
       </div>
-    </Pane>
+    </Panel>
   );
 }

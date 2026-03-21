@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .tiptap-wrapper {
-  @apply flex flex-col gap-2;
+  @apply flex flex-col;
   .control-group {
     .button-group {
       @apply flex flex-wrap gap-1;
@@ -31,7 +31,7 @@
 }
 
 .tiptap {
-  @apply min-h-80 max-h-120 overflow-y-auto p-4 bg-gray-100;
+  @apply min-h-80 max-h-120 overflow-y-auto p-4 bg-[#efefef];
 }
 
 .tiptap,

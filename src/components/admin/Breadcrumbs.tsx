@@ -12,7 +12,7 @@ export function Breadcrumbs() {
     }));
 
   return (
-    <nav className="px-3 py-2">
+    <nav className="text-sm">
       {breadcrumbs.map((crumb, i) => {
         const isLast = i === breadcrumbs.length - 1;
         return (
@@ -29,7 +29,7 @@ export function Breadcrumbs() {
             )}
             {!isLast && (
               <span>
-                <ChevronRightIcon className="h-4 inline-block mx-1" />
+                <ChevronRightIcon className="h-4 inline-block mx-1 text-fangchunjia-gray" />
               </span>
             )}
           </span>

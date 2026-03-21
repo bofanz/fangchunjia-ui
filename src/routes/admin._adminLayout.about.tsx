@@ -3,12 +3,11 @@ import { parseJsonContent } from '@/components/admin/Tiptap/parseJsonContent';
 import { useUpdateAboutMutation } from '@/utils/queryOptions';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import type { JSONContent } from '@tiptap/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { fetchAbout } from '@/utils/queries';
-import Pane from '@/components/admin/Pane';
-import { useAuth0 } from '@auth0/auth0-react';
+import { Group, Panel } from 'react-resizable-panels';
 
-export const Route = createFileRoute('/admin/about')({
+export const Route = createFileRoute('/admin/_adminLayout/about')({
   component: RouteComponent,
   // @ts-ignore
   loader: ({ params, context }) => fetchAbout(context, params.projectId),
@@ -23,7 +22,7 @@ export const Route = createFileRoute('/admin/about')({
 
 function RouteComponent() {
   const updateAboutMutation = useUpdateAboutMutation();
-  const routeApi = getRouteApi('/admin/about');
+  const routeApi = getRouteApi('/admin/_adminLayout/about');
   const about = routeApi.useLoaderData();
   const text = parseJsonContent(about.text);
 
@@ -43,19 +42,24 @@ function RouteComponent() {
 
   return (
     <>
-      <Pane>
-        <div className="flex-1">
-          <Editor content={content} setContent={setContent} />
-        </div>
-        <button
-          className="px-4 py-2 bg-black hover:bg-fangchunjia-pink text-white transition"
-          onClick={() => {
-            submit(content);
-          }}
-        >
-          Save
-        </button>
-      </Pane>
+      <Group>
+        <Panel>
+          <div className="flex flex-col border-r h-full border-r-fangchunjia-lightgray">
+            <div className="flex-1">
+              <Editor content={content} setContent={setContent} />
+            </div>
+            <button
+              className="px-4 py-2 bg-black hover:bg-fangchunjia-pink text-white transition"
+              onClick={() => {
+                submit(content);
+              }}
+            >
+              Save
+            </button>
+          </div>
+        </Panel>
+        <Panel />
+      </Group>
     </>
   );
 }

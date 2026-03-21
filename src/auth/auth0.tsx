@@ -18,6 +18,8 @@ export function Auth0Wrapper({ children }: { children: React.ReactNode }) {
       clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
       authorizationParams={{
         redirect_uri: window.location.origin + '/admin',
+        audience: 'https://admin.fangchunjia.com/', // ← add this
+        scope: 'openid profile email write:all', // ← and this
       }}
     >
       <Auth0ContextProvider>{children}</Auth0ContextProvider>

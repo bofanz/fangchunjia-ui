@@ -5,9 +5,11 @@ import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import type { JSONContent } from '@tiptap/react';
 import { useState } from 'react';
 import { fetchProject } from '@/utils/queries';
-import Pane from '@/components/admin/Pane';
+import { Panel } from 'react-resizable-panels';
 
-export const Route = createFileRoute('/admin/projects/$projectId/description')({
+export const Route = createFileRoute(
+  '/admin/_adminLayout/projects/$projectId/description',
+)({
   component: RouteComponent,
   // @ts-ignore
   loader: ({ params, context }) => fetchProject(context, params.projectId),
@@ -22,7 +24,9 @@ export const Route = createFileRoute('/admin/projects/$projectId/description')({
 
 function RouteComponent() {
   const updateProjectMutation = useUpdateProjectMutation();
-  const routeApi = getRouteApi('/admin/projects/$projectId/description');
+  const routeApi = getRouteApi(
+    '/admin/_adminLayout/projects/$projectId/description',
+  );
   const project = routeApi.useLoaderData();
   const description = parseJsonContent(project.description);
 
@@ -42,19 +46,23 @@ function RouteComponent() {
 
   return (
     <>
-      <Pane>
-        <div className="flex-1">
-          <Editor content={content} setContent={setContent} />
+      <Panel>
+        <div className="flex flex-col h-full">
+          <div className="p-4">
+            <Editor content={content} setContent={setContent} />
+          </div>
+          <div className="px-4 py-2">
+            <button
+              className="px-4 py-3 text-sm bg-black hover:bg-fangchunjia-pink text-white transition leading-none"
+              onClick={() => {
+                submit(content);
+              }}
+            >
+              Save
+            </button>
+          </div>
         </div>
-        <button
-          className="px-4 py-2 bg-black hover:bg-fangchunjia-pink text-white transition"
-          onClick={() => {
-            submit(content);
-          }}
-        >
-          Save
-        </button>
-      </Pane>
+      </Panel>
     </>
   );
 }

@@ -3,47 +3,77 @@ import {
   type Media,
   type MediaLayoutItem,
 } from '@/interfaces/media.interface';
+import { combineMedia } from '@/utils/combineMedia';
 import { useCreateOrUpdateProjectMediaLayoutMutation } from '@/utils/queryOptions';
 import { move } from '@dnd-kit/helpers';
 import { DragDropProvider } from '@dnd-kit/react';
 import { useSortable } from '@dnd-kit/react/sortable';
+import clsx from 'clsx';
 import { useState } from 'react';
 
-function Sortable({
+function MediaLayoutItem({
   id,
   index,
   media,
   setMedia,
+  coverKey,
+  setCoverKey,
 }: {
   id: string;
   index: number;
   media: MediaLayoutItem & Media;
   setMedia: Function;
+  coverKey?: string;
+  setCoverKey: Function;
 }) {
   const { ref } = useSortable({ id, index });
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <li ref={ref} className={'relative media-wrapper ' + media.size}>
+    <li
+      ref={ref}
+      className={'relative media-wrapper ' + media.size}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div>
         {media.contentType?.startsWith('image') ? (
           <img
             className="media"
+            title={media.key}
             src={`https://files.fangchunjia.com/${media.key}`}
           />
         ) : media.contentType?.startsWith('video') ? (
-          <video muted playsInline controls>
+          <video muted playsInline controls title={media.key}>
             <source
               src={`https://files.fangchunjia.com/${media.key}`}
               type={media.contentType}
             />
           </video>
         ) : media.contentType?.startsWith('audio') ? (
-          <audio />
+          <audio title={media.key} />
         ) : (
-          <>Unsupported media type</>
+          <div
+            className="p-4 bg-fangchunjia-lightgray cursor-default text-sm"
+            title={media.key}
+          >
+            Missing or unsupported media type
+          </div>
         )}
       </div>
-      <div className="absolute top-0 left-0">
+      <div className={clsx('absolute top-0 left-0 flex', !hovered && 'hidden')}>
+        <label className="has-checked:bg-fangchunjia-black has-checked:text-white py-1 px-2 flex text-sm w-6 h-6 items-center justify-center bg-white">
+          C
+          <input
+            type="radio"
+            id={`${media.key}-cover-key`}
+            name={`cover-key`}
+            value={media.key}
+            checked={media.key === coverKey}
+            onChange={(e) => setCoverKey(e.target.value)}
+            className="hidden"
+          />
+        </label>
         <MediaSizer
           id={id}
           size={media.size || MediaSize.S}
@@ -93,7 +123,7 @@ function MediaSizer({
   );
 }
 
-export default function MediaGridEditor({
+export default function MediaLayoutEditor({
   projectId,
   media,
   initialMediaLayout,
@@ -103,17 +133,17 @@ export default function MediaGridEditor({
   initialMediaLayout: MediaLayoutItem[];
 }) {
   const [mediaLayout, setMediaLayout] = useState<MediaLayoutItem[]>(
-    // Use media to initiate mediaLayout if mediaLayout does not exists
-    initialMediaLayout || media.map((m) => ({ key: m.key, size: MediaSize.M })),
+    combineMedia(media, initialMediaLayout),
   );
+  const [coverKey, setCoverKey] = useState<string | undefined>();
   const createOrUpdateProjectMediaLayoutMutation =
     useCreateOrUpdateProjectMediaLayoutMutation();
 
   return (
     <>
-      <div className="space-y-8 h-full flex flex-col">
-        <div className="grow overflow-y-auto w-full p-4">
-          <div className="w-60">
+      <div className="h-full flex flex-col">
+        <div className="grow overflow-y-auto w-full">
+          <div className="w-full p-4">
             <DragDropProvider
               onDragEnd={(event) => {
                 // @ts-expect-error
@@ -125,7 +155,7 @@ export default function MediaGridEditor({
             >
               <ul className="media-grid fit-content">
                 {mediaLayout.map((item, index) => (
-                  <Sortable
+                  <MediaLayoutItem
                     key={item.key}
                     id={item.key}
                     index={index}
@@ -139,15 +169,17 @@ export default function MediaGridEditor({
                         mediaLayout.toSpliced(index, 1, mediaLayoutItem),
                       )
                     }
+                    coverKey={coverKey}
+                    setCoverKey={setCoverKey}
                   />
                 ))}
               </ul>
             </DragDropProvider>
           </div>
         </div>
-        <div>
+        <div className="flex">
           <button
-            className="w-full bg-fangchunjia-black px-4 py-2 text-sm text-white active:bg-fangchunjia-pink hover:bg-fangchunjia-pink disabled:bg-fangchunjia-gray transition"
+            className="bg-fangchunjia-black w-full px-4 py-3 leading-none text-sm text-white active:bg-fangchunjia-pink hover:bg-fangchunjia-pink disabled:bg-fangchunjia-gray transition leading-none"
             onClick={() => {
               createOrUpdateProjectMediaLayoutMutation.mutate({
                 projectId: projectId,
