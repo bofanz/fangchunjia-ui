@@ -34,11 +34,13 @@ function RouteComponent() {
         </video>
       </div>
       <motion.div
-        className="opacity-0"
+        className="opacity-0 invisible hidden"
         animate={
           toStartLoaded
             ? {
                 opacity: '100%',
+                visibility: 'visible',
+                display: 'block',
               }
             : {}
         }

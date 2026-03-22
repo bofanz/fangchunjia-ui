@@ -1,7 +1,11 @@
 export interface Media {
-  title?: string;
   key: string;
-  size?: MediaSize;
+  contentType?: string;
+}
+
+export interface MediaLayoutItem {
+  key: string;
+  size: MediaSize;
 }
 
 export enum MediaSize {

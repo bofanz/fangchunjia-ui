@@ -39,9 +39,10 @@
   --font-abc-otto-kai: 'ABC Otto', 'FZShengSKSJW', serif;
   --color-fangchunjia-pink: #ff43bc;
   --color-fangchunjia-green: #5eff00;
-  --color-fangchunjia-gray: #bbbbbb;
+  --color-fangchunjia-gray: #cdcdcd;
   --color-fangchunjia-black: #000000;
   --color-fangchunjia-translucent: #ffffff1a;
+  --color-fangchunjia-lightgray: #eeeeee;
   --media-s-w-max: 160px;
   --media-s-h-max: 160px;
   --media-m-w-max: 160px;
@@ -49,6 +50,23 @@
   --media-l-w-max: 160px;
   --media-l-h-max: 160px;
   --media-spacing: 40px;
+}
+/* 
+::selection {
+  background: #397599;
+  color: #000000;
+} */
+
+@layer base {
+  ::selection {
+    @apply bg-fangchunjia-pink text-white;
+  }
+}
+
+.panel-group {
+  & > *:not(:last-child) {
+    @apply !border-r !border-r-fangchunjia-lightgray;
+  }
 }
 
 html,

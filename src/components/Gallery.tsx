@@ -1,21 +1,24 @@
+import type { Media } from '@/interfaces/media.interface';
+import MediaRenderer from './MediaRenderer';
+
 export default function Gallery({
-  medias,
-  activeMedia,
+  media,
+  activeMediaKey,
 }: {
-  medias: { url: string }[];
-  activeMedia: string;
+  media: Media[];
+  activeMediaKey: string | undefined;
 }) {
   return (
     <div className="relative w-full h-full pointer-events-none">
-      {medias.map((m) => (
+      {media.map((m) => (
         <div
-          key={m.url}
+          key={m.key}
           className={
             'absolute w-full h-full transition ' +
-            (m.url === activeMedia ? 'opacity-100' : 'opacity-0')
+            (m.key === activeMediaKey ? 'opacity-100' : 'opacity-0')
           }
         >
-          <img className="w-full h-full object-cover" src={m.url} />
+          <MediaRenderer media={m} />
         </div>
       ))}
     </div>

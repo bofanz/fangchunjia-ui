@@ -38,6 +38,7 @@ export default function ProjectForm({
       ref={formRef}
       method="post"
       id="createProjectForm"
+      className="flex flex-col h-full"
       onSubmit={(event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -63,11 +64,11 @@ export default function ProjectForm({
         }
       }}
     >
-      <fieldset className="space-y-8">
+      <fieldset className="space-y-4 text-sm p-4">
         <div>
           <label className="block">ID</label>
           <input
-            className="mt-1 block border-b-2 border-black"
+            className="mt-1 block bg-fangchunjia-lightgray px-2 py-1 w-80"
             name="id"
             ref={idFieldRef}
           />
@@ -75,7 +76,7 @@ export default function ProjectForm({
         <div>
           <label className="block">Name</label>
           <input
-            className="mt-1 block border-b-2 border-black"
+            className="mt-1 block bg-fangchunjia-lightgray px-2 py-1 w-80"
             name="name"
             ref={nameFieldRef}
           />
@@ -83,7 +84,7 @@ export default function ProjectForm({
         <div>
           <label className="block">Category</label>
           <select
-            className="mt-1 block border-b-2 border-black"
+            className="mt-1 block bg-fangchunjia-lightgray px-2 py-1 w-80"
             name="categoryId"
             ref={categoryIdFieldRef}
           >
@@ -94,7 +95,7 @@ export default function ProjectForm({
         <div>
           <label className="block">Year</label>
           <input
-            className="mt-1 block border-b-2 border-black"
+            className="mt-1 block bg-fangchunjia-lightgray px-2 py-1 w-80"
             name="year"
             type="number"
             ref={yearFieldRef}
@@ -103,12 +104,14 @@ export default function ProjectForm({
         <div>
           <label className="block">Link</label>
           <input
-            className="mt-1 block border-b-2 border-black"
-            name="Link"
+            className="mt-1 block bg-fangchunjia-lightgray px-2 py-1 w-80"
+            name="link"
             type="url"
             ref={linkFieldRef}
           />
         </div>
+      </fieldset>
+      <div className="px-4 py-2">
         <button
           className="bg-fangchunjia-black px-4 py-2 text-sm text-white active:bg-fangchunjia-pink hover:bg-fangchunjia-pink disabled:bg-fangchunjia-gray transition"
           type="submit"
@@ -116,7 +119,7 @@ export default function ProjectForm({
         >
           {update ? 'Save' : 'Publish'}
         </button>
-      </fieldset>
+      </div>
     </form>
   );
 }

@@ -1,18 +1,19 @@
-import type { Media } from './media.interface';
+import type { Media, MediaLayoutItem } from './media.interface';
 
 export interface ProjectInfo {
   id: string;
   name: string;
   year: number;
   categoryId: string;
-  coverKey?: string;
+  cover?: Media;
   highlighted?: boolean;
 }
 
 export interface Project extends ProjectInfo {
   link?: string;
   description: string;
-  files: Media[];
+  media: Media[];
+  mediaLayout: MediaLayoutItem[];
 }
 
 export interface Category {

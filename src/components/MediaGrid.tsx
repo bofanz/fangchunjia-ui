@@ -1,18 +1,26 @@
-import type { Media } from '@/interfaces/media.interface';
+import type { Media, MediaLayoutItem } from '@/interfaces/media.interface';
+import { combineMedia } from '@/utils/combineMedia';
+import MediaRenderer from './MediaRenderer';
 
-export default function MediaGrid({ items }: { items: Media[] }) {
+function MediaWrapper({ media }: { media: Media & MediaLayoutItem }) {
+  return (
+    <div className={'media-wrapper ' + (media.size && media.size)}>
+      <MediaRenderer media={media} />
+    </div>
+  );
+}
+
+export default function MediaGrid({
+  media,
+  mediaLayout,
+}: {
+  media: Media[];
+  mediaLayout: MediaLayoutItem[];
+}) {
   return (
     <div className="media-grid fit-content">
-      {items.map((item) => (
-        <div
-          className={'media-wrapper ' + (item.size && item.size)}
-          key={item.key}
-        >
-          <img
-            className="media"
-            src={`https://files.fangchunjia.com/${item.key}`}
-          />
-        </div>
+      {combineMedia(media, mediaLayout).map((m) => (
+        <MediaWrapper media={m} key={m.key} />
       ))}
     </div>
   );

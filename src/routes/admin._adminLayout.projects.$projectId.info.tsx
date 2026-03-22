@@ -1,24 +1,31 @@
-import AdminHeader from '@/components/admin/AdminHeader';
 import ProjectForm from '@/components/admin/ProjectForm';
-import Body from '@/components/Body';
-import { fetchProject } from '@/utils/queries';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { fetchProject } from '@/utils/queries';
+import { Panel } from 'react-resizable-panels';
 
-export const Route = createFileRoute('/admin/projects/$projectId/info')({
+export const Route = createFileRoute(
+  '/admin/_adminLayout/projects/$projectId/info',
+)({
   component: RouteComponent,
   // @ts-ignore
   loader: ({ params, context }) => fetchProject(context, params.projectId),
+  head: () => ({
+    meta: [
+      {
+        title: 'Info',
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {
-  const routeApi = getRouteApi('/admin/projects/$projectId/info');
+  const routeApi = getRouteApi('/admin/_adminLayout/projects/$projectId/info');
   const project = routeApi.useLoaderData();
   return (
     <>
-      <AdminHeader label={`Edit: ${project.name} - Info`} />
-      <Body>
+      <Panel>
         <ProjectForm project={project} update={true} />
-      </Body>
+      </Panel>
     </>
   );
 }

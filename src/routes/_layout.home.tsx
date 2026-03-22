@@ -1,12 +1,12 @@
 import Breeze3D from '@/components/breeze/Breeze3D';
 import Gallery from '@/components/Gallery';
-import { fetchProjects } from '@/utils/queries';
+import { fetchProjects, type QueryContext } from '@/utils/queries';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 import { useState } from 'react';
 
 export const Route = createFileRoute('/_layout/home')({
   component: RouteComponent,
-  loader: ({ context }) => fetchProjects(context as { portfolioApi: string }),
+  loader: ({ context }) => fetchProjects(context as QueryContext),
   head: ({}) => ({
     meta: [
       {
@@ -30,14 +30,10 @@ function RouteComponent() {
     <>
       <div className="fixed top-0 bottom-0 left-0 right-0">
         <Gallery
-          medias={highlights
-            .filter((p) => p.coverKey)
-            .map((p) => ({
-              url: 'https://files.fangchunjia.com/' + p.coverKey,
-            }))}
-          activeMedia={
-            'https://files.fangchunjia.com/' + hoveredHighlight?.coverKey
-          }
+          media={highlights
+            .map((p) => p.cover)
+            .filter((m) => m !== undefined && m !== null)}
+          activeMediaKey={hoveredHighlight?.cover?.key}
         />
       </div>
       <div className="w-full h-full overflow-clip flex justify-center">
