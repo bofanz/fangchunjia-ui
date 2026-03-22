@@ -64,13 +64,9 @@ function RouteComponent() {
         <div className="fixed top-0 bottom-0 left-0 right-0">
           <Gallery
             media={projects
-              .filter((p) => p.coverKey)
-              .map((p) => ({
-                url: 'https://files.fangchunjia.com/' + p.coverKey,
-              }))}
-            activeMedia={
-              'https://files.fangchunjia.com/' + hoveredProject?.coverKey
-            }
+              .map((p) => p.cover)
+              .filter((m) => m !== undefined && m !== null)}
+            activeMediaKey={hoveredProject?.cover?.key}
           />
         </div>
 

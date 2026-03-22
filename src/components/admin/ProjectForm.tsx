@@ -105,7 +105,7 @@ export default function ProjectForm({
           <label className="block">Link</label>
           <input
             className="mt-1 block bg-fangchunjia-lightgray px-2 py-1 w-80"
-            name="Link"
+            name="link"
             type="url"
             ref={linkFieldRef}
           />

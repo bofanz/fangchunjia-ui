@@ -108,6 +108,7 @@ export async function updateProject(project: Partial<Project>, token: string) {
       ...(project.year && { year: project.year }),
       ...(project.description && { description: project.description }),
       ...(project.link && { link: project.link }),
+      ...(project.cover?.key && { coverKey: project.cover.key }),
     },
     {
       headers: {

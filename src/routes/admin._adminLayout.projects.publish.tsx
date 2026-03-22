@@ -16,9 +16,7 @@ export const Route = createFileRoute('/admin/_adminLayout/projects/publish')({
 function RouteComponent() {
   return (
     <Panel>
-      <div className="p-4">
-        <ProjectForm />
-      </div>
+      <ProjectForm />
     </Panel>
   );
 }

@@ -50,10 +50,14 @@ export const useUpdateAboutMutation = () => {
   return createAuthMutation({
     mutationFn: (about: About, token: string) => updateAbout(about, token),
     onSuccess: () => {
+      toast('Successfully updated about');
       queryClient.invalidateQueries();
       navigate({
         to: `/admin/about`,
       });
+    },
+    onError: (err) => {
+      toast(`Error updating about: ${err}`);
     },
   })();
 };
@@ -64,6 +68,7 @@ export const useCreateProjectMutation = () => {
     mutationFn: (project: Partial<Project>, token: string) =>
       createProject(project, token),
     onSuccess: (data) => {
+      toast('Successfully created the project');
       queryClient.invalidateQueries();
       navigate({
         to: `/admin/projects/$projectId`,
@@ -71,23 +76,22 @@ export const useCreateProjectMutation = () => {
         params: { projectId: data.data.id },
       });
     },
+    onError: (err) => {
+      toast(`Error creating the project: ${err}`);
+    },
   })();
 };
 
 export const useUpdateProjectMutation = () => {
-  const navigate = useNavigate();
-
   return createAuthMutation({
     mutationFn: (project: Partial<Project>, token: string) =>
       updateProject(project, token),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries();
+    onSuccess: () => {
       toast('Successfully updated the project');
-      navigate({
-        to: `/admin/projects/$projectId`,
-        // @ts-ignore
-        params: { projectId: data.data.id },
-      });
+      queryClient.invalidateQueries();
+    },
+    onError: (err) => {
+      toast(`Error updating the project: ${err}`);
     },
   })();
 };
@@ -102,7 +106,11 @@ export const useUploadProjectMediaMutation = () => {
       token: string,
     ) => uploadProjectMedia(data, token),
     onSuccess: () => {
+      toast(`Successfully uploaded the media`);
       queryClient.invalidateQueries();
+    },
+    onError: (err) => {
+      toast(`Error uploading the media: ${err}`);
     },
   })();
 };
@@ -121,8 +129,7 @@ export const useCreateOrUpdateProjectMediaLayoutMutation = () => {
       queryClient.invalidateQueries();
     },
     onError: (err) => {
-      console.log(err);
-      toast.error('Error updating the media layout');
+      toast.error(`Error updating the media layout: ${err}`);
     },
   })();
 };

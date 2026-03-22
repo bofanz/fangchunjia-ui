@@ -1,27 +1,11 @@
 import type { Media, MediaLayoutItem } from '@/interfaces/media.interface';
 import { combineMedia } from '@/utils/combineMedia';
+import MediaRenderer from './MediaRenderer';
 
 function MediaWrapper({ media }: { media: Media & MediaLayoutItem }) {
   return (
     <div className={'media-wrapper ' + (media.size && media.size)}>
-      {media.contentType?.startsWith('image') ? (
-        <img
-          className="media"
-          title={media.key}
-          src={`https://files.fangchunjia.com/${media.key}`}
-        />
-      ) : media.contentType?.startsWith('video') ? (
-        <video muted autoPlay playsInline controls loop title={media.key}>
-          <source
-            src={`https://files.fangchunjia.com/${media.key}`}
-            type={media.contentType}
-          />
-        </video>
-      ) : media.contentType?.startsWith('audio') ? (
-        <audio title={media.key} />
-      ) : (
-        <></>
-      )}
+      <MediaRenderer media={media} />
     </div>
   );
 }

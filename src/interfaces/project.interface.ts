@@ -5,7 +5,7 @@ export interface ProjectInfo {
   name: string;
   year: number;
   categoryId: string;
-  coverKey?: string;
+  cover?: Media;
   highlighted?: boolean;
 }
 

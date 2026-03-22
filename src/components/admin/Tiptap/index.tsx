@@ -90,7 +90,6 @@ export default function Editor({
     enableContentCheck: true,
     onUpdate: (e) => {
       setContent(e.editor.getJSON());
-      console.log(e.editor.getJSON());
     },
     onContentError: () => {},
   });

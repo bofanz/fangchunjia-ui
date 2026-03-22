@@ -29,6 +29,7 @@ function RouteComponent() {
           <div className="overflow-y-auto h-full grow">
             <MediaLayoutEditor
               projectId={project.id}
+              initialCoverKey={project.cover?.key}
               media={project.media}
               initialMediaLayout={project.mediaLayout}
             />

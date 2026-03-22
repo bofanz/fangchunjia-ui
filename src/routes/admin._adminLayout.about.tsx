@@ -45,17 +45,19 @@ function RouteComponent() {
       <Group>
         <Panel>
           <div className="flex flex-col border-r h-full border-r-fangchunjia-lightgray">
-            <div className="flex-1">
+            <div className="p-4">
               <Editor content={content} setContent={setContent} />
             </div>
-            <button
-              className="px-4 py-2 bg-black hover:bg-fangchunjia-pink text-white transition"
-              onClick={() => {
-                submit(content);
-              }}
-            >
-              Save
-            </button>
+            <div className="px-4 py-2">
+              <button
+                className="px-4 py-3 text-sm bg-black hover:bg-fangchunjia-pink text-white transition leading-none"
+                onClick={() => {
+                  submit(content);
+                }}
+              >
+                Save
+              </button>
+            </div>
           </div>
         </Panel>
         <Panel />

@@ -4,12 +4,16 @@ import {
   type MediaLayoutItem,
 } from '@/interfaces/media.interface';
 import { combineMedia } from '@/utils/combineMedia';
-import { useCreateOrUpdateProjectMediaLayoutMutation } from '@/utils/queryOptions';
+import {
+  useCreateOrUpdateProjectMediaLayoutMutation,
+  useUpdateProjectMutation,
+} from '@/utils/queryOptions';
 import { move } from '@dnd-kit/helpers';
 import { DragDropProvider } from '@dnd-kit/react';
 import { useSortable } from '@dnd-kit/react/sortable';
 import clsx from 'clsx';
 import { useState } from 'react';
+import MediaRenderer from '../MediaRenderer';
 
 function MediaLayoutItem({
   id,
@@ -37,29 +41,7 @@ function MediaLayoutItem({
       onMouseLeave={() => setHovered(false)}
     >
       <div>
-        {media.contentType?.startsWith('image') ? (
-          <img
-            className="media"
-            title={media.key}
-            src={`https://files.fangchunjia.com/${media.key}`}
-          />
-        ) : media.contentType?.startsWith('video') ? (
-          <video muted playsInline controls title={media.key}>
-            <source
-              src={`https://files.fangchunjia.com/${media.key}`}
-              type={media.contentType}
-            />
-          </video>
-        ) : media.contentType?.startsWith('audio') ? (
-          <audio title={media.key} />
-        ) : (
-          <div
-            className="p-4 bg-fangchunjia-lightgray cursor-default text-sm"
-            title={media.key}
-          >
-            Missing or unsupported media type
-          </div>
-        )}
+        <MediaRenderer media={media} />
       </div>
       <div className={clsx('absolute top-0 left-0 flex', !hovered && 'hidden')}>
         <label className="has-checked:bg-fangchunjia-black has-checked:text-white py-1 px-2 flex text-sm w-6 h-6 items-center justify-center bg-white">
@@ -125,19 +107,22 @@ function MediaSizer({
 
 export default function MediaLayoutEditor({
   projectId,
+  initialCoverKey,
   media,
   initialMediaLayout,
 }: {
   projectId: string;
+  initialCoverKey?: string;
   media: Media[];
   initialMediaLayout: MediaLayoutItem[];
 }) {
   const [mediaLayout, setMediaLayout] = useState<MediaLayoutItem[]>(
     combineMedia(media, initialMediaLayout),
   );
-  const [coverKey, setCoverKey] = useState<string | undefined>();
+  const [coverKey, setCoverKey] = useState<string | undefined>(initialCoverKey);
   const createOrUpdateProjectMediaLayoutMutation =
     useCreateOrUpdateProjectMediaLayoutMutation();
+  const updateProjectMutation = useUpdateProjectMutation();
 
   return (
     <>
@@ -185,6 +170,14 @@ export default function MediaLayoutEditor({
                 projectId: projectId,
                 mediaLayout: mediaLayout,
               });
+              if (coverKey) {
+                updateProjectMutation.mutate({
+                  id: projectId,
+                  cover: {
+                    key: coverKey,
+                  },
+                });
+              }
             }}
           >
             Save
