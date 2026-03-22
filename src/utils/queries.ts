@@ -1,5 +1,5 @@
 import type { About } from '@/interfaces/about.interface';
-import type { MediaLayoutItem, MediaSize } from '@/interfaces/media.interface';
+import type { MediaLayoutItem } from '@/interfaces/media.interface';
 import type {
   Category,
   Project,
@@ -155,7 +155,7 @@ export async function uploadProjectMedia(
     });
   };
 
-  const { uploadUrl, key } = await getPresignedUrl(data.file.name);
+  const { uploadUrl } = await getPresignedUrl(data.file.name);
 
   await uploadToS3({ presignedUrl: uploadUrl, file: data.file });
 
