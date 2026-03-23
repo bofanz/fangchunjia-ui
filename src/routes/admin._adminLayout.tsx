@@ -23,7 +23,7 @@ function RouteComponent() {
   const { logout } = useAuth0();
   return (
     <>
-      <div className="flex flex-col w-full h-full bg-fangchunjia-lightgray">
+      <div className="flex flex-col w-full h-full bg-fangchunjia-lightgray admin">
         <div className="header flex justify-between px-5 py-2">
           <Breadcrumbs />
           <div className="text-sm hover:text-fangchunjia-pink transition">

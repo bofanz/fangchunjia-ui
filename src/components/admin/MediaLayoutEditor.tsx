@@ -14,6 +14,7 @@ import { useSortable } from '@dnd-kit/react/sortable';
 import clsx from 'clsx';
 import { useState } from 'react';
 import MediaRenderer from '../MediaRenderer';
+import { CheckIcon } from '@heroicons/react/24/outline';
 
 function MediaLayoutItem({
   id,
@@ -127,6 +128,26 @@ export default function MediaLayoutEditor({
   return (
     <>
       <div className="h-full flex flex-col">
+        <div className="toolbar">
+          <button
+            onClick={() => {
+              createOrUpdateProjectMediaLayoutMutation.mutate({
+                projectId: projectId,
+                mediaLayout: mediaLayout,
+              });
+              if (coverKey) {
+                updateProjectMutation.mutate({
+                  id: projectId,
+                  cover: {
+                    key: coverKey,
+                  },
+                });
+              }
+            }}
+          >
+            <CheckIcon />
+          </button>
+        </div>
         <div className="grow overflow-y-auto w-full">
           <div className="w-full p-4">
             <DragDropProvider
@@ -161,27 +182,6 @@ export default function MediaLayoutEditor({
               </ul>
             </DragDropProvider>
           </div>
-        </div>
-        <div className="flex">
-          <button
-            className="bg-fangchunjia-black w-full px-4 py-3 leading-none text-sm text-white active:bg-fangchunjia-pink hover:bg-fangchunjia-pink disabled:bg-fangchunjia-gray transition leading-none"
-            onClick={() => {
-              createOrUpdateProjectMediaLayoutMutation.mutate({
-                projectId: projectId,
-                mediaLayout: mediaLayout,
-              });
-              if (coverKey) {
-                updateProjectMutation.mutate({
-                  id: projectId,
-                  cover: {
-                    key: coverKey,
-                  },
-                });
-              }
-            }}
-          >
-            Save
-          </button>
         </div>
       </div>
     </>

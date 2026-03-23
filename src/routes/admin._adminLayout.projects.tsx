@@ -1,4 +1,5 @@
 import { fetchProjects, type QueryContext } from '@/utils/queries';
+import { PlusIcon } from '@heroicons/react/24/outline';
 import {
   createFileRoute,
   getRouteApi,
@@ -29,17 +30,17 @@ function RouteComponent() {
       <div className="flex h-full">
         <Group className="panel-group">
           <Panel defaultSize="240px">
-            <div className="h-full overflow-auto text-sm">
-              <div>
+            <div className="h-full text-sm flex flex-col">
+              <div className="toolbar">
                 <Link
                   to="/admin/projects/publish"
                   className="cursor-pointer w-full block px-3 py-2 hover:bg-fangchunjia-pink/20 font-bold"
                 >
-                  <span className="">Publish new project</span>
+                  <PlusIcon />
                 </Link>
               </div>
-              <div>
-                <ul>
+              <div className="flex-1 flex">
+                <ul className="w-full">
                   {projects.map((p) => (
                     <li key={p.id}>
                       <Link
