@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-fangchunjia-pink: #ff43bc;
+  --color-fangchunjia-green: #5eff00;
+  --color-fangchunjia-gray: #cdcdcd;
+  --color-fangchunjia-black: #000000;
+  --color-fangchunjia-translucent: #ffffff1a;
+  --color-fangchunjia-lightgray: #eeeeee;
+  --media-s-w-max: 160px;
+  --media-s-h-max: 160px;
+  --media-m-w-max: 160px;
+  --media-m-h-max: 160px;
+  --media-l-w-max: 160px;
+  --media-l-h-max: 160px;
+  --media-spacing: 40px;
+}
+
+.admin {
+  .toolbar {
+    @apply flex flex-wrap gap-1 border-b border-b-fangchunjia-lightgray justify-end;
+
+    .divider {
+      width: 1px;
+      background-color: #eee;
+      margin: 0 4px;
+    }
+
+    button,
+    a {
+      @apply bg-white hover:text-fangchunjia-pink transition;
+
+      &.is-active {
+        @apply text-fangchunjia-pink;
+      }
+
+      display: flex;
+      width: 32px;
+      height: 32px;
+      padding: 8px;
+      user-select: none;
+      line-height: 16px;
+    }
+  }
+}

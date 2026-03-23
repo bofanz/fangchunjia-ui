@@ -7,6 +7,7 @@ import { routeTree } from './routeTree.gen';
 
 import './styles.css';
 import './tiptapStyles.css';
+import './adminStyles.css';
 import reportWebVitals from './reportWebVitals.ts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MediaQueryContext } from './contexts/MediaQueryContext.tsx';
