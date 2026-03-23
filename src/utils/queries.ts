@@ -80,6 +80,15 @@ export async function updateAbout(about: About, token: string) {
   }
 }
 
+export const fetchAllProjects = async (context: QueryContext) => {
+  const projects = await axios
+    .get<
+      ProjectInfo[]
+    >(`${context.fangchunjiaApiOrigin}/projects`, { params: { includeArchived: true } })
+    .then((r) => r.data);
+  return projects;
+};
+
 export async function createProject(project: Partial<Project>, token: string) {
   return axios.post<null>(
     'https://admin.fangchunjia.com/projects',
@@ -172,6 +181,30 @@ export async function createOrUpdateProjectMediaLayout(
   return axios.post<null>(
     `https://admin.fangchunjia.com/projects/${data.projectId}/media-layout`,
     { mediaLayout: data.mediaLayout },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}
+
+export async function archiveProject(projectId: string, token: string) {
+  return axios.post<null>(
+    `https://admin.fangchunjia.com/projects/${projectId}/archive`,
+    null,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}
+
+export async function unarchiveProject(projectId: string, token: string) {
+  return axios.post<null>(
+    `https://admin.fangchunjia.com/projects/${projectId}/unarchive`,
+    null,
     {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -130,6 +130,7 @@ export default function MediaLayoutEditor({
       <div className="h-full flex flex-col">
         <div className="toolbar">
           <button
+            title="Save"
             onClick={() => {
               createOrUpdateProjectMediaLayoutMutation.mutate({
                 projectId: projectId,

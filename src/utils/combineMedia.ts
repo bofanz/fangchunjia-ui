@@ -8,7 +8,6 @@ export function combineMedia(
   media: Media[],
   mediaLayout: MediaLayoutItem[],
 ): (Media & MediaLayoutItem)[] {
-  console.log(media);
   if (!media) {
     return [];
   }

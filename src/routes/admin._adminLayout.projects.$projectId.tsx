@@ -8,7 +8,15 @@ import {
 } from '@tanstack/react-router';
 import { fetchProject, type QueryContext } from '@/utils/queries';
 import { Panel } from 'react-resizable-panels';
-import { ArchiveBoxIcon, TrashIcon } from '@heroicons/react/24/outline';
+import {
+  ArchiveBoxIcon,
+  ArchiveBoxXMarkIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline';
+import {
+  useArchiveProjectMutation,
+  useUnarchiveProjectMutation,
+} from '@/utils/queryOptions';
 
 export const Route = createFileRoute('/admin/_adminLayout/projects/$projectId')(
   {
@@ -28,25 +36,39 @@ export const Route = createFileRoute('/admin/_adminLayout/projects/$projectId')(
 function RouteComponent() {
   const routeApi = getRouteApi('/admin/_adminLayout/projects/$projectId');
   const project = routeApi.useLoaderData();
+  const archiveProjectMutation = useArchiveProjectMutation();
+  const unarchiveProjectMutation = useUnarchiveProjectMutation();
 
   return (
     <>
       <Panel defaultSize="240px">
         <div className="flex flex-col h-full">
           <div className="toolbar">
-            <button>
+            <button title="Delete">
               <TrashIcon />
             </button>
-            <button>
-              <ArchiveBoxIcon />
-            </button>
+            {!project.isArchived ? (
+              <button
+                title="Archive"
+                onClick={() => archiveProjectMutation.mutate(project.id)}
+              >
+                <ArchiveBoxIcon />
+              </button>
+            ) : (
+              <button
+                title="Unarchive"
+                onClick={() => unarchiveProjectMutation.mutate(project.id)}
+              >
+                <ArchiveBoxXMarkIcon />
+              </button>
+            )}
           </div>
           <div className="flex-1 overflow-auto text-sm">
             <div className="border-b border-b-fangchunjia-lightgray">
               <Link
                 to="/admin/projects/$projectId/info"
                 params={{ projectId: project.id }}
-                className="flex justify-between px-3 py-2 hover:bg-fangchunjia-pink/20"
+                className="flex justify-between items-center px-3 py-2 hover:bg-fangchunjia-pink/20"
                 activeOptions={{ exact: false }}
                 activeProps={{ className: 'bg-fangchunjia-pink/20' }}
               >
@@ -84,7 +106,7 @@ function RouteComponent() {
               <Link
                 to="/admin/projects/$projectId/description"
                 params={{ projectId: project.id }}
-                className="flex justify-between px-3 py-2 hover:bg-fangchunjia-pink/20"
+                className="flex justify-between items-center px-3 py-2 hover:bg-fangchunjia-pink/20"
                 activeOptions={{ exact: false }}
                 activeProps={{ className: 'bg-fangchunjia-pink/20' }}
               >
@@ -101,7 +123,7 @@ function RouteComponent() {
               <Link
                 to="/admin/projects/$projectId/media"
                 params={{ projectId: project.id }}
-                className="flex justify-between px-3 py-2 hover:bg-fangchunjia-pink/20"
+                className="flex justify-between items-center px-3 py-2 hover:bg-fangchunjia-pink/20"
                 activeOptions={{ exact: false }}
                 activeProps={{ className: 'bg-fangchunjia-pink/20' }}
               >
