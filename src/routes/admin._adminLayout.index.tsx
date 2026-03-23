@@ -17,6 +17,7 @@ function RouteComponent() {
           className="w-full px-3 py-2 hover:hover:bg-fangchunjia-pink/20 transition not-last:border-r not-last:border-r-fangchunjia-lightgray"
           activeOptions={{ exact: false }}
           activeProps={{ className: 'bg-fangchunjia-pink/20' }}
+          key={n.to}
         >
           {n.label}
         </Link>

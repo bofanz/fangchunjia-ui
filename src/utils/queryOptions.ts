@@ -2,8 +2,10 @@ import { queryClient } from '@/main';
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import {
+  archiveProject,
   createOrUpdateProjectMediaLayout,
   createProject,
+  unarchiveProject,
   updateAbout,
   updateProject,
   uploadProjectMedia,
@@ -130,6 +132,34 @@ export const useCreateOrUpdateProjectMediaLayoutMutation = () => {
     },
     onError: (err) => {
       toast.error(`Error updating the media layout: ${err}`);
+    },
+  })();
+};
+
+export const useArchiveProjectMutation = () => {
+  return createAuthMutation({
+    mutationFn: (projectId: string, token: string) =>
+      archiveProject(projectId, token),
+    onSuccess: () => {
+      toast('Successfully archived the project');
+      queryClient.invalidateQueries();
+    },
+    onError: (err) => {
+      toast(`Error archiving the project: ${err}`);
+    },
+  })();
+};
+
+export const useUnarchiveProjectMutation = () => {
+  return createAuthMutation({
+    mutationFn: (projectId: string, token: string) =>
+      unarchiveProject(projectId, token),
+    onSuccess: () => {
+      toast('Successfully unarchived the project');
+      queryClient.invalidateQueries();
+    },
+    onError: (err) => {
+      toast(`Error unarchiving the project: ${err}`);
     },
   })();
 };

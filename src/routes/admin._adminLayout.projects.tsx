@@ -1,4 +1,4 @@
-import { fetchProjects, type QueryContext } from '@/utils/queries';
+import { fetchAllProjects, type QueryContext } from '@/utils/queries';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import {
   createFileRoute,
@@ -10,7 +10,7 @@ import { Group, Panel } from 'react-resizable-panels';
 
 export const Route = createFileRoute('/admin/_adminLayout/projects')({
   component: RouteComponent,
-  loader: ({ context }) => fetchProjects(context as QueryContext),
+  loader: ({ context }) => fetchAllProjects(context as QueryContext),
   head: () => ({
     meta: [
       {
@@ -23,7 +23,7 @@ export const Route = createFileRoute('/admin/_adminLayout/projects')({
 function RouteComponent() {
   const routeApi = getRouteApi('/admin/_adminLayout/projects');
 
-  const { projects } = routeApi.useLoaderData();
+  const projects = routeApi.useLoaderData();
 
   return (
     <>
@@ -33,6 +33,7 @@ function RouteComponent() {
             <div className="h-full text-sm flex flex-col">
               <div className="toolbar">
                 <Link
+                  title="New Project"
                   to="/admin/projects/publish"
                   className="cursor-pointer w-full block px-3 py-2 hover:bg-fangchunjia-pink/20 font-bold"
                 >
@@ -53,7 +54,10 @@ function RouteComponent() {
                         activeProps={{ className: 'bg-fangchunjia-pink/20' }}
                       >
                         <div className="flex gap-2 transition">
-                          <span className="inline-block">{p.name}</span>
+                          <span className="inline-block">
+                            {p.isArchived && '[Archived] '}
+                            {p.name}
+                          </span>
                         </div>
                       </Link>
                     </li>

@@ -7,6 +7,7 @@ export interface ProjectInfo {
   categoryId: string;
   cover?: Media;
   highlighted?: boolean;
+  isArchived?: boolean;
 }
 
 export interface Project extends ProjectInfo {
