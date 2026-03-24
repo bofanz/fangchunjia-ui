@@ -1,5 +1,5 @@
+import { useAuth0Context } from '@/auth/auth0';
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs';
-import { useAuth0 } from '@auth0/auth0-react';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { Toaster } from 'sonner';
 
@@ -20,7 +20,7 @@ export const Route = createFileRoute('/admin/_adminLayout')({
 });
 
 function RouteComponent() {
-  const { logout } = useAuth0();
+  const { logout } = useAuth0Context();
   return (
     <>
       <div className="flex flex-col w-full h-full bg-fangchunjia-lightgray admin">

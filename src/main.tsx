@@ -55,14 +55,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-// const cognitoAuthConfig = {
-//   authority: 'https://cognito-idp.eu-west-3.amazonaws.com/eu-west-3_cVNmpcQLR',
-//   client_id: '678f7i2s126o7l28n2s6hag0d4',
-//   redirect_uri: 'http://localhost:3000/admin',
-//   response_type: 'code',
-//   scope: 'email openid phone',
-// };
-
 function InnerApp() {
   const auth = useAuth0Context();
   if (auth.isLoading) {

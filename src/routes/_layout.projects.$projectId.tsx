@@ -79,7 +79,7 @@ function RouteComponent() {
     <Layer>
       <div className="overflow-y-auto h-full [scrollbar-width:none]">
         <div className="min-h-screen flex justify-start pt-24">
-          <div className="flex flex-col p-8 w-full sm:w-4/5">
+          <div className="flex flex-col p-4 w-full sm:p-8 sm:w-4/5">
             <div className="">
               <h1 className="text-xl font-bold">{project.name}</h1>
               <h2 className="text-lg">{project.year}</h2>
