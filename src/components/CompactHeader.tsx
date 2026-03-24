@@ -59,7 +59,7 @@ export default function CompactHeader({ items, hidden }: HeaderProps) {
           opacity: hidden ? 0 : 1,
           display: hidden ? 'none' : 'flex',
           backgroundColor: isNavHidden ? '' : '#ffffff',
-          height: isNavHidden ? '' : '100vh',
+          height: isNavHidden ? '' : '100dvh',
         }}
       >
         <header>
@@ -99,6 +99,7 @@ export default function CompactHeader({ items, hidden }: HeaderProps) {
           </motion.nav>
         </header>
         <motion.div
+          className="py-4"
           animate={{
             opacity: isNavHidden ? 0 : 1,
             display: isNavHidden ? 'none' : 'block',
