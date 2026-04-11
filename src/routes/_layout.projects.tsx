@@ -1,16 +1,12 @@
 import type { ProjectInfo } from '@/interfaces/project.interface';
-import {
-  createFileRoute,
-  getRouteApi,
-  Link,
-  Outlet,
-} from '@tanstack/react-router';
+import { createFileRoute, getRouteApi, Outlet } from '@tanstack/react-router';
 import { useContext, useState } from 'react';
-import { motion } from 'motion/react';
 import Gallery from '@/components/Gallery';
 import { fetchProjects, type QueryContext } from '@/utils/queries';
 import Body from '@/components/Body';
 import { MediaQueryContext } from '@/contexts/MediaQueryContext';
+import ProjectList from '@/components/ProjectList';
+import ProjectListMobile from '@/components/ProjectList.mobile';
 
 export const Route = createFileRoute('/_layout/projects')({
   component: RouteComponent,
@@ -71,52 +67,14 @@ function RouteComponent() {
         </div>
 
         <div className="relative">
-          <ul className="text-cherry-lamp-pink">
-            {categoriesAndProjects.map((c) => (
-              <li key={c.id} className="mb-6">
-                <div className="font-bold">{c.name}</div>
-                <ul>
-                  {c.projects.map((p) => (
-                    <li key={p.id}>
-                      <Link
-                        to={'/projects/$projectId'}
-                        className="cursor-pointer h-full w-fit block"
-                        params={{
-                          projectId: p.id,
-                        }}
-                      >
-                        <motion.div
-                          whileHover={
-                            isNotTouchDevice
-                              ? {
-                                  color: 'var(--color-fangchunjia-pink)',
-                                  transition: { duration: 0.1 },
-                                }
-                              : undefined
-                          }
-                          className="flex gap-2 active:text-fangchunjia-pink font-medium"
-                          onMouseEnter={
-                            isNotTouchDevice
-                              ? () => setHoveredProject(p)
-                              : undefined
-                          }
-                          onMouseLeave={
-                            isNotTouchDevice
-                              ? () => setHoveredProject(null)
-                              : undefined
-                          }
-                        >
-                          <span className="inline-block leading-[22px]">
-                            {p.name}
-                          </span>
-                        </motion.div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
+          {isNotTouchDevice ? (
+            <ProjectList
+              categoriesAndProjects={categoriesAndProjects}
+              setHoveredProject={setHoveredProject}
+            />
+          ) : (
+            <ProjectListMobile categoriesAndProjects={categoriesAndProjects} />
+          )}
         </div>
       </Body>
       <Outlet />
