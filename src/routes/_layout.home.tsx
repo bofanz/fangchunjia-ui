@@ -40,7 +40,6 @@ function RouteComponent() {
         <div className="fixed top-0 right-0 px-2 py-1 text-white mix-blend-difference">
           {hoveredHighlight?.name}
         </div>
-        {/* <Breeze setHoveredIndex={setHoveredIndex} /> */}
         <Breeze3D setHoveredIndex={setHoveredIndex} />
       </div>
     </>
