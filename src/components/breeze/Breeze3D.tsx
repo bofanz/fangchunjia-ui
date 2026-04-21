@@ -1,4 +1,4 @@
-import { Canvas, useLoader } from '@react-three/fiber';
+import { Canvas, useLoader, useThree } from '@react-three/fiber';
 // import { Model } from './SamplePetal';
 import { Environment, Html, useProgress } from '@react-three/drei';
 import { RGBELoader } from 'three-stdlib';
@@ -25,34 +25,28 @@ export default function Breeze3D({
 }) {
   return (
     <div className="w-full h-full">
-      <Canvas className="w-full h-full">
+      <Canvas
+        className="w-full h-full"
+        camera={{ position: [0, 0, 5], fov: 50 }}
+      >
         <Suspense fallback={<Loader />}>
-          {/* <PerspectiveCamera position={[0, 0, -10]} /> */}
           <ambientLight intensity={1.2} />
-
-          {/* Key light - warm from above */}
           <directionalLight
             position={[5, 8, 3]}
             intensity={2}
             color="#fff5e6"
           />
-
-          {/* Fill light - cool from below/side */}
           <directionalLight
             position={[-3, -2, -5]}
             intensity={1}
             color="#b8c8e8"
           />
-
-          {/* Rim light - creates the gradient edge effect */}
           <directionalLight
             position={[0, 3, -8]}
             intensity={1}
             color="#ffd4a8"
           />
-          {/* Environment for reflections */}
           <Environment files="qwantani_dusk_2_puresky_1k.hdr" />
-
           <Model setHoveredIndex={setHoveredIndex} />
         </Suspense>
       </Canvas>
@@ -105,8 +99,18 @@ function BluebellMaterial() {
 }
 
 export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
+  const { viewport } = useThree();
+
+  // Base the scale on the smaller dimension so it fits on any aspect ratio
+  const responsiveScale = Math.min(viewport.width, viewport.height) * 0.4;
+  const responsiveY = -viewport.height * 0.4;
+
   const meshRefs = useRef<(THREE.Mesh | null)[]>([]);
   const elapsedRef = useRef(0);
+  const hoveredRef = useRef<Set<number>>(new Set());
+
+  const STAGGER_DELAY = 0.12;
+  const INTRO_SPEED = 6;
 
   const randoms = useMemo(
     () =>
@@ -119,6 +123,8 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
     [],
   );
 
+  const localTimes = useRef<number[]>(Array.from({ length: 18 }, () => 0));
+
   useFrame((_, delta) => {
     elapsedRef.current += delta * 0.5;
     const t = elapsedRef.current;
@@ -128,16 +134,43 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
       const r = randoms[i];
       const base = MESH_DATA[i].pos;
 
+      // --- Intro scale ---
+      const sphereTime = t * 2 - i * STAGGER_DELAY;
+      const rawProgress = Math.max(0, Math.min(1, sphereTime * INTRO_SPEED));
+      const bounce =
+        1 + 0.35 * Math.sin(rawProgress * Math.PI) * (1 - rawProgress);
+      mesh.scale.setScalar(MESH_DATA[i].scale * rawProgress * bounce);
+
+      // --- Only advance local time when not hovered ---
+      if (!hoveredRef.current.has(i)) {
+        localTimes.current[i] += delta * 0.5;
+      }
+      const lt = localTimes.current[i];
+
       mesh.position.set(
-        base[0] + Math.sin(t * r.z + 6.28318 * r.w) * (0.05 + 0.15 * r.x),
-        base[1] + Math.sin(t * r.y + 6.28318 * r.x) * (0.05 + 0.15 * r.w),
-        base[2] + Math.sin(t * r.w + 6.28318 * r.y) * (0.05 + 0.15 * r.z),
+        base[0] + Math.sin(lt * r.z + 6.28318 * r.w) * (0.05 + 0.15 * r.x),
+        base[1] + Math.sin(lt * r.y + 6.28318 * r.x) * (0.05 + 0.15 * r.w),
+        base[2] + Math.sin(lt * r.w + 6.28318 * r.y) * (0.05 + 0.15 * r.z),
       );
     });
   });
 
+  const handlePointerEnter = (i: number) => {
+    hoveredRef.current.add(i);
+    setHoveredIndex(i);
+  };
+
+  const handlePointerLeave = (i: number) => {
+    hoveredRef.current.delete(i);
+    setHoveredIndex(null);
+  };
+
   return (
-    <group dispose={null} scale={3} position={[0, -5, 0]}>
+    <group
+      dispose={null}
+      scale={responsiveScale}
+      position={[0, responsiveY, 0]}
+    >
       {MESH_DATA.map((d, i) => (
         <mesh
           key={i}
@@ -145,10 +178,9 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
           castShadow
           receiveShadow
           geometry={sphereGeometry}
-          scale={d.scale}
           position={d.pos as [number, number, number]}
-          onPointerEnter={() => setHoveredIndex(0)}
-          onPointerLeave={() => setHoveredIndex(null)}
+          onPointerEnter={() => handlePointerEnter(i)}
+          onPointerLeave={() => handlePointerLeave(i)}
         >
           <BluebellMaterial />
         </mesh>
