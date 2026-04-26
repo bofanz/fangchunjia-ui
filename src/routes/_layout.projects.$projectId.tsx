@@ -27,7 +27,7 @@ function PendingComponent() {
     <>
       <Layer>
         <div className="overflow-y-auto h-full [scrollbar-width:none]">
-          <div className="min-h-screen flex justify-start pt-24">
+          <div className="min-h-screen flex justify-start pt-24 p-4">
             <div>
               <div className="pb-4">Fetching project...</div>
             </div>
