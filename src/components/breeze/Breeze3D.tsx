@@ -13,7 +13,9 @@ function Loader() {
   const { progress } = useProgress();
   return (
     <Html center>
-      <span>{progress.toFixed(0)}% loaded</span>
+      <span style={{ whiteSpace: 'nowrap' }}>
+        {progress.toFixed(0)}% loaded
+      </span>
     </Html>
   );
 }
@@ -27,7 +29,7 @@ export default function Breeze3D({
     <div className="w-full h-full">
       <Canvas
         className="w-full h-full"
-        camera={{ position: [0, 0, 5], fov: 50 }}
+        camera={{ position: [0, 0, 14], fov: 30 }}
       >
         <Suspense fallback={<Loader />}>
           <ambientLight intensity={1.2} />
@@ -54,7 +56,7 @@ export default function Breeze3D({
   );
 }
 
-// One shared geometry for all 18 spheres
+// One shared geometry for all spheres
 const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
 
 interface MeshData {
@@ -83,6 +85,8 @@ const MESH_DATA: MeshData[] = [
   { pos: [-1.784, 0.133, -1.014], scale: 0.017 },
 ] as const;
 
+const SPHERE_COUNT = MESH_DATA.length;
+
 function BluebellMaterial() {
   return (
     <meshPhysicalMaterial
@@ -101,9 +105,27 @@ function BluebellMaterial() {
 export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
   const { viewport } = useThree();
 
-  // Base the scale on the smaller dimension so it fits on any aspect ratio
-  const responsiveScale = Math.min(viewport.width, viewport.height) * 0.4;
-  const responsiveY = -viewport.height * 0.4;
+  // Content bounding box in local units
+  const contentMinX = Math.min(...MESH_DATA.map((m) => m.pos[0]));
+  const contentMaxX = Math.max(...MESH_DATA.map((m) => m.pos[0]));
+  const contentMinY = Math.min(...MESH_DATA.map((m) => m.pos[1]));
+  const contentMaxY = Math.max(...MESH_DATA.map((m) => m.pos[1]));
+  const contentWidth = contentMaxX - contentMinX; // 3.635
+  const contentHeight = contentMaxY - contentMinY; // 2.488
+
+  // How much of the viewport the content should occupy
+  const targetFractionX = 0.6;
+  const targetFractionY = 0.75;
+  const targetW = viewport.width * targetFractionX;
+  const targetH = viewport.height * targetFractionY;
+
+  // Per-axis scale factors
+  const scaleX = targetW / contentWidth;
+  const scaleY = targetH / contentHeight;
+
+  // Bottom-align with padding
+  const paddingFraction = 0.02;
+  const groupY = -viewport.height / 2 + viewport.height * paddingFraction;
 
   const meshRefs = useRef<(THREE.Mesh | null)[]>([]);
   const elapsedRef = useRef(0);
@@ -114,7 +136,7 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
 
   const randoms = useMemo(
     () =>
-      Array.from({ length: 18 }, () => ({
+      Array.from({ length: SPHERE_COUNT }, () => ({
         x: Math.random(),
         y: Math.random(),
         z: Math.random(),
@@ -123,7 +145,9 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
     [],
   );
 
-  const localTimes = useRef<number[]>(Array.from({ length: 18 }, () => 0));
+  const localTimes = useRef<number[]>(
+    Array.from({ length: SPHERE_COUNT }, () => 0),
+  );
 
   useFrame((_, delta) => {
     elapsedRef.current += delta * 0.5;
@@ -139,7 +163,11 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
       const rawProgress = Math.max(0, Math.min(1, sphereTime * INTRO_SPEED));
       const bounce =
         1 + 0.35 * Math.sin(rawProgress * Math.PI) * (1 - rawProgress);
-      mesh.scale.setScalar(MESH_DATA[i].scale * rawProgress * bounce);
+      // Use average scale for sphere size to keep them round
+      const avgScale = (scaleX + scaleY) / 2;
+      mesh.scale.setScalar(
+        MESH_DATA[i].scale * avgScale * rawProgress * bounce,
+      );
 
       // --- Only advance local time when not hovered ---
       if (!hoveredRef.current.has(i)) {
@@ -147,10 +175,21 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
       }
       const lt = localTimes.current[i];
 
+      // Oscillation amplitude scaled per axis
+      const oscX =
+        Math.sin(lt * r.z + 6.28318 * r.w) * (0.05 + 0.15 * r.x) * scaleX;
+      const oscY =
+        Math.sin(lt * r.y + 6.28318 * r.x) * (0.05 + 0.15 * r.w) * scaleY;
+      const oscZ = Math.sin(lt * r.w + 6.28318 * r.y) * (0.05 + 0.15 * r.z);
+
+      // Remap local pos to viewport range, then add oscillation
+      const t_x = (base[0] - contentMinX) / contentWidth;
+      const t_y = (base[1] - contentMinY) / contentHeight;
+
       mesh.position.set(
-        base[0] + Math.sin(lt * r.z + 6.28318 * r.w) * (0.05 + 0.15 * r.x),
-        base[1] + Math.sin(lt * r.y + 6.28318 * r.x) * (0.05 + 0.15 * r.w),
-        base[2] + Math.sin(lt * r.w + 6.28318 * r.y) * (0.05 + 0.15 * r.z),
+        -targetW / 2 + t_x * targetW + oscX,
+        t_y * targetH + oscY,
+        base[2] + oscZ,
       );
     });
   });
@@ -166,11 +205,7 @@ export function Model({ setHoveredIndex }: { setHoveredIndex: Function }) {
   };
 
   return (
-    <group
-      dispose={null}
-      scale={responsiveScale}
-      position={[0, responsiveY, 0]}
-    >
+    <group dispose={null} scale={1} position={[0, groupY, 0]}>
       {MESH_DATA.map((d, i) => (
         <mesh
           key={i}
