@@ -7,22 +7,20 @@ function ProjectListItemMobile({ project }: { project: ProjectInfo }) {
     <>
       <Link
         to={'/projects/$projectId'}
-        className="cursor-pointer w-full aspect-square block bg-red-100 relative"
+        className="cursor-pointer w-full block relative"
         params={{
           projectId: project.id,
         }}
       >
         {project.cover && (
-          <div className="absolute top-0 bottom-0 left-0 right-0">
+          <div className="aspect-square">
             <MediaRenderer media={project.cover} />
           </div>
         )}
-        <div className="flex active:text-fangchunjia-pinkrelative relative w-full h-full">
-          <div className="bg-white h-fit w-fit m-auto">
-            <span className="font-medium inline-block leading-[22px]">
-              {project.name}
-            </span>
-          </div>
+        <div className="flex active:text-fangchunjia-pink bg-white px-1">
+          <span className="font-medium inline-block leading-[22px]">
+            {project.name}
+          </span>
         </div>
       </Link>
     </>
