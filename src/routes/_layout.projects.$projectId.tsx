@@ -76,7 +76,7 @@ function RouteComponent() {
   const routeApi = getRouteApi('/_layout/projects/$projectId');
   const project = routeApi.useLoaderData();
   return (
-    <Layer>
+    <Layer key={project.id}>
       <div className="overflow-y-auto h-full [scrollbar-width:none]">
         <div className="min-h-screen flex justify-start pt-24">
           <div className="flex flex-col p-4 w-full sm:p-8 sm:w-4/5">
