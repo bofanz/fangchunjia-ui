@@ -50,12 +50,8 @@
   --media-l-w-max: 160px;
   --media-l-h-max: 160px;
   --media-spacing: 40px;
+  --section-top-spacing: 112px;
 }
-/* 
-::selection {
-  background: #397599;
-  color: #000000;
-} */
 
 @layer base {
   ::selection {
@@ -71,8 +67,7 @@
 
 html,
 body {
-  @apply m-0 w-full h-dvh font-abc-otto-kai overscroll-none;
-
+  @apply m-0 w-full h-dvh font-abc-otto-kai;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -83,10 +78,39 @@ button {
 
 #app {
   @apply h-full;
-  @apply bg-white;
-  background-image: url('/background.jpg');
-  background-size: cover;
-  background-position: center;
+}
+
+.section {
+  @apply min-h-full;
+}
+
+.content {
+  @apply px-4;
+
+  @variant sm {
+    @apply px-8;
+  }
+}
+
+.about {
+  @apply w-full max-w-144 pt-(--section-top-spacing);
+}
+
+.project-list {
+  @apply col-span-full row-start-1 col-start-1 pt-(--section-top-spacing) pb-8;
+
+  @variant sm {
+    @apply col-span-1;
+  }
+}
+
+.project {
+  @apply pt-(--section-top-spacing);
+  @apply col-span-full row-start-1 col-start-1 bg-white z-10 w-full;
+
+  @variant sm {
+    @apply col-span-2 col-start-2 bg-inherit z-auto w-4/5 px-8;
+  }
 }
 
 html:active-view-transition-type(fade) {
@@ -178,39 +202,5 @@ html:active-view-transition-type(fade) {
 
   & > * {
     /* @apply h-[var(--polka-dot-diameter)]; */
-  }
-}
-
-.markdown {
-  h1 {
-    @apply text-2xl leading-none font-bold mb-4;
-  }
-
-  h2 {
-    @apply text-xl leading-none font-bold;
-  }
-
-  h3 {
-    @apply text-lg leading-none uppercase;
-  }
-
-  a {
-    @apply text-fangchunjia-pink;
-  }
-
-  ul {
-    @apply mb-4;
-  }
-
-  ul li p {
-    @apply mb-0;
-  }
-
-  p {
-    @apply leading-[22px];
-  }
-
-  img {
-    @apply w-3/5 my-8;
   }
 }
