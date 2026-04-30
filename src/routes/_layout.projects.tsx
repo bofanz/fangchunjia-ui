@@ -6,6 +6,7 @@ import {
   Link,
   Outlet,
   useMatch,
+  useRouter,
 } from '@tanstack/react-router';
 import { useContext, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
@@ -29,6 +30,7 @@ export const Route = createFileRoute('/_layout/projects')({
 });
 
 function RouteComponent() {
+  const router = useRouter();
   const routeApi = getRouteApi('/_layout/projects');
   const { categories, projects } = routeApi.useLoaderData();
 
@@ -65,8 +67,6 @@ function RouteComponent() {
     }
   };
 
-  const cloneSpanRef = useRef<HTMLSpanElement>(null);
-
   // Clear locked item when navigating back to the list
   useLayoutEffect(() => {
     if (activeProjectId && lockedItem) {
@@ -77,18 +77,27 @@ function RouteComponent() {
   return (
     <>
       {activeProjectId && lockedItem && (
-        <div
+        <motion.div
           style={{
             position: 'fixed',
             top: lockedItem.top,
             left: lockedItem.left,
           }}
-          className="font-medium text-fangchunjia-pink"
+          whileHover={
+            isNotTouchDevice
+              ? {
+                  textDecoration: 'line-through',
+                  transition: { duration: 0.1 },
+                }
+              : undefined
+          }
+          onClick={() => router.history.back()}
+          className="flex gap-2 cursor-pointer text-fangchunjia-pink font-medium mb-0 py-0"
         >
-          <span ref={cloneSpanRef} className="block leading-[22px]">
+          <span className="block leading-[22px]">
             {lockedItem.project.name}
           </span>
-        </div>
+        </motion.div>
       )}
       <section className="section grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="fixed top-0 bottom-0 left-0 right-0 -z-1">
