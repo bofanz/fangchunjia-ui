@@ -37,7 +37,7 @@
 
 @theme {
   --font-abc-otto-kai: 'ABC Otto', 'FZShengSKSJW', serif;
-  --color-fangchunjia-pink: #ff43bc;
+  --color-fangchunjia-pink: #ff008f;
   --color-fangchunjia-green: #5eff00;
   --color-fangchunjia-gray: #cdcdcd;
   --color-fangchunjia-black: #000000;
@@ -56,6 +56,16 @@
 @layer base {
   ::selection {
     @apply bg-fangchunjia-pink text-white;
+  }
+  * {
+    font-feature-settings: 'lnum' 1;
+  }
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
   }
 }
 
