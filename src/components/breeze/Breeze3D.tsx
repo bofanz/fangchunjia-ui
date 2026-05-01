@@ -32,7 +32,7 @@ export default function Breeze3D({
         camera={{ position: [0, 0, 14], fov: 30 }}
       >
         <Suspense fallback={<Loader />}>
-          <ambientLight intensity={1.2} />
+          {/* <ambientLight intensity={1.2} />
           <directionalLight
             position={[5, 8, 3]}
             intensity={2}
@@ -47,7 +47,7 @@ export default function Breeze3D({
             position={[0, 3, -8]}
             intensity={1}
             color="#ffd4a8"
-          />
+          /> */}
           <Environment files="qwantani_dusk_2_puresky_1k.hdr" />
           <Model setHoveredIndex={setHoveredIndex} />
         </Suspense>
@@ -57,7 +57,7 @@ export default function Breeze3D({
 }
 
 // One shared geometry for all spheres
-const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+const sphereGeometry = new THREE.PlaneGeometry(2, 2);
 
 interface MeshData {
   pos: number[];
