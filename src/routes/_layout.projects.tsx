@@ -14,6 +14,8 @@ import Gallery from '@/components/Gallery';
 import { fetchProjects, type QueryContext } from '@/utils/queries';
 import { MediaQueryContext } from '@/contexts/MediaQueryContext';
 import { PendingComponent } from '@/components/PendingComponent';
+import { sampleProjects } from '@/sampleProjects';
+import { AnchorContext } from '@/contexts/AnchorContext';
 
 export const Route = createFileRoute('/_layout/projects')({
   component: RouteComponent,
@@ -49,6 +51,8 @@ function RouteComponent() {
     shouldThrow: false,
   });
   const activeProjectId = match?.params.projectId ?? null;
+
+  const { anchorRef } = useContext(AnchorContext);
 
   const categoriesAndProjects = categories.map((c) => ({
     ...c,
@@ -91,6 +95,7 @@ function RouteComponent() {
                 }
               : undefined
           }
+          ref={anchorRef}
           onClick={() => router.history.back()}
           className="flex gap-2 cursor-pointer text-fangchunjia-pink font-medium mb-0 py-0"
         >

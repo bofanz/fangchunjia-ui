@@ -2,6 +2,7 @@ import CompactHeader from '@/components/CompactHeader';
 import Header from '@/components/Header';
 import Purikura from '@/components/Purikura';
 import Quote from '@/components/Quote';
+import { AnchorContext, AnchorProvider } from '@/contexts/AnchorContext';
 import { LayoutContext } from '@/contexts/LayoutContext';
 import { createFileRoute, Outlet, useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
@@ -34,26 +35,28 @@ function RouteComponent() {
   return (
     <>
       <LayoutContext value={{ isHeaderHidden, setIsHeaderHidden }}>
-        <Header
-          navItems={navItems}
-          onClickBranding={() => setIsPurikuraVisible(!isPurikuraVisible)}
-        />
-        <CompactHeader items={navItems} hidden={isHeaderHidden} />
-        <Outlet />
-        {isPurikuraVisible && <Purikura />}
-        <img
-          aria-hidden="true"
-          src="/background.jpg"
-          style={{
-            position: 'fixed',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: -10,
-          }}
-        />
-        <Quote />
+        <AnchorProvider>
+          <Header
+            navItems={navItems}
+            onClickBranding={() => setIsPurikuraVisible(!isPurikuraVisible)}
+          />
+          <CompactHeader items={navItems} hidden={isHeaderHidden} />
+          <Outlet />
+          {isPurikuraVisible && <Purikura />}
+          <img
+            aria-hidden="true"
+            src="/background.jpg"
+            style={{
+              position: 'fixed',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: -10,
+            }}
+          />
+          <Quote />
+        </AnchorProvider>
       </LayoutContext>
     </>
   );

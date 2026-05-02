@@ -36,13 +36,12 @@ function CarouselNavItem({
   isCurrent,
 }: CarouselItemProps) {
   return (
-    <motion.div
+    <div
       key={`${item?.id ?? index}-${index}`}
       className={`relative shrink-0 flex flex-col items-start overflow-hidden h-full`}
       style={{
         width: `128px`,
       }}
-      transition={transition}
     >
       <Link
         to={item.to}
@@ -65,7 +64,7 @@ function CarouselNavItem({
           <></>
         )}
       </Link>
-    </motion.div>
+    </div>
   );
 }
 

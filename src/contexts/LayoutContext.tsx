@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, type RefObject } from 'react';
 
 export const LayoutContext = createContext<{
   isHeaderHidden: boolean;
