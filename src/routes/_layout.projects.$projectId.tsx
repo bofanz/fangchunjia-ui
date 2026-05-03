@@ -50,7 +50,7 @@ function ProjectText({ project, isOut }: { project: Project; isOut: boolean }) {
     left: number;
   } | null>(null);
   const lineHeight = 22;
-  const paragraphSpaceBefore = 0;
+  const paragraphSpaceBefore = 8;
   const paragraphSpaceAfter = 16;
   const { anchorRef } = useContext(AnchorContext);
 

@@ -82,6 +82,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  @apply bg-white;
+}
+
 button {
   @apply cursor-pointer;
 }
